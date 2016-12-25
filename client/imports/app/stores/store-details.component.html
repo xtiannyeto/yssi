@@ -1,0 +1,28 @@
+<form *ngIf="store" (submit)="saveStore()">
+
+    <div *ngIf="!isOwner">
+        <label>{{store.name}}</label>
+        <label>{{store.description}}</label>
+        <label>{{store.location.name}}</label>
+    </div>
+    <div *ngIf="isOwner">
+        <input type="text" [(ngModel)]="store.name" name="name">
+        <input type="text" [(ngModel)]="store.description" name="description">
+        <input type="text" [(ngModel)]="store.location.name" name="location">
+        <button type="submit">save</button>
+    </div>
+</form>
+
+
+
+<p>Owner :
+    <div *ngIf="owner">{{owner | displayName}}</div>
+</p>
+
+
+<sebm-google-map [latitude]="lat || centerLat" [longitude]="lng || centerLng" [zoom]="8" (mapClick)="mapClicked($event)">
+    <sebm-google-map-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng">
+    </sebm-google-map-marker>
+</sebm-google-map>
+
+<a [routerLink]="['/']">Back</a>
