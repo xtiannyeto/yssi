@@ -45,6 +45,8 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   autorunSub: Subscription;
   location: Subject<string> = new Subject<string>();
   user: Meteor.User;
+  isFullMapView: boolean;
+  actionButton:string = "add";
 
  
   constructor(private paginationService: PaginationService) {

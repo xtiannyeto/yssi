@@ -1,33 +1,64 @@
-<div>
+<!--<stores-form></stores-form> -->
 
-    <stores-form style="float: left"></stores-form>
-    <input type="text" #searchtext placeholder="Search by Location">
-    <button type="button" (click)="search(searchtext.value)">Search</button>
+<div class="main-row row">
 
-    <h1>Stores:</h1>
+    <div class="map-col col L5">
+        toto
+        <sebm-google-map [latitude]="0" [longitude]="0" [zoom]="8">
+            <div *ngFor="let store of stores | async">
+                <sebm-google-map-marker *ngIf="store.location.lat" [latitude]="store.location.lat" [longitude]="store.location.lng">
+                </sebm-google-map-marker>
+            </div>
+        </sebm-google-map>
 
-    <div>
-        <select #sort (change)="changeSortOrder(sort.value)">
-      <option value="1" selected>Ascending</option>
-      <option value="-1">Descending</option>
-    </select>
     </div>
-    <login-buttons></login-buttons>
 
-    <ul>
-        <li *ngFor="let store of stores  | async">
-            <a [routerLink]="['/store', store._id]">{{store._id}} - {{store.name}}</a>
-            <p>{{store.description}}</p>
-            <p>{{store.location.name}}</p>
-            <button [hidden]="!isOwner(store)" (click)="removeStore(store)">X</button>
-        </li>
+    <div class="cards-col col s12 m12 L7">
 
-    </ul>
-    <sebm-google-map [latitude]="0" [longitude]="0" [zoom]="1">
-        <div *ngFor="let party of parties | async">
-            <sebm-google-map-marker *ngIf="store.location.lat" [latitude]="store.location.lat" [longitude]="store.location.lng">
-            </sebm-google-map-marker>
-        </div>
-    </sebm-google-map>
-    <pagination-controls (pageChange)="onPageChanged($event)"></pagination-controls>
+        <md-card class="filter-card">
+            <h3>Filter stores</h3>
+            <form>
+                By Location:
+                <md-input dividerColor="primary" type="text" #searchtext placeholder="Enter Location"></md-input>
+                <button md-button (click)="search(searchtext.value)">Find</button>
+                <br /> Sort by name:
+                <select class="form-control" #sort (change)="changeSortOrder(sort.value)">
+          <option value="1" selected>Ascending</option>
+          <option value="-1">Descending</option>
+        </select>
+            </form>
+        </md-card>
+
+        <pagination-controls class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+        <md-card *ngFor="let store of stores | async" class="store-card">
+            <h2 class="store-name">
+                <a [routerLink]="['/store', store._id]">{{store.name}}</a>
+            </h2>
+            @ {{store.location.name}}
+            <br /> {{store.description}}
+
+            <button class="remove-store" md-icon-button *ngIf="isOwner(store)" (click)="removeStore(store)">
+        <md-icon class="md-24">X</md-icon>
+      </button>
+        </md-card>
+
+
+
+        <pagination-controls class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+    </div>
+
+</div>
+
+
+<div class="stores-list-container">
+    <div class="stores-map">
+
+    </div>
+
+    <div class="stores-list">
+
+    </div>
+
 </div>

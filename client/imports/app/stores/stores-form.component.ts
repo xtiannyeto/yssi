@@ -7,16 +7,19 @@ import { Stores } from '../../../../both/collections/stores.collection';
 
  
 import template from './stores-form.component.html';
+import style from './stores-form.component.scss';
  
 @Component({
   selector: 'stores-form',
-  template
+  template,
+   styles : [ style ]
 })
 
 @InjectUser('user')
 export class StoresFormComponent implements OnInit {
   user: Meteor.User;
   addForm: FormGroup;
+  newStorePosition: {lat:number, lng: number} = {lat: 37.4292, lng: -122.1381};
 
     constructor(
         private formBuilder: FormBuilder
@@ -40,7 +43,9 @@ export class StoresFormComponent implements OnInit {
         name : this.addForm.value.name,
         description: this.addForm.value.descritpion,
         location: {
-          name : this.addForm.value.location
+          name : this.addForm.value.location,
+          lat: this.newStorePosition.lat,
+          lng: this.newStorePosition.lng
         }
         ,owner: Meteor.userId() });
       this.addForm.reset();
@@ -52,5 +57,9 @@ export class StoresFormComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  mapClicked($event) {
+    this.newStorePosition = $event.coords;
   }
 }

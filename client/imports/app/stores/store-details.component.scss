@@ -1,4 +1,22 @@
-.sebm-google-map-container {
-    width: 400px;
-    height: 400px;
+.store-details-container {
+    display: table;
+    .row {
+        display: table-row;
+        width: 100%;
+        .store-details,
+        .store-map {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            md-card {
+                margin: 20px;
+            }
+        }
+        .store-map {
+            sebm-google-map {
+                height: 300px;
+                width: 100%;
+            }
+        }
+    }
 }

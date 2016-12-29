@@ -1,1 +1,28 @@
-<router-outlet></router-outlet>
+<div class="navbar-fixed md-elevation-z6">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="button-collapse show-on-large" md-icon-button materialize="sideNav" data-activates="slide-out" (click)="sidenav.open()">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="badges.html">Components</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<md-sidenav-container class="example-container">
+    <md-sidenav #sidenav class="example-sidenav">
+        <menu></menu>
+    </md-sidenav>
+
+    <router-outlet></router-outlet>
+
+</md-sidenav-container>
+
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large waves-effect waves-light red">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
