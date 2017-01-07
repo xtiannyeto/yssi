@@ -24,6 +24,7 @@ import style from './store-details.component.scss';
 })
 @InjectUser('user')
 export class StoreDetailsComponent implements OnInit, OnDestroy  {
+  stores: Store[]=[];
   storeId: string;
   ownerId : string;
   paramsSub: Subscription;
@@ -34,6 +35,7 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
   user: Meteor.User;
   centerLat: number = 37.4292;
   centerLng: number = -122.1381;
+  
  
   constructor(
     private route: ActivatedRoute
@@ -54,11 +56,10 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
  
           this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
             this.store = Stores.findOne(this.storeId);
+            this.stores.push(this.store);
             this.ownerId = this.store.owner;
             this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
             this.owner = Users.findOne(this.ownerId);
-
-            console.log(this.owner);
           });
         });
 

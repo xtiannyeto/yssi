@@ -28,7 +28,7 @@ interface Options extends Pagination {
  
 
 @Component({
-  selector: 'app',
+  selector: 'store-list',
   template,
   styles : [ style ]
 })
@@ -36,6 +36,7 @@ interface Options extends Pagination {
 @InjectUser('user')
 export class StoresListComponent  implements OnInit, OnDestroy {
   stores: Observable<Store[]>;
+  storesForMap: Observable<Store[]>;
   storesSub: Subscription;
   pageSize: Subject<number> = new Subject<number>();
   curPage: Subject<number> = new Subject<number>();
@@ -47,6 +48,8 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   user: Meteor.User;
   isFullMapView: boolean;
   actionButton:string = "add";
+  lat:number;
+  lng:number;
 
  
   constructor(private paginationService: PaginationService) {
@@ -97,6 +100,8 @@ export class StoresListComponent  implements OnInit, OnDestroy {
       this.paginationService.setTotalItems(this.paginationService.defaultId(), this.storesSize);
     });
 
+    this.lat = 10;
+    this.lng = 20;
   }
 
   ngOnDestroy() {
@@ -116,6 +121,7 @@ export class StoresListComponent  implements OnInit, OnDestroy {
      this.location.next(value);
   }
   onPageChanged(page: number): void {
+    console.log(page);
     this.curPage.next(page);
   }
   changeSortOrder(nameOrder: string): void {

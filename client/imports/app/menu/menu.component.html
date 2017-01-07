@@ -1,15 +1,4 @@
-<a routerLink="/" class="toolbar-title">Socially2</a>
-<span class="fill-remaining-space"></span>
-<div [hidden]="user">
-    <a md-button [routerLink]="['/login']">Login</a>
-    <a md-button [routerLink]="['/signup']">Sign up</a>
-</div>
-<div [hidden]="!user">
-    <span>{{ user | displayName }}</span>
-    <button md-button (click)="logout()">Logout</button>
-</div>
-
-<ul>
+<ul id="slide-out" class="side-nav right">
     <li>
         <div class="userView">
             <div class="background">
@@ -27,4 +16,14 @@
     </li>
     <li><a class="subheader">Subheader</a></li>
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    <li><a routerLink="/" class="toolbar-title">Socially2</a></li>
+    <span class="fill-remaining-space"></span>
+    <ul [hidden]="user">
+        <li><a button [routerLink]="['/login']">Login</a></li>
+        <li><a button [routerLink]="['/signup']">Sign up</a></li>
+    </ul>
+    <div>
+        <span>{{ user | displayName }}</span>
+        <button (click)="logout()">Logout</button>
+    </div>
 </ul>

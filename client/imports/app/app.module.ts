@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { MaterialModule } from "@angular/material";
+import { MaterializeDirective } from 'angular2-materialize';
 
 import { AppComponent } from './app.component';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
@@ -26,15 +26,15 @@ import { MENU_DECLARATIONS } from './menu/index';
     Ng2PaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk'
-    }),
-    MaterialModule.forRoot()
+    })
   ],
   declarations: [
     AppComponent,
     STORES_DECLARATIONS,
     SHARED_DECLARATIONS,
     AUTH_DECLARATIONS,
-    MENU_DECLARATIONS
+    MENU_DECLARATIONS,
+    MaterializeDirective
   ],
   providers : [
     ROUTES_PROVIDERS

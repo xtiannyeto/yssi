@@ -1,4 +1,88 @@
+@media (max-width: 992px) {}
+
+@media all and (min-width: 0px) and (max-width: 600px) {
+    .main-row {
+        position: fixed;
+        width: 100%;
+        top: 58px;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 0;
+    }
+}
+
+@media all and (min-width: 600px) {
+    .main-row {
+        position: fixed;
+        width: 100%;
+        top: 62px;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 0;
+    }
+}
+
+///// MAP COL //////
 .map-col {
     padding-left: 0;
     padding-right: 0;
+    height: 100%;
+}
+
+///// CARDS ///////
+.cards-col {
+    height: 100%;
+    overflow-y: scroll;
+    z-index: 2;
+    background: rgba(255, 255, 255, .5);
+}
+
+.cards-container {
+    margin: 2px;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid-column;
+    display: table-column;
+    column-count: 2;
+}
+
+.card-info,
+.card__meta a {
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 2;
+    font-size: 1rem;
+}
+
+.card__meta i.small {
+    font-size: 1.5rem;
+}
+
+.card .card-content .card-title {
+    line-height: 34px;
+}
+
+@media all and (min-width: 0px) and (max-width: 600px) {
+    .cards-container {
+        column-count: 1;
+    }
+}
+
+.fixed-action-btn {
+    z-index: 997;
+}
+
+menu {
+    padding: 0px;
+}
+
+.card {
+    display: inline-block;
+    overflow: visible;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+store-map {
+    height: inherit;
 }

@@ -9,37 +9,47 @@ export function loadStores() {
             name: "Wallys Shop"
             , description: "Vente de chaussures pour femmes"
             ,location: {
-                name: 'Ngoa ekele'
+                name: 'Ngoa ekele',
+                lat: Math.floor(Math.random() * 16) + 5,
+                lng: Math.floor(Math.random() * 16) + 5
             },
         }
         ,{
              name: "Mami Nyanga Plus "
              , description: "Beignétariat de tata Rosa"
              ,location: {
-                name: 'Mvog Ada'
+                name: 'Mvog Ada',
+                lat: Math.floor(Math.random() * 16) + 5,
+                lng: Math.floor(Math.random() * 16) + 5
             }, 
         }
         ,{ 
             name: "Mécano presto"
             , description: "Mécanicien à domicile pour toute vos pannes"
             ,location: {
-                name: 'Pont Emana'
+                name: 'Pont Emana',
+                lat: Math.floor(Math.random() * 16) + 5,
+                lng: Math.floor(Math.random() * 16) + 5
             },
         }
         ,{ 
             name: "Coiffure étoile"
             , description: "Coiffeur de Star, a pour client Samuel Eto'O tootot"
             ,location: {
-                name: 'Chapelle Obili'
+                name: 'Chapelle Obili',
+                lat: Math.floor(Math.random() * 16) + 5,
+                lng: Math.floor(Math.random() * 16) + 5
             }, 
         }
     ];
     for (var i = 0; i < 27; i++) {
         Stores.insert({
-            name: Fake.sentence(15),
-            description: Fake.sentence(50),
+            name: Fake.sentence(8),
+            description: Fake.sentence(15),
             location: {
-                name: Fake.sentence(10)
+                name: Fake.sentence(5),
+                lat: Math.floor(Math.random() * 16) + 5,
+                lng: Math.floor(Math.random() * 16) + 5
             },
         });
     }

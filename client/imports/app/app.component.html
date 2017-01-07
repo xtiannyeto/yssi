@@ -1,24 +1,36 @@
-<div class="navbar-fixed md-elevation-z6">
+<div class="navbar-fixed">
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a button [routerLink]="['/login']">Login</a></li>
+        <li><a button [routerLink]="['/signup']">Sign up</a></li>
+    </ul>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="button-collapse show-on-large" md-icon-button materialize="sideNav" data-activates="slide-out" (click)="sidenav.open()">
+            <a [ngClass]="{'right': isLoggedIn()}" class="brand-logo  hide-on-med-and-down" href="/">Brand</a>
+            <a [hidden]="!isLoggedIn()" class="left" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
                 <i class="material-icons">menu</i>
             </a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="sass.html">Sass</a></li>
-                <li><a href="badges.html">Components</a></li>
+            <a [hidden]="isLoggedIn()" class="button-collapse dropdown-button" href="#!" data-activates="dropdown1">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul [hidden]="isLoggedIn()" class=" right hide-on-med-and-down">
+                <li><a button [routerLink]="['/login']">Login</a></li>
+                <li><a button [routerLink]="['/signup']">Sign up</a></li>
             </ul>
+            <form>
+                <div class="input-field">
+                    <input placeholder="search..." id="search" type="search" required>
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
         </div>
     </nav>
 </div>
-<md-sidenav-container class="example-container">
-    <md-sidenav #sidenav class="example-sidenav">
-        <menu></menu>
-    </md-sidenav>
 
+<menu></menu>
+<div id="main-content">
     <router-outlet></router-outlet>
-
-</md-sidenav-container>
+</div>
 
 
 <div class="fixed-action-btn">

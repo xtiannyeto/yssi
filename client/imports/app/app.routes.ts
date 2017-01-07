@@ -8,7 +8,7 @@ import {RecoverComponent} from "./auth/recover.component";
  
 export const routes: Route[] = [
   { path: '', component: StoresListComponent },
-  { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},
+  { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},// for action on loggin only
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'recover', component: RecoverComponent }

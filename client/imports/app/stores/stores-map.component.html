@@ -1,0 +1,6 @@
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <div *ngFor="let store of stores">
+        <sebm-google-map-marker *ngIf="store.location.lat" [latitude]="store.location.lat" [longitude]="store.location.lng">
+        </sebm-google-map-marker>
+    </div>
+</sebm-google-map>

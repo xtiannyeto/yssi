@@ -41,4 +41,8 @@ export class MenuComponent implements OnInit {
     this.isMapButtonDisplayed = !this.isMapButtonDisplayed;
     this.isListButtonDisplayed = !this.isListButtonDisplayed;
 }
+logout() {
+    Meteor.logout();
+  }
+
 }

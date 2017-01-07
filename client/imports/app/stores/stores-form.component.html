@@ -9,11 +9,11 @@
                 <form *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore()">
                     <div style="display: table-row">
                         <div class="form-inputs">
-                            <md-input dividerColor="accent" formControlName="name" placeholder="Party name"></md-input>
+                            <input dividerColor="accent" formControlName="name" placeholder="Party name"></input>
                             <br/>
-                            <md-input dividerColor="accent" formControlName="description" placeholder="Description"></md-input>
+                            <input dividerColor="accent" formControlName="description" placeholder="Description"></input>
                             <br/>
-                            <md-input dividerColor="accent" formControlName="location" placeholder="Location name"></md-input>
+                            <input dividerColor="accent" formControlName="location" placeholder="Location name"></input>
                             <br/>
                             <br/><br/>
                             <button color="accent" md-raised-button type="submit">Add</button>

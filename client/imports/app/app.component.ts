@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Stores } from '../../../both/collections/stores.collection';
@@ -9,19 +9,26 @@ import style from '../../app.component.scss';
 
 
 import {InjectUser} from "angular2-meteor-accounts-ui";
+import { MaterializeModule } from 'angular2-materialize';
 
 @Component({
   selector: 'app',
   template
 })
 @InjectUser('user')
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  constructor() {
- 
+  constructor(){}
+
+  ngOnInit() {
+    console.log(MaterializeModule);
   }
- 
-  logout() {
-    Meteor.logout();
+  
+  isLoggedIn(){
+    console.log(!! Meteor.userId());
+    if (!Meteor.userId()) {
+      return false;
+    }
+    return true;
   }
 }

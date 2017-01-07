@@ -1,35 +1,39 @@
+<div class="row main-row flex-s" *ngIf="store">
+    <div class="map-col col s0 m0 l5">
+        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
+    </div>
+    <div class="cards-col col s12 m12 l7">
+        <div>
+            <h2>{{ store.name }}</h2>
+            <form layout="column" (submit)="saveStore()">
+                <input *ngIf="isOwner" [(ngModel)]="store.name" name="name"></input>
+                <br />
+                <label *ngIf="!isOwner">{{store.description}}</label>
+                <input *ngIf="isOwner" [(ngModel)]="store.description" name="description"></input>
+                <br />
+                <label *ngIf="!isOwner">{{store.location.name}}</label>
+                <input *ngIf="isOwner" [(ngModel)]="store.location.name" name="location"></input>
+                <br />
+                <p>Owner :
+                    <div *ngIf="owner">{{owner | displayName}}</div>
+                </p>
+                <div layout="row" layout-align="left">
+                    <button *ngIf="isOwner" type="submit" md-raised-button color="accent">Save</button>
+                    <a [routerLink]="['/']" md-raised-button class="md-raised">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="store-details-container" *ngIf="store">
     <div class="row">
-        <div class="store-map">
-            <md-card>
-                <h2>Store location</h2>
-                <sebm-google-map [latitude]="lat || centerLat" [longitude]="lng || centerLng" [zoom]="8" (mapClick)="mapClicked($event)">
-                    <sebm-google-map-marker *ngIf="lat && lng" [latitude]="lat" [longitude]="lng">
-                    </sebm-google-map-marker>
-                </sebm-google-map>
-            </md-card>
+        <div class="col s5">
+            <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
         </div>
-        <div class="store-details">
-            <md-card>
-                <h2>{{ store.name }}</h2>
-                <form layout="column" (submit)="saveStore()">
-                    <md-input *ngIf="isOwner" [(ngModel)]="store.name" name="name"></md-input>
-                    <br />
-                    <label *ngIf="!isOwner">{{store.description}}</label>
-                    <md-input *ngIf="isOwner" [(ngModel)]="store.description" name="description"></md-input>
-                    <br />
-                    <label *ngIf="!isOwner">{{store.location.name}}</label>
-                    <md-input *ngIf="isOwner" [(ngModel)]="store.location.name" name="location"></md-input>
-                    <br />
-                    <p>Owner :
-                        <div *ngIf="owner">{{owner | displayName}}</div>
-                    </p>
-                    <div layout="row" layout-align="left">
-                        <button *ngIf="isOwner" type="submit" md-raised-button color="accent">Save</button>
-                        <a [routerLink]="['/']" md-raised-button class="md-raised">Back</a>
-                    </div>
-                </form>
-            </md-card>
+        <div class="col s7">
+
         </div>
     </div>
 </div>
