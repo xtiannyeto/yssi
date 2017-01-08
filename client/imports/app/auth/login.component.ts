@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
           if (err) {
             this.error = err;
           } else {
+            this.ngOnInit();
             this.router.navigate(['/']);
           }
         });

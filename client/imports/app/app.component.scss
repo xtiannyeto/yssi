@@ -1,17 +1,5 @@
-.toolbar-title {
-    text-decoration: none;
-    color: white;
-}
-
-div {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-}
-
-.md-elevation-z6 {
-    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
-}
-
-.docs-navbar {
-    padding: 8px 16px;
-    background: #00bcd4;
+nav a,
+nav,
+nav .input-field label.active i {
+    color: #00695c;
 }

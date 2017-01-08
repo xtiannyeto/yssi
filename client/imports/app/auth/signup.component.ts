@@ -35,6 +35,7 @@ export class SignupComponent implements OnInit {
             this.error = err;
           });
         } else {
+          this.ngOnInit();
           this.router.navigate(['/']);
         }
       });

@@ -5,9 +5,11 @@ import { StoreDetailsComponent } from './stores/store-details.component';
 import {LoginComponent} from "./auth/login.component";
 import {SignupComponent} from "./auth/signup.component";
 import {RecoverComponent} from "./auth/recover.component";
+import {HomeComponent} from "./home/home.component";
  
 export const routes: Route[] = [
-  { path: '', component: StoresListComponent },
+  { path: '', component: HomeComponent },
+  { path: 'stores', component: StoresListComponent },
   { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},// for action on loggin only
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

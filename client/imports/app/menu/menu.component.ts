@@ -42,6 +42,7 @@ export class MenuComponent implements OnInit {
     this.isListButtonDisplayed = !this.isListButtonDisplayed;
 }
 logout() {
+  console.log("logout");
     Meteor.logout();
   }
 

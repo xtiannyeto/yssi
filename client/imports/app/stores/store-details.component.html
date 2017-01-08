@@ -18,8 +18,9 @@
                     <div *ngIf="owner">{{owner | displayName}}</div>
                 </p>
                 <div layout="row" layout-align="left">
-                    <button *ngIf="isOwner" type="submit" md-raised-button color="accent">Save</button>
-                    <a [routerLink]="['/']" md-raised-button class="md-raised">Back</a>
+                    <button *ngIf="isOwner" type="submit">Save</button>
+                    <a [routerLink]="['/stores']" class="waves-effect waves-light btn">Back</a>
+
                 </div>
             </form>
         </div>

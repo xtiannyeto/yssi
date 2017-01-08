@@ -13,6 +13,7 @@ import { STORES_DECLARATIONS } from './stores';
 import { SHARED_DECLARATIONS } from './shared';
 import { AUTH_DECLARATIONS } from "./auth/index";
 import { MENU_DECLARATIONS } from './menu/index';
+import { HOME_DECLARATIONS } from './home/index';
 
 
  
@@ -34,6 +35,7 @@ import { MENU_DECLARATIONS } from './menu/index';
     SHARED_DECLARATIONS,
     AUTH_DECLARATIONS,
     MENU_DECLARATIONS,
+    HOME_DECLARATIONS,
     MaterializeDirective
   ],
   providers : [
