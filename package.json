@@ -30,6 +30,7 @@
     "@angular/platform-browser-dynamic": "2.3.0",
     "@angular/router": "3.3.0",
     "angular2-google-maps": "^0.17.0",
+    "angular2-infinite-scroll": "^0.2.9",
     "angular2-materialize": "^6.3.0",
     "angular2-meteor": "0.7.1",
     "angular2-meteor-accounts-ui": "^1.0.0",

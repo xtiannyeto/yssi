@@ -3,9 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterializeDirective } from 'angular2-materialize';
+import { AppComponentService } from './app.component.service';
+
 
 import { AppComponent } from './app.component';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
@@ -27,7 +30,8 @@ import { HOME_DECLARATIONS } from './home/index';
     Ng2PaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk'
-    })
+    }),
+    InfiniteScrollModule
   ],
   declarations: [
     AppComponent,
@@ -39,7 +43,8 @@ import { HOME_DECLARATIONS } from './home/index';
     MaterializeDirective
   ],
   providers : [
-    ROUTES_PROVIDERS
+    ROUTES_PROVIDERS,
+    AppComponentService
   ],
   bootstrap: [
     AppComponent
