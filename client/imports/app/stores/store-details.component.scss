@@ -1,1 +1,21 @@
 @import "./stores-list.component.scss";
+.col-details {
+    background-color: #fff;
+    overflow: scroll;
+}
+
+.img-container {
+    height: 400px !important;
+}
+
+.tab-item {
+    min-height: 100px;
+}
+
+.tabs .tab a {
+    color: #00796b;
+}
+
+.tabs[_ngcontent-wtp-7] .indicator[_ngcontent-wtp-7] {
+    background-color: rgb(0, 150, 136) !important;
+}
