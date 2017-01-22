@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import {MaterializeAction} from 'angular2-materialize';
 
 import template from './home.component.html';
 import style from '../../home.component.scss';
@@ -8,4 +9,12 @@ import style from '../../home.component.scss';
   selector: 'home',
   template
 })
-export class HomeComponent {}
+export class HomeComponent {
+  modalActions = new EventEmitter<string| MaterializeAction>();
+  openModal() {
+    this.modalActions.emit("openModal");
+  }
+  closeModal() {
+    this.modalActions.emit("closeModal");
+  }
+}
