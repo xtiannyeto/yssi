@@ -1,0 +1,29 @@
+@media all and (min-width: 0px) and (max-width: 600px) {
+    #recover-modal {
+        width: 80%;
+        height: 15000%;
+        .modal-content {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media all and (min-width: 600px) and (max-width: 992px) {
+    #sigrecovernup-modal {
+        width: 55%;
+        height: 50%;
+        .modal-content {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    #recover-modal {
+        width: 55%;
+        height: 50%;
+        .modal-content {
+            margin-bottom: 10px;
+        }
+    }
+}

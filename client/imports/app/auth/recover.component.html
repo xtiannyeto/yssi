@@ -30,6 +30,10 @@
 </div> -->
 
 
+
+
+<!--
+
 <div id="recover-modal" class="modal modal-fixed-footer">
     <div class="modal-content">
         <div [hidden]="error == ''">
@@ -49,5 +53,35 @@
     </div>
     <div class="modal-footer">
         <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green btn-flat ">Remember your password?</a>
+    </div>
+</div>
+-->
+
+<div id="recover-modal" class=" modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Recover</h4>
+        <div class="divider"></div>
+        <div class="container">
+            <form class="modal-login-form" [formGroup]="recoverForm" #f="ngForm" (ngSubmit)="recover()">
+
+                <div class="input-field row">
+                    <div clss="col s10">
+                        <input formControlName="email" id="recover_email" type="email"></input>
+                        <label for="recover_email">Email</label>
+                    </div>
+                    <div class="col s2">
+                        <button type="submit" class="right-align modal-action waves-effect waves-light btn">Recover</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div [hidden]="error == ''">
+        <div>
+            <p>{{ error }}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green right">Remember your password?</a>
     </div>
 </div>
