@@ -38,9 +38,8 @@ function buildQuery(storeId?: string, location?: string): Object {
   const searchRegEx = { '$regex': '.*' + (location || '') + '.*', '$options': 'i' };
  
    return {
-     $and: [{
-         'location.name': searchRegEx
-       },
+     $and: [
+       { $or : [ { 'name' :searchRegEx }, { 'description' : searchRegEx } , {'location.name': searchRegEx}] },
        isAvailable
      ]
    };
