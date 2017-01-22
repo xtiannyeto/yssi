@@ -1,0 +1,33 @@
+.modal-login-form {
+    margin-top: 50px;
+}
+
+@media all and (min-width: 0px) and (max-width: 600px) {
+    #login-modal {
+        width: 80%;
+        height: 100%;
+        .modal-content {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+@media all and (min-width: 600px) and (max-width: 992px) {
+    #login-modal {
+        width: 55%;
+        height: 100%;
+        .modal-content {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    #login-modal {
+        width: 35%;
+        height: 100%;
+        .modal-content {
+            margin-bottom: 50px;
+        }
+    }
+}
