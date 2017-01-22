@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
  
 import { StoresListComponent } from './stores/stores-list.component';
 import { StoreDetailsComponent } from './stores/store-details.component';
+import {StoresFormComponent} from './stores/stores-form.component';
 import {LoginComponent} from "./auth/login.component";
 import {SignupComponent} from "./auth/signup.component";
 import {RecoverComponent} from "./auth/recover.component";
@@ -11,6 +12,7 @@ export const routes: Route[] = [
   { path: '', component: HomeComponent },
   { path: 'stores', component: StoresListComponent },
   { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},// for action on loggin only
+  { path: 'add', component: StoresFormComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'recover', component: RecoverComponent }
