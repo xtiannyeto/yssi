@@ -23,32 +23,30 @@
                 </div>
                 <div id="details-description" class="tab-item col s12">
                     <form layout="column" (submit)="saveStore()">
-                        <input *ngIf="isOwner" [(ngModel)]="store.name" name="name"></input>
-                        <br />
-                        <label *ngIf="!isOwner">{{store.description}}</label>
-                        <input *ngIf="isOwner" [(ngModel)]="store.description" name="description"></input>
-                        <br />
-                        <label *ngIf="!isOwner">{{store.location.name}}</label>
-                        <input *ngIf="isOwner" [(ngModel)]="store.location.name" name="location"></input>
-                        <br />
-                        <p>Owner :
-                            <div *ngIf="owner">{{owner | displayName}}</div>
-                        </p>
-                        <div layout="row" layout-align="left">
-                            <button *ngIf="isOwner" type="submit">Save</button>
-                        </div>
+                        <span *ngIf="isOwner">
+                            <input  [(ngModel)]="store.name" name="name"></input>
+                            <input  [(ngModel)]="store.description" name="description"></input>
+                            <input  [(ngModel)]="store.location.name" name="location"></input>
+                            <div layout="row" layout-align="left">
+                                <button type="submit">Save</button>
+                            </div>
+                        </span>
+                        <p *ngIf="!isOwner">{{store.description}}</p>
+                        <ul>
+                            <li class="left location-link" *ngIf="!isOwner">@{{store.location.name}}</li>
+                            <li class="right" *ngIf="owner">Owner : {{owner | displayName}}</li>
                     </form>
                 </div>
-                <div id="details-avis" class="tab-item col s12">Test 2</div>
-                <div id="details-question" class="tab-item col s12">Test 3</div>
+                <div id="details-avis" class="tab-item col s12">No comments yet...</div>
+                <div id="details-question" class="tab-item col s12">No questions yet../div>
+                </div>
+                <button [routerLink]="['/stores']" class="waves-effect waves-light btn">Back</button>
             </div>
-            <a [routerLink]="['/stores']" class="waves-effect waves-light btn">Back</a>
         </div>
     </div>
-</div>
 
 
-<!--<div class="store-details-container" *ngIf="store">
+    <!--<div class="store-details-container" *ngIf="store">
     <div class="row">
         <div class="col s5">
             <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
