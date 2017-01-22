@@ -1,4 +1,4 @@
-<div id="signup-modal" class="modal modal-fixed-footer">
+<!--<div id="signup-modal" class="modal modal-fixed-footer">
     <div class="modal-content">
         <div [hidden]="error == ''">
             <div>
@@ -6,7 +6,7 @@
             </div>
         </div>
         <h4>Sign up</h4>
-        <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()" layout="column">
+        <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()">
 
             <input formControlName="email" type="email" placeholder="Email"></input>
             <input formControlName="password" type="password" placeholder="Password"></input>
@@ -18,5 +18,38 @@
     </div>
     <div class="modal-footer">
         <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green btn-flat ">Already a user?</a>
+    </div>
+</div> -->
+
+<div id="signup-modal" class=" modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Sign up</h4>
+        <div class="divider"></div>
+        <div class="container">
+            <form class="modal-login-form" [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()">
+
+                <div class="input-field ">
+                    <input formControlName="email" id="signup_email" type="email"></input>
+                    <label for="signup_email">Email</label>
+                </div>
+                <div class="input-field ">
+                    <input formControlName="password" id="signup_password" type="password"></input>
+                    <label for="signup_password">Password</label>
+                </div>
+                <div class="row">
+                    <div class="col s6 right-align">
+                        <button type="submit" class="modal-action waves-effect waves-light btn">Sign Up</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div [hidden]="error == ''">
+        <div>
+            <p>{{ error }}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green right">Already a user?</a>
     </div>
 </div>
