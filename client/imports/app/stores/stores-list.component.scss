@@ -42,7 +42,7 @@
     break-inside: avoid-column;
     display: table-column;
     column-count: 2;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
 }
 
 .card-info,
@@ -59,6 +59,10 @@
 
 .card .card-content .card-title {
     line-height: 34px;
+}
+
+.card.small {
+    width: 100%;
 }
 
 @media all and (min-width: 0px) and (max-width: 600px) {
@@ -82,6 +86,10 @@ menu {
     margin-right: 5px;
 }
 
+a {
+    color: #00796b;
+}
+
 store-map {
     height: inherit;
 }
@@ -94,4 +102,7 @@ store-map {
 
 .form-filter-list {
     background-color: #fff;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 10px;
 }

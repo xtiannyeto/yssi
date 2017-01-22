@@ -5,7 +5,7 @@
         <store-map [stores]='stores | async' [zoom]=5 [lat]="lat" [lng]="lng"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7">
-        <div class="row form-filter-list">
+        <div class="row form-filter-list z-depth-1">
             <!-- {{storesSize}}
             <pagination-controls class="pagination pagination-container" (pageChange)="onPageChanged($event)"></pagination-controls> -->
             <form>
@@ -29,7 +29,10 @@
         <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
             <div class="col s12 cards-container">
                 <div *ngFor="let store of stores | async">
-                    <div class="card card-panel hoverable">
+                    <div class="card hoverable small">
+                        <div class="card-image">
+                            <img src="images/store-temp.jpg">
+                        </div>
                         <div class="card-content white ">
                             <span class="card-title">
                                     <a [routerLink]="['/store', store._id]">{{store.name}}</a>
