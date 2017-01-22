@@ -5,49 +5,45 @@
         <store-map [stores]='stores | async' [zoom]=5 [lat]="lat" [lng]="lng"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7">
-        <div class="cards-col">
-            <div class="row">
-                <form>
-                    <div class="input-field col s8">
+        <div class="row form-filter-list">
+            <!-- {{storesSize}}
+            <pagination-controls class="pagination pagination-container" (pageChange)="onPageChanged($event)"></pagination-controls> -->
+            <form>
+                <!-- <div class="input-field col s8">
                         <input placeholder="Placeholder" id="first_name" type="text" #searchtext class="validate">
                         <label for="first_name">By Location</label>
                         <span class="btn  waves-effect waves-light" (click)="search(searchtext.value)">
                         <i class="fa fa-search"></i>
-                    </span>
-                    </div>
-                    <div class="input-field col s4">
-                        <select materialize="material_select" #sort (change)="changeSortOrder(sort.value)">
+                    </span> {{searchValue}}
+                    </div> -->
+                <div class="input-field col s4">
+                    <select materialize="material_select" #sort (change)="changeSortOrder(sort.value)">
                         <option value="" disabled selected>Choose your option</option>
                         <option value="1"> Ascending </option>
                         <option value="-1"> Descending </option>
                     </select>
-                        <label>Order</label>
-                    </div>
-                </form>
-            </div>
-
-            <div class='row'>
-                <div class="col s12 cards-container">
-                    <div *ngFor="let store of stores | async">
-                        <div class="card card-panel hoverable">
-                            <div class="card-content white ">
-                                <span class="card-title">
-                            <a [routerLink]="['/store', store._id]">{{store.name}}</a>
-                        </span>
-                                <p>{{store.description}}</p>
-                            </div>
-                            <div class="card-action">
-                                @ {{store.location.name}}
-                                <button class="remove-store" md-icon-button *ngIf="isOwner(store)" (click)="removeStore(store)">
-                    </div>
+                    <label>Order</label>
                 </div>
+            </form>
+        </div>
+        <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
+            <div class="col s12 cards-container">
+                <div *ngFor="let store of stores | async">
+                    <div class="card card-panel hoverable">
+                        <div class="card-content white ">
+                            <span class="card-title">
+                                    <a [routerLink]="['/store', store._id]">{{store.name}}</a>
+                                </span>
+                            <p>{{store.description}}</p>
+                        </div>
+                        <div class="card-action">
+                            @ {{store.location.name}}
+                            <button class="remove-store" md-icon-button *ngIf="isOwner(store)" (click)="removeStore(store)">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
             </div>
-        </div>
-        </div>
-        </div>
-        
-        <pagination-controls class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
-        <div class='row'>
-        </div>  
     </div>
 </div>

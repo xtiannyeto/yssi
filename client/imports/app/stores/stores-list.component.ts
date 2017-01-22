@@ -1,21 +1,26 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { MeteorObservable } from 'meteor-rxjs';
 import { PaginationService } from 'ng2-pagination';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 import { InjectUser } from "angular2-meteor-accounts-ui";
+import { InfiniteScroll } from 'angular2-infinite-scroll';
 
 import { Meteor } from 'meteor/meteor';
+import { AppComponentService } from '../app.component.service';
 
 import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/concat';
 
 import { Stores } from '../../../../both/collections/stores.collection';
 import { Store } from '../../../../both/models/store.model';
 
 import template from './stores-list.component.html';
 import style from './stores-list.component.scss';
+
  
 interface Pagination {
   limit: number;
@@ -38,8 +43,8 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   stores: Observable<Store[]>;
   storesForMap: Observable<Store[]>;
   storesSub: Subscription;
-  pageSize: Subject<number> = new Subject<number>();
-  curPage: Subject<number> = new Subject<number>();
+  pageSize: BehaviorSubject<number> = new BehaviorSubject<number>(10);
+  curPage: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   nameOrder: Subject<number> = new Subject<number>();
   optionsSub: Subscription;
   storesSize: number = 0;
@@ -50,12 +55,19 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   actionButton:string = "add";
   lat:number;
   lng:number;
+  searchValue:string;
 
  
-  constructor(private paginationService: PaginationService) {
+  constructor(private paginationService: PaginationService, private componentService:AppComponentService) {
     
   }
+
   ngOnInit() {
+  
+    this.componentService.getData().subscribe(data => {
+        this.searchValue = data;
+        this.search(data);
+      });
 
     this.optionsSub = Observable.combineLatest(
       this.pageSize,
@@ -64,23 +76,24 @@ export class StoresListComponent  implements OnInit, OnDestroy {
       this.location
     ).subscribe(([pageSize, curPage, nameOrder, location]) => {
       const options: Options = {
-        limit: pageSize as number,
-        skip: ((curPage as number) - 1) * (pageSize as number),
+        limit: (pageSize as number)* (curPage as number),
+        skip: ((curPage as number) - (curPage as number)) * (pageSize as number),
         sort: { name: nameOrder as number }
-      };
-      
+    };
+
       this.paginationService.setCurrentPage(this.paginationService.defaultId(), curPage as number);
       
       if(this.storesSub){
         this.storesSub.unsubscribe();
       }
-      this.storesSub = MeteorObservable.subscribe('stores', options, location).subscribe(() =>{
-        this.stores = Stores.find({}, {
-          sort: {
-              name: this.nameOrder
-            }
-        }).zone();
+        this.storesSub = MeteorObservable.subscribe('stores', options, location).subscribe(() =>{
+                this.stores = Stores.find({}, {
+                  sort: {
+                      name: this.nameOrder
+                    }
+                }).zone();
       });
+      
     });
    
     this.paginationService.register({
@@ -104,6 +117,9 @@ export class StoresListComponent  implements OnInit, OnDestroy {
     this.lng = 20;
   }
 
+  ngOnChanges(changes) {
+      console.log("toto");
+  }
   ngOnDestroy() {
     this.storesSub.unsubscribe();
     this.optionsSub.unsubscribe();
@@ -121,10 +137,31 @@ export class StoresListComponent  implements OnInit, OnDestroy {
      this.location.next(value);
   }
   onPageChanged(page: number): void {
-    console.log(page);
     this.curPage.next(page);
   }
   changeSortOrder(nameOrder: string): void {
      this.nameOrder.next(parseInt(nameOrder));
    }
+
+   onScroll () {
+     
+     console.log(this.curPage.getValue());
+        console.log('scrolled!!')
+    }
+
+    onScrollUp(){
+      console.log("Up");
+      //this.curPage.next(this.curPage.getValue()-1);
+    }
+    onScrollDown(){
+      console.log("down");
+      var limitOfStore = this.storesSize+10;
+      var nextCurPage = this.curPage.getValue()+1;
+      
+      console.log(this.pageSize.getValue());
+      if((this.pageSize.getValue() * this.curPage.getValue()) <= limitOfStore){
+        this.curPage.next(nextCurPage);
+      }
+      
+    }
 }
