@@ -27,7 +27,7 @@
             </form>
         </div>
         <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
-            <div class="col s12 cards-container">
+            <div class="col s12 cards-container" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions">
                 <div *ngFor="let store of stores | async">
                     <div class="card hoverable small">
                         <div class="card-image">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="card-content white ">
                             <span class="card-title">
-                                    <a [routerLink]="['/store', store._id]">{{store.name}}</a>
+                                    <a (click)="toastIsLoggedIn('/store',store._id )">{{store.name}}</a><!--[routerLink]="['/store', store._id]" -->
                                 </span>
                             <p>{{store.description}}</p>
                         </div>

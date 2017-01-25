@@ -1,4 +1,6 @@
-import { Component, OnInit,EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { Stores } from '../../../both/collections/stores.collection';
@@ -15,16 +17,20 @@ import { AppComponentService } from './app.component.service';
 
 @Component({
   selector: 'app',
+  providers: [Location],
   template,
   styles : [ style ]
 })
 @InjectUser('user')
 export class AppComponent implements OnInit{
+  location: Location;
   modalActions = new EventEmitter<string|MaterializeAction>();
+  globalActions = new EventEmitter<string|MaterializeAction>();
   searchValue : string;
   searchdelete:boolean = false;
+  toastIsLoggedInMessage:string = "You have to be connected to add your store";
   
-  constructor(private componentService: AppComponentService){}
+  constructor(private router: Router, private componentService: AppComponentService, location: Location){ this.location = location; }
 
   updateData(value: string) {
 
@@ -41,7 +47,7 @@ export class AppComponent implements OnInit{
     }
 
   ngOnInit() {
-    console.log(MaterializeModule);
+    
   }
   
   isLoggedIn(){
@@ -50,4 +56,13 @@ export class AppComponent implements OnInit{
     }
     return true;
   }
+
+  toastIsLoggedIn(url:string){
+    
+    if(!this.isLoggedIn()){
+      this.globalActions.emit('toast');
+    }
+    this.router.navigate([url]);
+  }
+
 }

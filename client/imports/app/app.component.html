@@ -40,7 +40,15 @@
 
 
 <div class="fixed-action-btn">
-    <a [routerLink]="['/add']" class="btn-floating btn-large waves-effect waves-light red">
-        <i class="large material-icons">add</i>
-    </a>
+    <div *ngIf="!location.isCurrentPathEqualTo('/add')">
+        <a (click)="toastIsLoggedIn('/add')" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions" class="btn-floating btn-large waves-effect waves-light red">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+    <div *ngIf="location.isCurrentPathEqualTo('/add')">
+        <a [routerLink]="['/stores']" class="btn-floating btn-large waves-effect waves-light red">
+            <i class="large material-icons">store</i>
+        </a>
+    </div>
+
 </div>

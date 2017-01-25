@@ -12,7 +12,7 @@ export const routes: Route[] = [
   { path: '', component: HomeComponent },
   { path: 'stores', component: StoresListComponent },
   { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},// for action on loggin only
-  { path: 'add', component: StoresFormComponent },
+  { path: 'add', component: StoresFormComponent, canActivate: ['canActivateForLoggedIn']},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'recover', component: RecoverComponent }

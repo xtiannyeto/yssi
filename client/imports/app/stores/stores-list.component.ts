@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component,EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -11,6 +12,7 @@ import { InfiniteScroll } from 'angular2-infinite-scroll';
 
 import { Meteor } from 'meteor/meteor';
 import { AppComponentService } from '../app.component.service';
+import { MaterializeModule, MaterializeAction} from 'angular2-materialize';
 
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/concat';
@@ -45,6 +47,7 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   storesSub: Subscription;
   pageSize: BehaviorSubject<number> = new BehaviorSubject<number>(10);
   curPage: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  globalActions = new EventEmitter<string|MaterializeAction>();
   nameOrder: Subject<number> = new Subject<number>();
   optionsSub: Subscription;
   storesSize: number = 0;
@@ -56,9 +59,10 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   lat:number;
   lng:number;
   searchValue:string;
+  toastIsLoggedInMessage:string = "You have to be connected to see more";
 
  
-  constructor(private paginationService: PaginationService, private componentService:AppComponentService) {
+  constructor(private router: Router, private paginationService: PaginationService, private componentService:AppComponentService) {
     
   }
 
@@ -118,7 +122,6 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   }
 
   ngOnChanges(changes) {
-      console.log("toto");
   }
   ngOnDestroy() {
     this.storesSub.unsubscribe();
@@ -126,7 +129,6 @@ export class StoresListComponent  implements OnInit, OnDestroy {
     this.autorunSub.unsubscribe();
   }
   removeStore(store: Store): void {
-     console.log(store._id);
     Stores.remove(store._id);
   }
   isOwner(store : Store){
@@ -143,25 +145,31 @@ export class StoresListComponent  implements OnInit, OnDestroy {
      this.nameOrder.next(parseInt(nameOrder));
    }
 
-   onScroll () {
-     
-     console.log(this.curPage.getValue());
-        console.log('scrolled!!')
-    }
-
     onScrollUp(){
       console.log("Up");
       //this.curPage.next(this.curPage.getValue()-1);
     }
     onScrollDown(){
-      console.log("down");
+
       var limitOfStore = this.storesSize+10;
       var nextCurPage = this.curPage.getValue()+1;
-      
-      console.log(this.pageSize.getValue());
+
       if((this.pageSize.getValue() * this.curPage.getValue()) <= limitOfStore){
         this.curPage.next(nextCurPage);
       }
       
     }
+    isLoggedIn(){
+    if (!Meteor.userId()) {
+      return false;
+    }
+    return true;
+    }
+
+  toastIsLoggedIn(url:string, parameter:string){
+    if(!this.isLoggedIn()){
+      this.globalActions.emit('toast');
+    }
+    this.router.navigate([url, parameter]);
+  }
 }
