@@ -24,9 +24,9 @@
                 <div id="details-description" class="tab-item col s12">
                     <form layout="column" (submit)="saveStore()">
                         <span *ngIf="isOwner">
-                            <input  [(ngModel)]="store.name" name="name"></input>
-                            <input  [(ngModel)]="store.description" name="description"></input>
-                            <input  [(ngModel)]="store.location.name" name="location"></input>
+                            <input  [(ngModel)]="store.name" name="name"/>
+                            <input  [(ngModel)]="store.description" name="description" />
+                            <input  [(ngModel)]="store.location.name" name="location" />
                             <div layout="row" layout-align="left">
                                 <button type="submit">Save</button>
                             </div>
@@ -44,15 +44,4 @@
             </div>
         </div>
     </div>
-
-
-    <!--<div class="store-details-container" *ngIf="store">
-    <div class="row">
-        <div class="col s5">
-            <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
-        </div>
-        <div class="col s7">
-
-        </div>
-    </div>
-</div> -->
+</div>

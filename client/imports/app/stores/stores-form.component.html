@@ -1,35 +1,45 @@
-<div class="form-container">
-    <div class="container-background">
-        <div class="form-content">
-            <div class="form-center">
-                <h1>Your party is missing?</h1>
-                <h2>Add it now!</h2>
-            </div>
-            <div class="form-center">
-                <form *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore()">
-                    <div style="display: table-row">
-                        <div class="form-inputs">
-                            <input dividerColor="accent" formControlName="name" placeholder="Party name"></input>
-                            <br/>
-                            <input dividerColor="accent" formControlName="description" placeholder="Description"></input>
-                            <br/>
-                            <input dividerColor="accent" formControlName="location" placeholder="Location name"></input>
-                            <br/>
-                            <br/><br/>
-                            <button color="accent" md-raised-button type="submit">Add</button>
-                        </div>
-                        <div class="form-extras">
-                            <sebm-google-map class="new-store-map" [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng" [zoom]="8" (mapClick)="mapClicked($event)">
-                                <sebm-google-map-marker [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng">
-                                </sebm-google-map-marker>
-                            </sebm-google-map>
-                        </div>
+<div class="row main-row flex-s">
+    <div class="map-col col s0 m0 l5">
+        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
+    </div>
+    <div class="cards-col col s12 m12 l7 col-details">
+        <h4>{{yourTitle() |uppercase}}</h4>
+        <form class="" *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore()">
+            <div class="row">
+                <div id="details-description" class="tab-item col s12">
+
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">store</i>
+                        <input materialize="characterCounter" type="text" class="validate" id="add-name-area" formControlName="name" length="20" max="20" />
+                        <label for="add-name-area">Name</label>
                     </div>
-                </form>
-                <div *ngIf="!user">
-                    Please login in order to create new parties!
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">location_on</i>
+                        <input type="text" class="validate" id="add-location-area" formControlName="location" />
+                        <label for="add-location-area">Location</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">view_headline</i>
+                        <textarea materialize="characterCounter" id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
+                        <label for="add-description-area">Description</label>
+                    </div>
+                </div>
+                <div class="form-extras">
+                    <sebm-google-map class="new-store-map" [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng" [zoom]="8" (mapClick)="mapClicked($event)">
+                        <sebm-google-map-marker [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng">
+                        </sebm-google-map-marker>
+                    </sebm-google-map>
+                    <div *ngIf="!user">
+                        Please login in order to create new parties!
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <stores-upload #upload (onFile)="onImage($event)"></stores-upload>
+            </div>
+            <button type="submit" class="waves-effect waves-light btn left">Save</button>
+        </form>
     </div>
+
 </div>
