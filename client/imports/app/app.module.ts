@@ -8,6 +8,7 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterializeDirective } from 'angular2-materialize';
 import { AppComponentService } from './app.component.service';
+import { FileDropModule } from "angular2-file-drop";
 
 
 import { AppComponent } from './app.component';
@@ -31,7 +32,8 @@ import { HOME_DECLARATIONS } from './home/index';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk'
     }),
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    FileDropModule
   ],
   declarations: [
     AppComponent,

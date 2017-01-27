@@ -4,6 +4,7 @@ export interface Store extends CollectionObject {
   name: string;
   description: string;
   location: Location;
+  images?: string[];
   owner?: string;
 }
 
