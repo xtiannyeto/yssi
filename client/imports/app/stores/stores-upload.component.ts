@@ -88,6 +88,9 @@ ngOnInit() {
             }
           event = null;
         }
-       
+  }
+  reset() {
+    this.filesArray = [];
+    this.files.next(this.filesArray);
   }
 }
