@@ -30,7 +30,8 @@ import { HOME_DECLARATIONS } from './home/index';
     AccountsModule,
     Ng2PaginationModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk'
+      apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk',
+      libraries: ['places'] 
     }),
     InfiniteScrollModule,
     FileDropModule
