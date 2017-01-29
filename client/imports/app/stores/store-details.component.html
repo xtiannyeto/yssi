@@ -1,16 +1,14 @@
 <div class="row main-row flex-s" *ngIf="store">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
+        <store-map [stores]='stores' [zoom]=16 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7 col-details">
         <div>
             <h4>{{ store.name }}</h4>
             <div class="row">
                 <!-- Change in ngFor on a array of pictures from the Store-->
-                <div materialize="carousel" [materializeParams]="[{full_width: true}]" class="carousel carousel-slider center img-container" data-indicators="true">
-                    <a class="carousel-item"><img src="images/office.jpg"></a>
-                    <a class="carousel-item"><img src="images/store-temp.jpg"></a>
-                    <a class="carousel-item"><img src="images/car.jpg"></a>
+                <div *ngIf="store.images && store.images.length > 0" materialize="carousel" [materializeParams]="[{full_width: true}]" class="carousel carousel-slider center img-container" data-indicators="true">
+                    <a *ngFor="let img of store.images" class="carousel-item"><img [src]="img | displayImage">{{img}}</a>
                 </div>
             </div>
             <div class="row">

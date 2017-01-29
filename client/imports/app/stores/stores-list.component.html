@@ -2,7 +2,7 @@
 
 <div class="row main-row flex-s">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores | async' [zoom]=5 [lat]="lat" [lng]="lng"></store-map>
+        <store-map [stores]='stores | async' [zoom]=5 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7">
         <div class="row form-filter-list z-depth-1">
@@ -31,7 +31,8 @@
                 <div *ngFor="let store of stores | async">
                     <div class="card hoverable small">
                         <div class="card-image">
-                            <img src="images/store-temp.jpg">
+                            <img *ngIf="isImages(store)" [src]="store | displayMainImage">
+                            <img *ngIf="!isImages(store)" src="images/side_bar.jpg"><img>
                         </div>
                         <div class="card-content white ">
                             <span class="card-title">
