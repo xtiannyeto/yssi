@@ -1,10 +1,10 @@
 <div class="row main-row flex-s">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng"></store-map>
+        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="true" (onSelectLocation)="onSelectLocation($event)"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7 col-details">
         <h4>{{yourTitle() |uppercase}}</h4>
-        <form class="" *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore()">
+        <form class="" *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore(); upload.reset();">
             <div class="row">
                 <div id="details-description" class="tab-item col s12">
 
@@ -20,8 +20,8 @@
                     </div>
 
                     <div class="input-field col s12">
-                        <i class="material-icons prefix">view_headline</i>
-                        <textarea materialize="characterCounter" id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
                         <label for="add-description-area">Description</label>
                     </div>
                 </div>
