@@ -8,8 +8,11 @@ export function loadStores() {
          { 
             name: "Wallys Shop"
             , description: "Vente de chaussures pour femmes"
+            ,activities: []
+            ,images: []
             ,location: {
                 name: 'Ngoa ekele',
+                address:'',
                 lat: Math.floor(Math.random() * 16) + 5,
                 lng: Math.floor(Math.random() * 16) + 5
             },
@@ -17,8 +20,11 @@ export function loadStores() {
         ,{
              name: "Mami Nyanga Plus "
              , description: "Beignétariat de tata Rosa"
+             ,activities: []
+            ,images: []
              ,location: {
                 name: 'Mvog Ada',
+                address:'',
                 lat: Math.floor(Math.random() * 16) + 5,
                 lng: Math.floor(Math.random() * 16) + 5
             }, 
@@ -26,8 +32,11 @@ export function loadStores() {
         ,{ 
             name: "Mécano presto"
             , description: "Mécanicien à domicile pour toute vos pannes"
+            ,activities: []
+            ,images: []
             ,location: {
                 name: 'Pont Emana',
+                address:'',
                 lat: Math.floor(Math.random() * 16) + 5,
                 lng: Math.floor(Math.random() * 16) + 5
             },
@@ -35,8 +44,11 @@ export function loadStores() {
         ,{ 
             name: "Coiffure étoile"
             , description: "Coiffeur de Star, a pour client Samuel Eto'O tootot"
+            ,activities: []
+            ,images: []
             ,location: {
                 name: 'Chapelle Obili',
+                address:'',
                 lat: Math.floor(Math.random() * 16) + 5,
                 lng: Math.floor(Math.random() * 16) + 5
             }, 
@@ -46,8 +58,11 @@ export function loadStores() {
         Stores.insert({
             name: Fake.sentence(8),
             description: Fake.sentence(15),
+            activities: [],
+            images: [],
             location: {
                 name: Fake.sentence(5),
+                address: Fake.sentence(10),
                 lat: Math.floor(Math.random() * 16) + 5,
                 lng: Math.floor(Math.random() * 16) + 5
             },
