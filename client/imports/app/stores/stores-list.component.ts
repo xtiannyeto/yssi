@@ -60,6 +60,7 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   lng:number;
   searchValue:string;
   toastIsLoggedInMessage:string = "You have to be connected to see more";
+  imagesSubs: Subscription;
 
  
   constructor(private router: Router, private paginationService: PaginationService, private componentService:AppComponentService) {
@@ -67,7 +68,7 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  
+    this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.componentService.getData().subscribe(data => {
         this.searchValue = data;
         this.search(data);
@@ -127,6 +128,7 @@ export class StoresListComponent  implements OnInit, OnDestroy {
     this.storesSub.unsubscribe();
     this.optionsSub.unsubscribe();
     this.autorunSub.unsubscribe();
+    this.imagesSubs.unsubscribe();
   }
   removeStore(store: Store): void {
     Stores.remove(store._id);
@@ -171,5 +173,9 @@ export class StoresListComponent  implements OnInit, OnDestroy {
       this.globalActions.emit('toast');
     }
     this.router.navigate([url, parameter]);
+  }
+
+  isImages(store:Store){
+    return store.images && store.images.length > 0;
   }
 }

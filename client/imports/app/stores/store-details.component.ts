@@ -35,6 +35,7 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
   user: Meteor.User;
   centerLat: number = 37.4292;
   centerLng: number = -122.1381;
+  imagesSubs: Subscription;
   
  
   constructor(
@@ -42,6 +43,7 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
   ) {}
  
   ngOnInit() {
+    this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.paramsSub = this.route.params
       .map(params => params['storeId'])
       .subscribe(storeId => {
@@ -57,6 +59,7 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
           this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
             this.store = Stores.findOne(this.storeId);
             this.stores.push(this.store);
+            console.log(this.stores);
             this.ownerId = this.store.owner;
             this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
             this.owner = Users.findOne(this.ownerId);
@@ -104,5 +107,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
     this.paramsSub.unsubscribe();
     this.storeSub.unsubscribe();
     this.storeSub.unsubscribe();
+    this.imagesSubs.unsubscribe();
   }
 }
