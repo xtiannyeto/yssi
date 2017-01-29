@@ -59,7 +59,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
           this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
             this.store = Stores.findOne(this.storeId);
             this.stores.push(this.store);
-            console.log(this.stores);
             this.ownerId = this.store.owner;
             this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
             this.owner = Users.findOne(this.ownerId);

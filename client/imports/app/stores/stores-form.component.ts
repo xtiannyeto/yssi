@@ -53,7 +53,7 @@ export class StoresFormComponent implements OnInit {
         images: this.images,
         owner: Meteor.userId() 
       });
-      
+
       this.addForm.reset();
   }
 

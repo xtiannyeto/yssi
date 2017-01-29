@@ -10,14 +10,12 @@ export class DisplayMainImagePipe implements PipeTransform {
     if (!store) {
       return;
     }
-    console.log(store);
     let imageUrl: string;
     let imageId: string = (store.images || [])[0];
  
- console.log(imageId);
+
     const found = Images.findOne(imageId);
  
- console.log(found);
     if (found) {
       imageUrl = found.url;
     }else{

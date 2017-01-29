@@ -79,8 +79,7 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
     }
     this.clickLat = $event.coords.lat;
     this.clickLng = $event.coords.lng;
-    
-    console.log("click");
+
     let place = {'location' :{lat:this.clickLat , lng: this.clickLng }};
     this.geocoder.geocode(place, (results, status) => {  
       
@@ -100,8 +99,6 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
     });
   }
   clearSearch(){
-   
-     console.log("HAHHAHAA");
   }
   isAddAndHasMarker(){
     return this.location.isCurrentPathEqualTo('/add') && this.lng && this.lat;
