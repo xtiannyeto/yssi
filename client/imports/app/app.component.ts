@@ -65,4 +65,8 @@ export class AppComponent implements OnInit{
     this.router.navigate([url]);
   }
 
+  isStoreOrHome(){
+    return this.location.isCurrentPathEqualTo('/') || this.location.isCurrentPathEqualTo('/stores');
+  }
+
 }

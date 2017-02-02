@@ -11,10 +11,15 @@
     </ul>
     <nav class="white">
         <div class="nav-wrapper">
-            <a [ngClass]="{'right': isLoggedIn()}" class="brand-logo  hide-on-med-and-down" href="/">Brand</a>
-            <a [hidden]="!isLoggedIn()" class="left" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
-                <i class="material-icons">menu</i>
-            </a>
+            <a [ngClass]="{'right': isLoggedIn()}" class="brand-logo  hide-on-med-and-down" [routerLink]="['/']">Brand</a>
+            <span [hidden]="!isLoggedIn()" class="left">
+                <a [hidden]="!isStoreOrHome()" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
+                    <i class="material-icons">menu</i>
+                </a>
+                <a [hidden]="isStoreOrHome()" [routerLink]="['/stores']">
+                     <i class="material-icons">arrow_back</i>
+                </a>
+            </span>
             <a [hidden]="isLoggedIn()" class="button-collapse dropdown-button" href="#!" data-activates="dropdown1">
                 <i class="material-icons">menu</i>
             </a>
