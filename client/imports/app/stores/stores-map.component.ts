@@ -32,7 +32,7 @@ import style from './stores-map.component.scss';
 @InjectUser('user')
 export class StoresMapComponent  implements OnInit, OnDestroy {
   
-  @Input() stores: Observable<Store[]>;
+  @Input() stores: Store[];
   @Input() zoom: number;
   @Input() lat: number;
   @Input() lng: number;

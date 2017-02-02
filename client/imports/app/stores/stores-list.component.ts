@@ -42,7 +42,8 @@ interface Options extends Pagination {
 
 @InjectUser('user')
 export class StoresListComponent  implements OnInit, OnDestroy {
-  stores: Observable<Store[]>;
+  stores$: Observable<Store[]>;
+  stores: Store[] = [];
   storesForMap: Observable<Store[]>;
   storesSub: Subscription;
   pageSize: BehaviorSubject<number> = new BehaviorSubject<number>(10);
@@ -81,8 +82,8 @@ export class StoresListComponent  implements OnInit, OnDestroy {
       this.location
     ).subscribe(([pageSize, curPage, nameOrder, location]) => {
       const options: Options = {
-        limit: (pageSize as number)* (curPage as number),
-        skip: ((curPage as number) - (curPage as number)) * (pageSize as number),
+         limit: pageSize as number,
+         skip: ((curPage as number) - 1) * (pageSize as number),
         sort: { name: nameOrder as number }
     };
 
@@ -92,12 +93,15 @@ export class StoresListComponent  implements OnInit, OnDestroy {
         this.storesSub.unsubscribe();
       }
         this.storesSub = MeteorObservable.subscribe('stores', options, location).subscribe(() =>{
-                this.stores = Stores.find({}, {
+                this.stores$ = Stores.find({}, {
                   sort: {
-                      name: this.nameOrder
+                      key: 1
                     }
-                }).zone();
+                }).forEach((data)=>{
+                  this.stores = this.arrayUnique(this.stores.concat(data));
+                });
       });
+
       
     });
    
@@ -152,13 +156,13 @@ export class StoresListComponent  implements OnInit, OnDestroy {
       //this.curPage.next(this.curPage.getValue()-1);
     }
     onScrollDown(){
-
-      var limitOfStore = this.storesSize+10;
+      console.log("down");
+      var nbMaxPage = Math.floor(this.storesSize/this.pageSize.getValue())+1;
       var nextCurPage = this.curPage.getValue()+1;
 
-      if((this.pageSize.getValue() * this.curPage.getValue()) <= limitOfStore){
+      if(nextCurPage <= nbMaxPage){
         this.curPage.next(nextCurPage);
-      }
+    }
       
     }
     isLoggedIn(){
@@ -178,4 +182,16 @@ export class StoresListComponent  implements OnInit, OnDestroy {
   isImages(store:Store){
     return store.images && store.images.length > 0;
   }
+
+  arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+    return a;
+}
+
 }

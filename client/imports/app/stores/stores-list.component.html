@@ -2,7 +2,7 @@
 
 <div class="row main-row flex-s">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores | async' [zoom]=5 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
+        <store-map [stores]='stores' [zoom]=5 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7">
         <div class="row form-filter-list z-depth-1">
@@ -28,15 +28,15 @@
         </div>
         <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
             <div class="col s12 cards-container" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions">
-                <div *ngFor="let store of stores | async">
-                    <div class="card hoverable small">
+                <div *ngFor="let store of stores ">
+                    <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
                         <div class="card-image">
                             <img *ngIf="isImages(store)" [src]="store | displayMainImage">
                             <img *ngIf="!isImages(store)" src="images/side_bar.jpg"><img>
                         </div>
                         <div class="card-content white ">
                             <span class="card-title">
-                                    <a (click)="toastIsLoggedIn('/store',store._id )">{{store.name}}</a><!--[routerLink]="['/store', store._id]" -->
+                                    <p>{{store.name}}</p><!--[routerLink]="['/store', store._id]" -->
                                 </span>
                             <p>{{store.description}}</p>
                         </div>
