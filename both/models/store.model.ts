@@ -5,6 +5,7 @@ export interface Store extends CollectionObject {
   description: string;
   location: YssiLocation;
   activities?: string[];
+  comments?:string[];
   images?: string[];
   owner?: string;
 }
