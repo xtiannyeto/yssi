@@ -4,7 +4,7 @@
     </div>
     <div class="cards-col col s12 m12 l7 col-details">
         <div>
-            <h4>{{ store.name }}</h4>
+            <h4>{{ store.name | uppercase}}</h4>
             <div class="row">
                 <!-- Change in ngFor on a array of pictures from the Store-->
                 <div *ngIf="store.images && store.images.length > 0" materialize="carousel" [materializeParams]="[{full_width: true}]" class="carousel carousel-slider center img-container" data-indicators="true">
@@ -20,7 +20,9 @@
                     </ul>
                 </div>
                 <div id="details-description" class="tab-item col s12">
-                    <form layout="column" (submit)="saveStore()">
+                    <p>{{store.description}}</p>
+
+                    <!-- <form layout="column" (submit)="saveStore()">
                         <span *ngIf="isOwner">
                             <input  [(ngModel)]="store.name" name="name"/>
                             <input  [(ngModel)]="store.description" name="description" />
@@ -29,16 +31,18 @@
                                 <button type="submit">Save</button>
                             </div>
                         </span>
-                        <p *ngIf="!isOwner">{{store.description}}</p>
-                        <ul>
-                            <li class="left location-link" *ngIf="!isOwner">@{{store.location.name}}</li>
-                            <li class="right" *ngIf="owner">Owner : {{owner | displayName}}</li>
-                    </form>
+                    </form>-->
+
                 </div>
                 <div id="details-avis" class="tab-item col s12">No comments yet...</div>
                 <div id="details-question" class="tab-item col s12">No questions yet../div>
                 </div>
-                <button [routerLink]="['/stores']" class="waves-effect waves-light btn">Back</button>
+                <div class="row">
+                    <ul>
+                        <li class="left location-link">@{{store.location.name}}</li>
+                        <li class="right">By : {{owner | displayName}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
