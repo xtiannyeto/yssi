@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Meteor } from 'meteor/meteor';
 import { MeteorObservable } from 'meteor-rxjs';
- 
+
 import { Stores } from '../../../../both/collections/stores.collection';
 import { Store } from '../../../../both/models/store.model';
 import { Users } from '../../../../both/collections/users.collection';
@@ -12,21 +12,24 @@ import { User } from '../../../../both/models/user.model';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MouseEvent } from "angular2-google-maps/core";
 
+
+import { AppComponentService } from '../app.component.service';
+
 import 'rxjs/add/operator/map';
 
 import template from './store-details.component.html';
 import style from './store-details.component.scss';
- 
+
 @Component({
   selector: 'store-details',
   template,
-   styles : [ style ]
+  styles: [style]
 })
 @InjectUser('user')
-export class StoreDetailsComponent implements OnInit, OnDestroy  {
-  stores: Store[]=[];
+export class StoreDetailsComponent implements OnInit, OnDestroy {
+  stores: Store[] = [];
   storeId: string;
-  ownerId : string;
+  ownerId: string;
   paramsSub: Subscription;
   store: Store;
   storeSub: Subscription;
@@ -36,38 +39,45 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
   centerLat: number = 37.4292;
   centerLng: number = -122.1381;
   imagesSubs: Subscription;
-  
- 
+
+
   constructor(
-    private route: ActivatedRoute
-  ) {}
- 
+    private route: ActivatedRoute,
+    private router: Router,
+    private componentService: AppComponentService
+  ) { }
+
   ngOnInit() {
     this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.paramsSub = this.route.params
       .map(params => params['storeId'])
       .subscribe(storeId => {
-          this.storeId = storeId;
+        this.storeId = storeId;
 
-          if (this.storeSub) {
-            this.storeSub.unsubscribe();
-          }
-          if (this.ownerSub) {
-            this.ownerSub.unsubscribe();
-          }
- 
-          this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
-            this.store = Stores.findOne(this.storeId);
-            this.stores.push(this.store);
-            this.ownerId = this.store.owner;
-            this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
+        if (this.storeSub) {
+          this.storeSub.unsubscribe();
+        }
+        if (this.ownerSub) {
+          this.ownerSub.unsubscribe();
+        }
+
+        this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
+          
+          this.store = Stores.findOne(this.storeId);
+          this.ownerId = this.store.owner;
+          this.stores.push(this.store);
+          
+          this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
             this.owner = Users.findOne(this.ownerId);
+            this.componentService.updateOwner(this.ownerId);
+          });
+
+          this.componentService.onEditForm.subscribe(data => {
+            this.router.navigate(['/update',  this.store._id]);
           });
         });
 
-        
-          
-        });
+      });
   }
 
   saveStore() {
@@ -80,7 +90,7 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
     });
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     if (!Meteor.userId()) {
       return false;
     }
@@ -89,19 +99,19 @@ export class StoreDetailsComponent implements OnInit, OnDestroy  {
   get isOwner(): boolean {
     return this.store && this.user && this.user._id === this.store.owner;
   }
-   get lat(): number {
+  get lat(): number {
     return this.store && this.store.location.lat;
   }
- 
+
   get lng(): number {
     return this.store && this.store.location.lng;
   }
- 
+
   mapClicked($event: MouseEvent) {
     this.store.location.lat = $event.coords.lat;
     this.store.location.lng = $event.coords.lng;
   }
- 
+
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
     this.storeSub.unsubscribe();
