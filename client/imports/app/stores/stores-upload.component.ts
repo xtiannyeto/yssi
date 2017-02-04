@@ -81,8 +81,11 @@ ngOnInit() {
     let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
         let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
         let files: FileList = target.files;
-        
-        if(!(files === undefined) && !(files[0] === undefined)){
+        this.OnFileAddList(files);
+       
+  }
+  OnFileAddList(files: FileList){
+      if(!(files === undefined) && !(files[0] === undefined)){
           for (let i=0; i<files.length; i++) {
               this.onFileDrop(files[i]);
             }
@@ -93,4 +96,10 @@ ngOnInit() {
     this.filesArray = [];
     this.files.next(this.filesArray);
   }
+  
+  setFileArray(filesArray: string[]){
+    this.filesArray = filesArray;
+    this.files.next(this.filesArray);
+  }
+
 }
