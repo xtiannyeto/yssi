@@ -74,11 +74,17 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
     return this.user && this.user._id === store.owner;
   }
   mapClicked($event: MouseEvent){
-    if(!this.location.isCurrentPathEqualTo('/add')){
+    if(!this.isAddAndHasMarker()){
       return;
     }
-    this.clickLat = $event.coords.lat;
-    this.clickLng = $event.coords.lng;
+    this.mapClickedSetPlace($event.coords.lat, $event.coords.lng);
+    
+  }
+  
+  mapClickedSetPlace(lat: number, lng:number){
+  
+    this.clickLat = lat;
+    this.clickLng = lng;
 
     let place = {'location' :{lat:this.clickLat , lng: this.clickLng }};
     this.geocoder.geocode(place, (results, status) => {  
@@ -90,7 +96,7 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
       this.selectLocation.lat = place.location.lat;
       this.selectLocation.lng = place.location.lng;
       
-      if(!(results === undefined)&& results.length>0){
+      if(!(results === undefined) && !(results == null)&& results.length>0){
         
         this.selectLocation.address = results[0] === undefined ? "" :results[0].formatted_address;
         this.selectLocation.name = results[0] === undefined ? "" :results[1].formatted_address;
@@ -98,9 +104,30 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
       }
     });
   }
-  clearSearch(){
+  mapUpdate(lat: number, lng:number){
+    this.zoom = 16;
+    this.lat =lat;
+    this.clickLat = lat;
+    this.lng = lng;
+    this.clickLng = lng;
   }
+
   isAddAndHasMarker(){
-    return this.location.isCurrentPathEqualTo('/add') && this.lng && this.lat;
+    var path = this.location.path().split("/");
+    return path[1] == 'add' || path[1]=='update';
+  }
+
+  clearSearch(){
+
+  }
+
+  reset(){
+    this.stores = [];
+    this.clickLat =  undefined;
+    this.clickLng = undefined;
+    this.ngOnInit();
+    console.log("LAT and LONG");
+    console.log(this.clickLat );
+    console.log(this.clickLng );
   }
 }
