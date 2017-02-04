@@ -1,10 +1,10 @@
 <div class="row main-row flex-s">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="true" (onSelectLocation)="onSelectLocation($event)"></store-map>
+        <store-map #map [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="true" (onSelectLocation)="onSelectLocation($event)"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7 col-details">
         <h4>{{yourTitle() |uppercase}}</h4>
-        <form class="" *ngIf="user" [formGroup]="addForm" (ngSubmit)="addStore(); upload.reset();">
+        <form class="" [formGroup]="addForm" (ngSubmit)="addStore();">
             <div class="row">
                 <div id="details-description" class="tab-item col s12">
 
@@ -14,31 +14,24 @@
                         <label for="add-name-area">Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix">location_on</i>
-                        <input type="text" class="validate" id="add-location-area" formControlName="location" />
-                        <label for="add-location-area">Location</label>
+                        <select materialize="material_select" multiple>
+                        <option value="" disabled selected>Choose your activity</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        </select>
                     </div>
-
                     <div class="input-field col s12">
                         <i class="material-icons prefix">mode_edit</i>
                         <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
                         <label for="add-description-area">Description</label>
                     </div>
                 </div>
-                <div class="form-extras">
-                    <sebm-google-map class="new-store-map" [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng" [zoom]="8" (mapClick)="mapClicked($event)">
-                        <sebm-google-map-marker [latitude]="newStorePosition.lat" [longitude]="newStorePosition.lng">
-                        </sebm-google-map-marker>
-                    </sebm-google-map>
-                    <div *ngIf="!user">
-                        Please login in order to create new parties!
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <stores-upload #upload (onFile)="onImage($event)"></stores-upload>
             </div>
-            <button type="submit" class="waves-effect waves-light btn left">Save</button>
+            <button type="submit" class="hide waves-effect waves-light btn left">Save</button>
         </form>
     </div>
 
