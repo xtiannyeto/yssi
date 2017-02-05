@@ -21,29 +21,13 @@
                 </div>
                 <div id="details-description" class="tab-item col s12">
                     <p>{{store.description}}</p>
-
-                    <!-- <form layout="column" (submit)="saveStore()">
-                        <span *ngIf="isOwner">
-                            <input  [(ngModel)]="store.name" name="name"/>
-                            <input  [(ngModel)]="store.description" name="description" />
-                            <input  [(ngModel)]="store.location.name" name="location" />
-                            <div layout="row" layout-align="left">
-                                <button type="submit">Save</button>
-                            </div>
-                        </span>
-                    </form>-->
-
                 </div>
                 <div id="details-avis" class="tab-item col s12">No comments yet...</div>
                 <div id="details-question" class="tab-item col s12">No questions yet../div>
                 </div>
-                <div class="row">
-                    <ul>
-                        <li class="left location-link">@{{store.location.name}}</li>
-                        <li class="right">By : {{owner | displayName}}</li>
-                    </ul>
-                </div>
             </div>
+            <div class="row location-link">@{{store.location.name}}</div>
+            <div *ngIf="owner" class="row">By : {{owner | displayName}}</div>
         </div>
     </div>
 </div>
