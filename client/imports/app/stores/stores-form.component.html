@@ -14,25 +14,22 @@
                         <label for="add-name-area">Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <select materialize="material_select" multiple>
-                        <option value="" disabled selected>Choose your activity</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
+                        <select formControlName="activities" (change)="change($event)" materialize="material_select" [materializeSelectOptions]="storeActivities" multiple>
+                            <option value="" disabled>Choose your activity</option>
+                            <option *ngFor="let activity of storeActivities ">{{activity.label}}</option>
                         </select>
-                    </div>
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
-                        <label for="add-description-area">Description</label>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">mode_edit</i>
+                            <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
+                            <label for="add-description-area">Description</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <stores-upload #upload (onFile)="onImage($event)"></stores-upload>
-            </div>
-            <button type="submit" class="hide waves-effect waves-light btn left">Save</button>
+                <div class="row">
+                    <stores-upload #upload (onFile)="onImage($event)"></stores-upload>
+                </div>
+                <button type="submit" class="hide waves-effect waves-light btn left">Save</button>
         </form>
-    </div>
+        </div>
 
-</div>
+    </div>

@@ -11,6 +11,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Stores } from '../../../../both/collections/stores.collection';
 import { Store, YssiLocation } from '../../../../both/models/store.model';
 
+import { Activities } from '../../../../both/collections/activities.collection';
+import { Activity } from '../../../../both/models/activity.model';
+
 import { StoresUploadComponent } from './stores-upload.component';
 import { StoresMapComponent } from './stores-map.component';
 
@@ -48,10 +51,13 @@ export class StoresFormComponent implements OnInit {
   storeSub: Subscription;
   imagesSubs: Subscription;
   paramsSub: Subscription;
+  activitySub: Subscription;
 
   storeId: string;
   addUrl: string = "add";
   updateUrl: string = "update";
+  storeActivities: Activity[] = [];
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +71,15 @@ export class StoresFormComponent implements OnInit {
     this.addForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      location: ['']
+      location: [''],
+      activities: []
+    });
+
+   this.activitySub = MeteorObservable.subscribe("activities").subscribe(() => {
+      Activities.find({}).subscribe((data) => {
+        this.storeActivities = data;
+
+      });
     });
 
     switch (this.location.path().split("/")[1]) {
@@ -82,9 +96,7 @@ export class StoresFormComponent implements OnInit {
 
   addStoreInit() {
     this.componentService.onSaveForm.subscribe(data => {
-      console.log("emit");
       if (data) {
-        console.log("OK");
         this.addStore();
       }
     });
@@ -104,8 +116,9 @@ export class StoresFormComponent implements OnInit {
         this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
           this.store = Stores.findOne(this.storeId);
           this.modifierIsTheOwner(this.store.owner);
-          this.addForm.patchValue({ name: this.store.name, description: this.store.description, location: [''] });
+          this.addForm.patchValue({ name: this.store.name, description: this.store.description, location: [''], activities: this.store.activities });
 
+          console.log(this.addForm.value);
           this.images = this.store.images;
           this.storeLocation = this.store.location;
 
@@ -131,7 +144,7 @@ export class StoresFormComponent implements OnInit {
       name: this.addForm.value.name,
       description: this.addForm.value.description,
       location: this.storeLocation,
-      activities: [],
+      activities: this.addForm.value.activities,
       comments: [],
       images: this.images,
       owner: Meteor.userId()
@@ -150,10 +163,11 @@ export class StoresFormComponent implements OnInit {
         name: this.addForm.value.name,
         description: this.addForm.value.description,
         location: this.storeLocation,
-        activities: [],
+        activities: this.addForm.value.activities,
         images: this.images
       }
     });
+    this.router.navigate(['/store', this.store._id]);
   }
 
   isLoggedIn() {
@@ -225,5 +239,9 @@ export class StoresFormComponent implements OnInit {
     if (!(this.imagesSubs === undefined)) {
       this.imagesSubs.unsubscribe();
     }
+    this.activitySub.unsubscribe();
+  }
+  change() {
+    console.log(this.addForm.value);
   }
 }
