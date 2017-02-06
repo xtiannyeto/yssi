@@ -8,9 +8,9 @@ interface Options {
   [key: string]: any;
 }
  
-Meteor.publish('stores', function(options: Options, location?: string) {
+Meteor.publish('stores', function(options: Options, searchValue?: string) {
     
-    const selector = buildQuery.call(this, null, location);
+    const selector = buildQuery.call(this, null, searchValue);
     
     Counts.publish(this, 'numberOfStores', Stores.collection.find(selector), { noReady: true });
     
@@ -21,7 +21,7 @@ Meteor.publish('store', function(storeId: string) {
   return Stores.find(buildQuery.call(this, storeId));
 });
 
-function buildQuery(storeId?: string, location?: string): Object {
+function buildQuery(storeId?: string, searchValue?: string): Object {
   const isAvailable = {
   };
  
@@ -35,11 +35,11 @@ function buildQuery(storeId?: string, location?: string): Object {
     };
   }
  
-  const searchRegEx = { '$regex': '.*' + (location || '') + '.*', '$options': 'i' };
+  const searchRegEx = { '$regex': '.*' + (searchValue || '') + '.*', '$options': 'i' };
  
    return {
      $and: [
-       { $or : [ { 'name' :searchRegEx }, { 'description' : searchRegEx } , {'location.name': searchRegEx}] },
+       { $or : [ { 'name' :searchRegEx }, { 'activities' : searchRegEx } , {'location.name': searchRegEx}] },
        isAvailable
      ]
    };
