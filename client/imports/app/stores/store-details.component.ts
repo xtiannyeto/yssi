@@ -13,6 +13,10 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MouseEvent } from "angular2-google-maps/core";
 
 
+import { Comments } from '../../../../both/collections/comments.collection';
+import { Comment } from '../../../../both/models/comment.model';
+
+
 import { AppComponentService } from '../app.component.service';
 
 import 'rxjs/add/operator/map';
@@ -35,6 +39,9 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
   storeSub: Subscription;
   owner: User;
   ownerSub: Subscription;
+  comment:Comment;
+  comments:Comment[];
+  commentSub:Subscription;
   user: Meteor.User;
   centerLat: number = 37.4292;
   centerLng: number = -122.1381;
@@ -62,18 +69,24 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
         }
 
         this.storeSub = MeteorObservable.subscribe('store', this.storeId).subscribe(() => {
-          
+
           this.store = Stores.findOne(this.storeId);
           this.ownerId = this.store.owner;
           this.stores.push(this.store);
-          
+
           this.ownerSub = MeteorObservable.subscribe('owner', this.storeId).subscribe(() => {
             this.owner = Users.findOne(this.ownerId);
             this.componentService.updateOwner(this.ownerId);
           });
 
+          this.commentSub = MeteorObservable.subscribe('comments', this.storeId).subscribe(() => {
+            Comments.find({_id: this.store.comments}).subscribe((data)=>{
+                    this.comments = data;
+            });
+          });
+
           this.componentService.onEditForm.subscribe(data => {
-            this.router.navigate(['/update',  this.store._id]);
+            this.router.navigate(['/update', this.store._id]);
           });
         });
 

@@ -12,17 +12,43 @@
                 </div>
             </div>
             <div class="row">
+                <div *ngFor="let activity of store.activities" class="chip">
+                    {{activity}}
+                </div>
+            </div>
+            <div class="row">
                 <div class="col s12">
                     <ul materialize="tabs" class="tabs">
                         <li class="tab col s4"><a class="active" href="#details-description"> Description</a></li>
-                        <li class="tab col s4"><a href="#details-avis">Avis</a></li>
+                        <li class="tab col s4">
+                            <a href="#details-avis">
+                                Avis
+                            </a>
+                        </li>
                         <li class="tab col s4 disabled"><a href="#details-question">Questions</a></li>
                     </ul>
                 </div>
                 <div id="details-description" class="tab-item col s12">
                     <p>{{store.description}}</p>
                 </div>
-                <div id="details-avis" class="tab-item col s12">No comments yet...</div>
+                <div id="details-avis" class="tab-item col s12">
+                    <div class="contain-avis">
+                        <ul class="collection">
+                            <li class="collection-item avatar">
+                                <img src="images/user.jpg" alt="" class="circle">
+                                <span class="title">Chopper</span>
+                                <p>Très bonne boutique très éclairée et très innovante..</p>
+                                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                            </li>
+                            <li class="collection-item avatar">
+                                <img src="images/user.jpg" alt="" class="circle">
+                                <span class="title">Chopper</span>
+                                <p>Très bonne boutique très éclairée et très innovante..</p>
+                                <a href="#!" class="secondary-content"><i class="material-icons">grade</i><i class="material-icons">grade</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div id="details-question" class="tab-item col s12">No questions yet../div>
                 </div>
             </div>

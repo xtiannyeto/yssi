@@ -16,6 +16,10 @@
     color: #00796b;
 }
 
+.tabs .tab.disabled a {
+    color: #b2dfdb;
+}
+
 .tabs[_ngcontent-wtp-7] .indicator[_ngcontent-wtp-7] {
     background-color: rgb(0, 150, 136) !important;
 }
@@ -23,4 +27,16 @@
 .location-link {
     color: #00796b;
     margin-bottom: -1px;
+}
+
+.contain-avis {
+    padding: 10px 10px 10px 10px;
+}
+
+.collection {
+    border: none !important;
+}
+
+.collection .collection-item {
+    border: none !important;
 }
