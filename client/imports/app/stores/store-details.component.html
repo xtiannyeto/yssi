@@ -32,22 +32,7 @@
                     <p>{{store.description}}</p>
                 </div>
                 <div id="details-avis" class="tab-item col s12">
-                    <div class="contain-avis">
-                        <ul class="collection">
-                            <li class="collection-item avatar">
-                                <img src="images/user.jpg" alt="" class="circle">
-                                <span class="title">Chopper</span>
-                                <p>Très bonne boutique très éclairée et très innovante..</p>
-                                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                            </li>
-                            <li class="collection-item avatar">
-                                <img src="images/user.jpg" alt="" class="circle">
-                                <span class="title">Chopper</span>
-                                <p>Très bonne boutique très éclairée et très innovante..</p>
-                                <a href="#!" class="secondary-content"><i class="material-icons">grade</i><i class="material-icons">grade</i></a>
-                            </li>
-                        </ul>
-                    </div>
+                    <store-comments [storeId]="storeId"></store-comments>
                 </div>
                 <div id="details-question" class="tab-item col s12">No questions yet../div>
                 </div>

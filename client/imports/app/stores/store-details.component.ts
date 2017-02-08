@@ -13,12 +13,6 @@ import { User } from '../../../../both/models/user.model';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MouseEvent } from "angular2-google-maps/core";
 
-
-import { Comments } from '../../../../both/collections/comments.collection';
-import { Comment } from '../../../../both/models/comment.model';
-
-
-
 import { AppComponentService } from '../app.component.service';
 
 import 'rxjs/add/operator/map';
@@ -41,9 +35,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
   storeSub: Subscription;
   owner: User;
   ownerSub: Subscription;
-  comment: Comment;
-  comments: Comment[] = [];
-  commentSub: Subscription;
   user: Meteor.User;
   centerLat: number = 37.4292;
   centerLng: number = -122.1381;
@@ -60,10 +51,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.addCommentForm = this.formBuilder.group({
-      main: ['', Validators.required],
-      note: ['', Validators.required],
-    });
     this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.paramsSub = this.route.params
       .map(params => params['storeId'])
@@ -88,13 +75,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
             this.componentService.updateOwner(this.ownerId);
           });
 
-          this.commentSub = MeteorObservable.subscribe('comments', this.storeId).subscribe(() => {
-
-            Comments.find({ store: this.storeId }).subscribe((data) => {
-              this.comments = data;
-            });
-          });
-
           this.componentService.onEditForm.subscribe(data => {
             this.router.navigate(['/update', this.store._id]);
           });
@@ -111,22 +91,6 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
         location: this.store.location
       }
     });
-  }
-
-  postComment() {
-    console.log(this.addCommentForm.value);
-
-    if (this.addCommentForm.value.main === undefined
-      || this.addCommentForm.value.main == null
-      || this.addCommentForm.value.main.length == 0) {
-      return;
-    }
-    Comments.insert({
-      store: this.store._id,
-      main: this.addCommentForm.value.main,
-      user: Meteor.userId()
-    });
-
   }
 
   isLoggedIn() {

@@ -29,14 +29,7 @@
     margin-bottom: -1px;
 }
 
-.contain-avis {
-    padding: 10px 10px 10px 10px;
-}
-
-.collection {
-    border: none !important;
-}
-
-.collection .collection-item {
-    border: none !important;
+#details-description {
+    height: 250px;
+    overflow: scroll;
 }
