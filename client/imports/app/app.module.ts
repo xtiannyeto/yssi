@@ -9,6 +9,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterializeDirective } from 'angular2-materialize';
 import { AppComponentService } from './app.component.service';
 import { FileDropModule } from "angular2-file-drop";
+import { RatingModule } from "ngx-rating";
 
 
 import { AppComponent } from './app.component';
@@ -34,7 +35,8 @@ import { HOME_DECLARATIONS } from './home/index';
       libraries: ['places'] 
     }),
     InfiniteScrollModule,
-    FileDropModule
+    FileDropModule,
+    RatingModule
   ],
   declarations: [
     AppComponent,
