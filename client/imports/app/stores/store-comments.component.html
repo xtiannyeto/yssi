@@ -1,0 +1,30 @@
+<div class="contain-avis">
+    <ul id="comment-list" class="collection">
+        <li *ngFor="let comment of comments" class="collection-item avatar">
+            <img src="images/user.jpg" alt="" class="circle">
+            <span class="title">{{comment.user | displayUser | displayName}}</span>
+            <p>{{comment.main}}</p>
+            <span class="secondary-content">
+                <i *ngFor="let note of getNote(comment.note)" class="material-icons">{{note}}</i>
+            </span>
+        </li>
+    </ul>
+    <div class="comment-border">
+        <form [formGroup]="addCommentForm" (ngSubmit)="postComment()">
+            <ul class="col s12">
+                <li class="col s7">
+                    <input formControlName="main" type="text" placeholder="Post your comment..." class="validate">
+                </li>
+                <li class="col s3">
+                    <rating formControlName="note" [max]="5">
+                    </rating>
+                </li>
+                <li class="col s1">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        <i class="material-icons right">send</i>
+                    </button>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
