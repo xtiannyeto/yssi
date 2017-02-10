@@ -36,17 +36,15 @@
                         </div>
                         <div class="card-content white ">
                             <span class="card-title">
-                                    <p>{{store.name}}</p><!--[routerLink]="['/store', store._id]" -->
-                                </span>
-                            <p>{{store.description}}</p>
+                                <p>{{store.name}}</p>
+                            </span>
                         </div>
                         <div class="card-action">
-                            @ {{store.location.name}}
-                            <button class="remove-store" md-icon-button *ngIf="isOwner(store)" (click)="removeStore(store)">
-                            </div>
+                            @{{store.location.name | displayLocation}}
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
+        </div>
     </div>
 </div>

@@ -118,11 +118,11 @@ export class StoresFormComponent implements OnInit {
           this.modifierIsTheOwner(this.store.owner);
           this.addForm.patchValue({ name: this.store.name, description: this.store.description, location: [''], activities: this.store.activities });
 
-          console.log(this.addForm.value);
           this.images = this.store.images;
-          this.storeLocation = this.store.location;
-
           this.upload.setFileArray(this.images);
+          
+          
+          this.storeLocation = this.store.location;
           this.map.mapUpdate(this.storeLocation.lat, this.storeLocation.lng);
 
           this.componentService.onSaveForm.subscribe(data => {
@@ -145,7 +145,6 @@ export class StoresFormComponent implements OnInit {
       description: this.addForm.value.description,
       location: this.storeLocation,
       activities: this.addForm.value.activities,
-      comments: [],
       images: this.images,
       owner: Meteor.userId()
     });
@@ -157,7 +156,6 @@ export class StoresFormComponent implements OnInit {
     if (!this.checkFormValue()) {
       return;
     }
-    console.log("UPDATE");
     Stores.update({ _id: this.store._id }, {
       $set: {
         name: this.addForm.value.name,
@@ -193,6 +191,9 @@ export class StoresFormComponent implements OnInit {
     return this.addForm.value.name;
   }
   onImage(imageId: string) {
+    if(this.location.path().split("/")[1] == this.updateUrl){
+      return;
+    }
     this.images.push(imageId);
   }
   onSelectLocation(location: YssiLocation) {
