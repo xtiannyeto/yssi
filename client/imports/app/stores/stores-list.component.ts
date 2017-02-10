@@ -130,14 +130,11 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.autorunSub.unsubscribe();
     this.imagesSubs.unsubscribe();
   }
-  removeStore(store: Store): void {
-    Stores.remove(store._id);
-  }
   isOwner(store: Store) {
     return this.user && this.user._id === store.owner;
   }
   search(value: string): void {
-    this.stores=[];
+    this.stores = [];
     this.searchValue.next(value);
   }
   onPageChanged(page: number): void {
@@ -148,7 +145,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
   }
 
   onScrollUp() {
-    
+
   }
 
   onScrollDown() {
@@ -161,7 +158,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
     }
 
   }
-  
+
   isLoggedIn() {
     if (!Meteor.userId()) {
       return false;
