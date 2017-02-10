@@ -5,4 +5,5 @@ export interface Comment {
   user: string;
   main: string;
   note?: number;
+  createdDate: Date;
 }
