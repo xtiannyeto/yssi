@@ -57,7 +57,6 @@ export class StoreCommentsComponent implements OnInit, OnDestroy {
     }
 
     postComment() {
-        console.log(this.addCommentForm.value);
 
         if (this.addCommentForm.value.main === undefined
             || this.addCommentForm.value.main == null
@@ -69,7 +68,8 @@ export class StoreCommentsComponent implements OnInit, OnDestroy {
             store: this.storeId,
             main: this.addCommentForm.value.main,
             note: this.addCommentForm.value.note,
-            user: Meteor.userId()
+            user: Meteor.userId(),
+            createdDate: new Date(),
         });
 
         this.addCommentForm.reset();
