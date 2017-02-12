@@ -42,6 +42,7 @@
     "bcrypt": "^1.0.1",
     "gm": "^1.23.0",
     "jquery": "^2.2.4",
+    "lodash": "^4.17.4",
     "materialize-css": "^0.97.8",
     "meteor-rxjs": "0.4.7",
     "ng2-pagination": "^1.0.1",
