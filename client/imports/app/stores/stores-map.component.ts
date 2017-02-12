@@ -44,6 +44,7 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
   geocoder: any;
   clickLat:number;
   clickLng:number;
+  markerIcon:string = "images/marker.png";
 
 
   constructor(private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,location: Location) {this.location = location; }
@@ -129,5 +130,9 @@ export class StoresMapComponent  implements OnInit, OnDestroy {
     console.log("LAT and LONG");
     console.log(this.clickLat );
     console.log(this.clickLng );
+  }
+
+  clickedMarker(name:string, index: number) {
+    console.log(`clicked the marker: ${name || index}`)
   }
 }
