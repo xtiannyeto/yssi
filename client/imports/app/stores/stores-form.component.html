@@ -18,11 +18,11 @@
                             <option value="" disabled>Choose your activity</option>
                             <option *ngFor="let activity of storeActivities ">{{activity.label}}</option>
                         </select>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">mode_edit</i>
-                            <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
-                            <label for="add-description-area">Description</label>
-                        </div>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea materialize="characterCounter" type='text' id="add-description-area" formControlName="description" class="materialize-textarea" length="400" max="400"></textarea>
+                        <label for="add-description-area">Description</label>
                     </div>
                 </div>
                 <div class="row">

@@ -19,6 +19,7 @@ import { StoresMapComponent } from './stores-map.component';
 
 import { AppComponentService } from '../app.component.service';
 
+import * as _ from "lodash";
 
 import template from './stores-form.component.html';
 import style from './stores-form.component.scss';
@@ -141,9 +142,10 @@ export class StoresFormComponent implements OnInit {
     }
 
     Stores.insert({
-      name: this.addForm.value.name,
+      name: _.upperFirst(this.addForm.value.name),
       description: this.addForm.value.description,
       location: this.storeLocation,
+      createDate: new Date(),
       activities: this.addForm.value.activities,
       images: this.images,
       owner: Meteor.userId()
@@ -158,9 +160,10 @@ export class StoresFormComponent implements OnInit {
     }
     Stores.update({ _id: this.store._id }, {
       $set: {
-        name: this.addForm.value.name,
+        name: _.upperFirst(this.addForm.value.name),
         description: this.addForm.value.description,
         location: this.storeLocation,
+        updateDate:new Date(),
         activities: this.addForm.value.activities,
         images: this.images
       }
