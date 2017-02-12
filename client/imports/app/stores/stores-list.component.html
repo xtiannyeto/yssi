@@ -6,29 +6,44 @@
     </div>
     <div class="cards-col col s12 m12 l7">
         <div class="row form-filter-list z-depth-1">
-            <!-- {{storesSize}}
-            <pagination-controls class="pagination pagination-container" (pageChange)="onPageChanged($event)"></pagination-controls> -->
-            <form>
-                <!-- <div class="input-field col s8">
-                        <input placeholder="Placeholder" id="first_name" type="text" #searchtext class="validate">
-                        <label for="first_name">By Location</label>
-                        <span class="btn  waves-effect waves-light" (click)="search(searchtext.value)">
-                        <i class="fa fa-search"></i>
-                    </span> {{searchValue}}
-                    </div> -->
-                <div class="input-field col s4">
-                    <select materialize="material_select" #sort (change)="changeSortOrder(sort.value)">
-                        <option value="" disabled selected>Choose your option</option>
-                        <option value="1"> Ascending </option>
-                        <option value="-1"> Descending </option>
-                    </select>
-                    <label>Order</label>
-                </div>
+            <form class="row col s12">
+                <ul class="col s4 inline group-filter">
+                    <li class="">
+                        <input #dateFilter class="with-gap" name="list-filter" type="radio" id="list-date-filter" (change)="changeSort(dateFilter.id)" />
+                        <label for="list-date-filter">Date</label>
+                    </li>
+
+                    <li *ngIf="showFilterOrder('list-date-filter')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    </li>
+
+                </ul>
+                <ul class="col s4 inline group-filter">
+                    <li class="">
+                        <input #locationFilter class="with-gap" name="list-filter" type="radio" id="list-location-filter" (change)="changeSort(locationFilter.id)" />
+                        <label for="list-location-filter">Location</label>
+                    </li>
+                    <li *ngIf="showFilterOrder('list-location-filter')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    </li>
+                </ul>
+                <ul class="col s4 inline group-filter">
+                    <li class="!">
+                        <input #nameFilter class="with-gap" name="list-filter" type="radio" id="list-name-filter" (change)="changeSort(nameFilter.id)" />
+                        <label for="list-name-filter">Name</label>
+                    </li>
+                    <li *ngIf="showFilterOrder('list-name-filter')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    </li>
+                </ul>
             </form>
         </div>
         <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
             <div class="col s12 cards-container" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions">
-                <div *ngFor="let store of stores ">
+                <div class="col s12 m6 l6 " *ngFor="let store of stores ">
                     <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
                         <div class="card-image">
                             <img *ngIf="isImages(store)" [src]="store | displayMainImage">

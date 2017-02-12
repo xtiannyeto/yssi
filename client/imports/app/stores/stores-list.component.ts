@@ -16,6 +16,7 @@ import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/concat';
+import * as _ from "lodash";
 
 import { Stores } from '../../../../both/collections/stores.collection';
 import { Store } from '../../../../both/models/store.model';
@@ -42,15 +43,20 @@ interface Options extends Pagination {
 
 @InjectUser('user')
 export class StoresListComponent implements OnInit, OnDestroy {
-  stores$: Observable<Store[]>;
+  stores$: Store[] = [];
   stores: Store[] = [];
   storesForMap: Observable<Store[]>;
   storesSub: Subscription;
   pageSize: BehaviorSubject<number> = new BehaviorSubject<number>(10);
   curPage: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  filter: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  ascOrDesc: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  skip: Subject<number> = new Subject<number>();
+  limit: Subject<number> = new Subject<number>();
   globalActions = new EventEmitter<string | MaterializeAction>();
   nameOrder: Subject<number> = new Subject<number>();
   optionsSub: Subscription;
+  options: Options;
   storesSize: number = 0;
   autorunSub: Subscription;
   searchValue: Subject<string> = new Subject<string>();
@@ -61,6 +67,9 @@ export class StoresListComponent implements OnInit, OnDestroy {
   lng: number;
   toastIsLoggedInMessage: string = "You have to be connected to see more";
   imagesSubs: Subscription;
+  dateFilter: string = "list-date-filter";
+  locationFilter: string = "list-location-filter";
+  nameFilter: string = "list-name-filter";
 
 
   constructor(private router: Router, private paginationService: PaginationService, private componentService: AppComponentService) {
@@ -74,29 +83,24 @@ export class StoresListComponent implements OnInit, OnDestroy {
     });
 
     this.optionsSub = Observable.combineLatest(
-      this.pageSize,
-      this.curPage,
-      this.nameOrder,
+      this.limit,
+      this.skip,
       this.searchValue
-    ).subscribe(([pageSize, curPage, nameOrder, searchValue]) => {
+    ).subscribe(([limit, skip, searchValue]) => {
+
       const options: Options = {
-        limit: pageSize as number,
-        skip: ((curPage as number) - 1) * (pageSize as number),
-        sort: { name: nameOrder as number }
+        limit: limit,
+        skip: skip
       };
 
-      this.paginationService.setCurrentPage(this.paginationService.defaultId(), curPage as number);
+      this.paginationService.setCurrentPage(this.paginationService.defaultId(), this.curPage.getValue() as number);
 
       if (this.storesSub) {
         this.storesSub.unsubscribe();
       }
       this.storesSub = MeteorObservable.subscribe('stores', options, searchValue).subscribe(() => {
-        this.stores$ = Stores.find({}, {
-          sort: {
-            key: 1
-          }
-        }).forEach((data) => {
-          this.stores = this.arrayUnique(this.stores.concat(data));
+        Stores.find({}).subscribe((data) => {
+          this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
         });
       });
     });
@@ -113,6 +117,9 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.nameOrder.next(1);
     this.searchValue.next('');
 
+    this.limit.next(this.pageSize.getValue());
+    this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
+
     this.autorunSub = MeteorObservable.autorun().subscribe(() => {
       this.storesSize = Counts.get('numberOfStores');
       this.paginationService.setTotalItems(this.paginationService.defaultId(), this.storesSize);
@@ -124,24 +131,38 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes) {
   }
+
   ngOnDestroy() {
     this.storesSub.unsubscribe();
     this.optionsSub.unsubscribe();
     this.autorunSub.unsubscribe();
     this.imagesSubs.unsubscribe();
   }
+
   isOwner(store: Store) {
     return this.user && this.user._id === store.owner;
   }
+
   search(value: string): void {
     this.stores = [];
+    this.curPage.next(1);
+    this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
     this.searchValue.next(value);
   }
+
   onPageChanged(page: number): void {
     this.curPage.next(page);
   }
-  changeSortOrder(nameOrder: string): void {
-    this.nameOrder.next(parseInt(nameOrder));
+
+  changeSort(idFilter: string): void {
+    this.filter.next(idFilter);
+    this.ascOrDesc.next("asc");
+    this.stores = _.orderBy(this.stores, this.getFilter(this.filter.getValue()), this.ascOrDesc.getValue());
+  }
+
+  changeOrder(order:string){
+    this.ascOrDesc.next(order);
+    this.stores = _.orderBy(this.stores, this.getFilter(this.filter.getValue()), this.ascOrDesc.getValue());
   }
 
   onScrollUp() {
@@ -152,9 +173,11 @@ export class StoresListComponent implements OnInit, OnDestroy {
     console.log("down");
     var nbMaxPage = Math.floor(this.storesSize / this.pageSize.getValue()) + 1;
     var nextCurPage = this.curPage.getValue() + 1;
+    var pageSize = this.pageSize.getValue();
 
     if (nextCurPage <= nbMaxPage) {
       this.curPage.next(nextCurPage);
+      this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
     }
 
   }
@@ -186,6 +209,31 @@ export class StoresListComponent implements OnInit, OnDestroy {
       }
     }
     return a;
+  }
+
+  showFilterOrder(filter: string) {
+    return this.filter.getValue() == filter;
+  }
+
+  getFilter(filter: string) {
+    switch (filter) {
+      case "list-date-filter":
+        return "createDate";
+      case "list-location-filter":
+        return "location.name";
+      case "list-name-filter":
+        return "name";
+    }
+  }
+
+  hideAscOrDesc(ascOrDesc:string){
+
+    if(ascOrDesc == this.ascOrDesc.getValue()){
+      console.log(ascOrDesc);
+      return false;
+    }
+    console.log(ascOrDesc);
+    return true;
   }
 
 }

@@ -41,7 +41,7 @@
     page-break-inside: avoid !important;
     break-inside: avoid-column;
     display: table-column;
-    column-count: 2;
+    //column-count: 2;
     margin-bottom: 100px;
 }
 
@@ -105,4 +105,18 @@ store-map {
     margin-left: -10px;
     margin-right: -10px;
     margin-bottom: 10px;
+}
+
+.inline li {
+    display: inline;
+    list-style-type: none;
+}
+
+.list-filter-asc-desc {
+    margin-left: 50px;
+    font-size: 18px !important;
+}
+
+.group-filter {
+    margin-top: 1rem;
 }
