@@ -4,6 +4,8 @@ export interface Store extends CollectionObject {
   name: string;
   description: string;
   location: YssiLocation;
+  createDate: Date;
+  updateDate?:Date;
   activities?: string[];
   images?: string[];
   owner?: string;

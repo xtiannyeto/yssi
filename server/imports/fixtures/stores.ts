@@ -9,6 +9,7 @@ export function loadStores() {
             name: "Wallys Shop"
             , description: "Vente de chaussures pour femmes"
             ,activities: []
+            ,createDate: new Date()
             ,images: []
             ,location: {
                 name: 'Ngoa ekele',
@@ -21,6 +22,7 @@ export function loadStores() {
              name: "Mami Nyanga Plus "
              , description: "Beignétariat de tata Rosa"
              ,activities: []
+             ,createDate: new Date()
             ,images: []
              ,location: {
                 name: 'Mvog Ada',
@@ -33,6 +35,7 @@ export function loadStores() {
             name: "Mécano presto"
             , description: "Mécanicien à domicile pour toute vos pannes"
             ,activities: []
+            ,createDate: new Date()
             ,images: []
             ,location: {
                 name: 'Pont Emana',
@@ -44,6 +47,7 @@ export function loadStores() {
         ,{ 
             name: "Coiffure étoile"
             , description: "Coiffeur de Star, a pour client Samuel Eto'O tootot"
+            ,createDate: new Date()
             ,activities: []
             ,images: []
             ,location: {
@@ -59,6 +63,7 @@ export function loadStores() {
             name: Fake.sentence(8),
             description: Fake.sentence(15),
             activities: [],
+            createDate: new Date(),
             images: [],
             location: {
                 name: Fake.sentence(5),
