@@ -5,6 +5,19 @@ nav .input-field label.active i {
 }
 
 #nav-search .input-field {
-    width: 60%;
+    width: 35%;
+}
+
+.contain-search {
+    height: 100%;
     margin-left: 8% !important;
+}
+
+#search {
+    border-left: 1px solid #dce0e0;
+    border-right: 1px solid #dce0e0;
+}
+
+#nav-search-location {
+    border-left: 1px solid #dce0e0;
 }

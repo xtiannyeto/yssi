@@ -1,19 +1,20 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { Stores } from '../../../both/collections/stores.collection';
-import { Store } from '../../../both/models/store.model';
+import { Store, YssiLocation } from '../../../both/models/store.model';
 
 import template from './app.component.html';
 import style from './app.component.scss';
 
-
+import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
 import { AppComponentService } from './app.component.service';
+import { StoreMapComponentService } from './shared/services/store-map.component.service';
 
 
 
@@ -32,12 +33,24 @@ export class AppComponent implements OnInit {
   searchdelete: boolean = false;
   toastIsLoggedInMessage: string = "You have to be connected to add your store";
   path: string[];
+  currentLocation: YssiLocation;
 
-  constructor(private router: Router, private componentService: AppComponentService, location: Location) { this.location = location; }
+  constructor(
+    private router: Router,
+    private componentService: AppComponentService,
+    location: Location,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    private mapService: StoreMapComponentService
+  ) { this.location = location; }
+
+  ngOnInit() {
+    this.mapService.setPlaces('nav-search-location', true);
+  }
 
   updateData(value: string) {
 
-    if (!(value.length === undefined) && value.length >= 3) {
+    if (!(value.length === undefined) && value.length >= 1) {
       this.searchdelete = true;
       this.componentService.updateData(value);
     } else {
@@ -49,9 +62,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit() {
 
-  }
 
   isLoggedIn() {
     if (!Meteor.userId()) {
@@ -69,14 +80,14 @@ export class AppComponent implements OnInit {
   }
 
   isStoreOrHome() {
-    return this.location.isCurrentPathEqualTo('/') || this.location.isCurrentPathEqualTo('/stores');
+    return this.location.isCurrentPathEqualTo('/') || this.location.path().split("/")[1] == 'stores';
   }
   saveForm() {
     this.componentService.saveForm();
   }
 
   isOnStore() {
-    return this.location.isCurrentPathEqualTo('/store') || this.location.isCurrentPathEqualTo('/stores');
+    return this.location.path().split("/")[1] == 'store' || this.location.path().split("/")[1] == 'stores';
   }
 
   onStoreAndIsOwner() {
@@ -104,7 +115,7 @@ export class AppComponent implements OnInit {
   }
 
   showSaveButton() {
-    return this.location.isCurrentPathEqualTo('/add') || this.location.path().split("/")[1] == 'update';
+    return this.location.path().split("/")[1] == 'add' || this.location.path().split("/")[1] == 'update';
   }
 
   showEditButton() {
@@ -115,4 +126,15 @@ export class AppComponent implements OnInit {
     this.componentService.editForm();
   }
 
+  hasLocation() {
+    this.currentLocation = this.componentService.getLocation().getValue();
+
+    if (this.currentLocation == null || this.currentLocation === undefined) {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.router.navigate(["stores", this.componentService.encodeThis(this.currentLocation.coords.coordinates[0]),
+      this.componentService.encodeThis(this.currentLocation.coords.coordinates[1])
+    ]);
+  }
 }

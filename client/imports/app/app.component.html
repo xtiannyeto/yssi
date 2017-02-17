@@ -16,7 +16,7 @@
                 <a [hidden]="!isStoreOrHome()" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
                     <i class="material-icons">menu</i>
                 </a>
-                <a [hidden]="isStoreOrHome()" [routerLink]="['/stores']">
+                <a [hidden]="isStoreOrHome()" (click)="hasLocation()">
                      <i class="material-icons">arrow_back</i>
                 </a>
             </span>
@@ -28,11 +28,18 @@
                 <li><a materialize="leanModal" class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
             </ul>
             <form id="nav-search">
-                <div class="input-field">
-                    <input #searchtext (keyup)="updateData($event.target.value)" placeholder="search..." id="search" type="search" required>
-                    <label for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                </div>
+                <ul class="inline contain-search">
+                    <li class="input-field">
+                        <input id="nav-search-location" placeholder="Where..." type="search" required>
+                        <label for="search"><i class="material-icons">location_on</i></label>
+                        <i class="material-icons">close</i>
+                    </li>
+                    <li class="input-field">
+                        <input #searchtext (keyup)="updateData($event.target.value)" placeholder="What..." id="search" type="search" required>
+                        <label for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                    </li>
+                </ul>
             </form>
         </div>
     </nav>
