@@ -8,6 +8,7 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterializeDirective } from 'angular2-materialize';
 import { AppComponentService } from './app.component.service';
+import { StoreMapComponentService } from './shared/services/store-map.component.service';
 import { FileDropModule } from "angular2-file-drop";
 import { RatingModule } from "ngx-rating";
 
@@ -49,7 +50,8 @@ import { HOME_DECLARATIONS } from './home/index';
   ],
   providers : [
     ROUTES_PROVIDERS,
-    AppComponentService
+    AppComponentService,
+    StoreMapComponentService
   ],
   bootstrap: [
     AppComponent
