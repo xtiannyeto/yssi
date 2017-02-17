@@ -103,16 +103,17 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
     return this.store && this.user && this.user._id === this.store.owner;
   }
   get lat(): number {
-    return this.store && this.store.location.lat;
+    return this.store && this.store.location.coords.coordinates[1];
   }
 
   get lng(): number {
-    return this.store && this.store.location.lng;
+    return this.store && this.store.location.coords.coordinates[0];
   }
 
   mapClicked($event: MouseEvent) {
-    this.store.location.lat = $event.coords.lat;
-    this.store.location.lng = $event.coords.lng;
+    this.store.location.coords.coordinates[0] = $event.coords.lng;
+    this.store.location.coords.coordinates[1] = $event.coords.lat;
+    
   }
 
   ngOnDestroy() {
