@@ -2,7 +2,7 @@
 
 <div class="row main-row flex-s">
     <div class="map-col col s0 m0 l5">
-        <store-map [stores]='stores' [zoom]=5 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
+        <store-map *ngIf='lat' [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
     <div class="cards-col col s12 m12 l7">
         <div class="row form-filter-list z-depth-1">
