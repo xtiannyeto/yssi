@@ -1,18 +1,8 @@
-<div>
+<div class="row container">
+    <div class="input-field">
+        <input placeholder="search..." id="home-search-bar" type="search" class="form-control z-depth-5 " style="background-color: #fff !important;
+    border-bottom: none !important;" />
+        <i class="material-icons">search</i>
+    </div>
     <a button [routerLink]="['/stores']"> Enter</a>
-</div>
-
-<!-- Modal Trigger -->
-<a class="waves-effect waves-light btn modal-trigger" (click)="openModal()">Modal</a>
-
-<!-- Modal Structure -->
-<div id="modal1" class="modal" materialize="leanModal" [materializeActions]="modalActions">
-    <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-        <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
 </div>
