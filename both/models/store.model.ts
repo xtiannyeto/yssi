@@ -5,7 +5,7 @@ export interface Store extends CollectionObject {
   description: string;
   location: YssiLocation;
   createDate: Date;
-  updateDate?:Date;
+  updateDate?: Date;
   activities?: string[];
   images?: string[];
   owner?: string;
@@ -15,6 +15,9 @@ export interface Store extends CollectionObject {
 export interface YssiLocation {
   name: string;
   address: string;
-  lat?: number;
-  lng?: number;
+  coords: {
+    type: 'Point',
+    coordinates: [number, number]
+  }
+
 }
