@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -19,7 +19,7 @@ import 'rxjs/add/operator/concat';
 import * as _ from "lodash";
 
 import { Stores } from '../../../../both/collections/stores.collection';
-import { Store } from '../../../../both/models/store.model';
+import { Store, YssiLocation } from '../../../../both/models/store.model';
 
 import template from './stores-list.component.html';
 import style from './stores-list.component.scss';
@@ -70,63 +70,80 @@ export class StoresListComponent implements OnInit, OnDestroy {
   dateFilter: string = "list-date-filter";
   locationFilter: string = "list-location-filter";
   nameFilter: string = "list-name-filter";
+  currentLocation: any;
+  paramsSub: Subscription;
 
-
-  constructor(private router: Router, private paginationService: PaginationService, private componentService: AppComponentService) {
+  constructor(private router: Router, private paginationService: PaginationService, private componentService: AppComponentService, private route: ActivatedRoute, ) {
 
   }
 
   ngOnInit() {
-    this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
-    this.componentService.getData().subscribe(data => {
-      this.search(data);
-    });
 
-    this.optionsSub = Observable.combineLatest(
-      this.limit,
-      this.skip,
-      this.searchValue
-    ).subscribe(([limit, skip, searchValue]) => {
-
-      const options: Options = {
-        limit: limit,
-        skip: skip
-      };
-
-      this.paginationService.setCurrentPage(this.paginationService.defaultId(), this.curPage.getValue() as number);
-
-      if (this.storesSub) {
-        this.storesSub.unsubscribe();
+    this.paramsSub = this.route.params.subscribe((params: Params) => {
+      this.lng = this.componentService.decodeThis(params['lng']);
+      this.lat = this.componentService.decodeThis(params['lat']);
+      
+      if (this.lng === undefined || this.lat === undefined) {
+        
+        this.currentLocation = this.componentService.getLocation().getValue();
+        
+        if (this.currentLocation == null || this.currentLocation === undefined) {
+          this.router.navigate(['/']);
+        }
+        this.lng = this.currentLocation.lng;
+        this.lat = this.currentLocation.lat;
       }
-      this.storesSub = MeteorObservable.subscribe('stores', options, searchValue).subscribe(() => {
-        Stores.find({}).subscribe((data) => {
-          this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
+
+
+      this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
+      this.componentService.getData().subscribe(data => {
+        this.search(data);
+      });
+
+      this.optionsSub = Observable.combineLatest(
+        this.limit,
+        this.skip,
+        this.searchValue
+      ).subscribe(([limit, skip, searchValue]) => {
+
+        const options: Options = {
+          limit: limit,
+          skip: skip
+        };
+
+        this.paginationService.setCurrentPage(this.paginationService.defaultId(), this.curPage.getValue() as number);
+
+        if (this.storesSub) {
+          this.storesSub.unsubscribe();
+        }
+        this.storesSub = MeteorObservable.subscribe('stores', {'lng' : this.lng, 'lat' : this.lat}, options, searchValue).subscribe(() => {
+          Stores.find({}).subscribe((data) => {
+            this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
+          });
         });
       });
+
+      this.paginationService.register({
+        id: this.paginationService.defaultId(),
+        itemsPerPage: 10,
+        currentPage: 1,
+        totalItems: this.storesSize,
+      });
+
+      this.pageSize.next(10);
+      this.curPage.next(1);
+      this.nameOrder.next(1);
+      this.searchValue.next('');
+
+      this.limit.next(this.pageSize.getValue());
+      this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
+
+      this.autorunSub = MeteorObservable.autorun().subscribe(() => {
+        this.storesSize = Counts.get('numberOfStores');
+        this.paginationService.setTotalItems(this.paginationService.defaultId(), this.storesSize);
+      });
+
     });
-
-    this.paginationService.register({
-      id: this.paginationService.defaultId(),
-      itemsPerPage: 10,
-      currentPage: 1,
-      totalItems: this.storesSize,
-    });
-
-    this.pageSize.next(10);
-    this.curPage.next(1);
-    this.nameOrder.next(1);
-    this.searchValue.next('');
-
-    this.limit.next(this.pageSize.getValue());
-    this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
-
-    this.autorunSub = MeteorObservable.autorun().subscribe(() => {
-      this.storesSize = Counts.get('numberOfStores');
-      this.paginationService.setTotalItems(this.paginationService.defaultId(), this.storesSize);
-    });
-
-    this.lat = 10;
-    this.lng = 20;
   }
 
   ngOnChanges(changes) {
@@ -160,7 +177,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.stores = _.orderBy(this.stores, this.getFilter(this.filter.getValue()), this.ascOrDesc.getValue());
   }
 
-  changeOrder(order:string){
+  changeOrder(order: string) {
     this.ascOrDesc.next(order);
     this.stores = _.orderBy(this.stores, this.getFilter(this.filter.getValue()), this.ascOrDesc.getValue());
   }
@@ -179,7 +196,6 @@ export class StoresListComponent implements OnInit, OnDestroy {
       this.curPage.next(nextCurPage);
       this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
     }
-
   }
 
   isLoggedIn() {
@@ -226,13 +242,11 @@ export class StoresListComponent implements OnInit, OnDestroy {
     }
   }
 
-  hideAscOrDesc(ascOrDesc:string){
+  hideAscOrDesc(ascOrDesc: string) {
 
-    if(ascOrDesc == this.ascOrDesc.getValue()){
-      console.log(ascOrDesc);
+    if (ascOrDesc == this.ascOrDesc.getValue()) {
       return false;
     }
-    console.log(ascOrDesc);
     return true;
   }
 

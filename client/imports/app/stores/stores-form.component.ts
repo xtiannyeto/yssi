@@ -42,7 +42,7 @@ export class StoresFormComponent implements OnInit {
 
   user: Meteor.User;
   addForm: FormGroup;
-  newStorePosition: { lat: number, lng: number } = { lat: 37.4292, lng: -122.1381 };
+  newStorePosition: {lng: number, lat: number };
   stores: Store[] = [];
   store: Store;
   images: string[] = [];
@@ -66,7 +66,9 @@ export class StoresFormComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private componentService: AppComponentService
-  ) { }
+  ) {
+    this.newStorePosition = componentService.getLocation().getValue();
+   }
 
   ngOnInit() {
     this.addForm = this.formBuilder.group({
@@ -124,7 +126,7 @@ export class StoresFormComponent implements OnInit {
           
           
           this.storeLocation = this.store.location;
-          this.map.mapUpdate(this.storeLocation.lat, this.storeLocation.lng);
+          this.map.mapUpdate(this.storeLocation.coords.coordinates[0], this.storeLocation.coords.coordinates[1]);
 
           this.componentService.onSaveForm.subscribe(data => {
             this.updateStore();
