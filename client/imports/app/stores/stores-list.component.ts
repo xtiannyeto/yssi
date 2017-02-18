@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -59,7 +60,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
   options: Options;
   storesSize: number = 0;
   autorunSub: Subscription;
-  searchValue: Subject<string> = new Subject<string>();
+  searchValue: BehaviorSubject<string> = new BehaviorSubject<string>("");
   user: Meteor.User;
   isFullMapView: boolean;
   actionButton: string = "add";
@@ -72,30 +73,38 @@ export class StoresListComponent implements OnInit, OnDestroy {
   nameFilter: string = "list-name-filter";
   currentLocation: any;
   paramsSub: Subscription;
+  filterForm: FormGroup;
 
-  constructor(private router: Router, private paginationService: PaginationService, private componentService: AppComponentService, private route: ActivatedRoute, ) {
+  constructor(
+    private router: Router,
+    private paginationService: PaginationService,
+    private componentService: AppComponentService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder) {
 
   }
 
   ngOnInit() {
 
+    this.filterForm = this.formBuilder.group({
+      date: [true, Validators.required],
+      location: [false, Validators.required],
+      name: [false, Validators.required]
+    });
+
     this.paramsSub = this.route.params.subscribe((params: Params) => {
+
       this.lng = this.componentService.decodeThis(params['lng']);
       this.lat = this.componentService.decodeThis(params['lat']);
-      
-      if (this.lng === undefined || this.lat === undefined) {
-        
-        this.currentLocation = this.componentService.getLocation().getValue();
-        
-        if (this.currentLocation == null || this.currentLocation === undefined) {
-          this.router.navigate(['/']);
-        }
-        this.lng = this.currentLocation.lng;
-        this.lat = this.currentLocation.lat;
+
+      this.getLngLatFromRoute(params);
+
+      if (this.componentService.getData().getValue() == null) {
+        this.componentService.updateData(this.componentService.decodeThisString(params['search']));
       }
 
-
       this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
+      
       this.componentService.getData().subscribe(data => {
         this.search(data);
       });
@@ -116,7 +125,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
         if (this.storesSub) {
           this.storesSub.unsubscribe();
         }
-        this.storesSub = MeteorObservable.subscribe('stores', {'lng' : this.lng, 'lat' : this.lat}, options, searchValue).subscribe(() => {
+        this.storesSub = MeteorObservable.subscribe('stores', { 'lng': this.lng, 'lat': this.lat }, options, searchValue).subscribe(() => {
           Stores.find({}).subscribe((data) => {
             this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
           });
@@ -133,7 +142,6 @@ export class StoresListComponent implements OnInit, OnDestroy {
       this.pageSize.next(10);
       this.curPage.next(1);
       this.nameOrder.next(1);
-      this.searchValue.next('');
 
       this.limit.next(this.pageSize.getValue());
       this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
@@ -154,6 +162,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.optionsSub.unsubscribe();
     this.autorunSub.unsubscribe();
     this.imagesSubs.unsubscribe();
+    this.paramsSub.unsubscribe();
   }
 
   isOwner(store: Store) {
@@ -248,6 +257,31 @@ export class StoresListComponent implements OnInit, OnDestroy {
       return false;
     }
     return true;
+  }
+
+  getLngLatFromRoute(params: Params) {
+
+    this.lng = this.componentService.decodeThis(params['lng']);
+    this.lat = this.componentService.decodeThis(params['lat']);
+
+    if (this.lng === undefined || this.lat === undefined) {
+
+      this.currentLocationIsUndefinedIRouteBackOrISetIt();
+
+    } else {
+      this.componentService.updateLocation(this.lng, this.lat);
+    }
+  }
+
+  currentLocationIsUndefinedIRouteBackOrISetIt() {
+
+    this.currentLocation = this.componentService.getLocation().getValue();
+    if (this.currentLocation == null || this.currentLocation === undefined) {
+      this.router.navigate(['/']);
+    }
+
+    this.lng = this.currentLocation.lng;
+    this.lat = this.currentLocation.lat;
   }
 
 }
