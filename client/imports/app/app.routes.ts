@@ -10,6 +10,7 @@ import {HomeComponent} from "./home/home.component";
  
 export const routes: Route[] = [
   { path: '', component: HomeComponent },
+  { path: 'stores/:lng/:lat/:search', component: StoresListComponent },
   { path: 'stores/:lng/:lat', component: StoresListComponent },
   { path: 'store/:storeId', component: StoreDetailsComponent , canActivate: ['canActivateForLoggedIn']},// for action on loggin only
   { path: 'update/:storeId', component: StoresFormComponent , canActivate: ['canActivateForLoggedIn']},
