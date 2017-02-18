@@ -2,6 +2,7 @@ import { Directive, OnDestroy, OnInit, OnChanges, Input } from '@angular/core';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
 import { DisplayMainThumbPipe } from "../shared/display-main-thumb.pipe";
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import 'js-marker-clusterer/src/markerclusterer.js';
 
@@ -21,7 +22,7 @@ export class StoresMapMarkerCluster implements OnInit {
   markerCluster: any;
   markers: any = [];
 
-  constructor(private gmapsApi: GoogleMapsAPIWrapper) { }
+  constructor(private gmapsApi: GoogleMapsAPIWrapper, private router:Router) { }
 
   ngOnInit() {
 
@@ -62,20 +63,21 @@ export class StoresMapMarkerCluster implements OnInit {
               position: new google.maps.LatLng(store.location.coords.coordinates[1], store.location.coords.coordinates[0]),
               icon: markerIcon
             });
-            /*let infowindow = new google.maps.InfoWindow({
+            let infowindow = new google.maps.InfoWindow({
               content: this.createInfoContent(store)
-            });*/
-            marker.addListener('click', function () {
-              map.setZoom(8);
-              map.setCenter(marker.getPosition());
             });
+            
+            marker.addListener('click', () => {
+              this.router.navigate(["/store", store._id]);
+            });
+
             marker.addListener('mouseover', function () {
               infowindow.open(map, marker);
             });
             marker.addListener('mouseout', function () {
               infowindow.close(map, marker);
             });
-
+            
             this.markers.push(marker);
           }
 
