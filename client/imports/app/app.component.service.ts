@@ -9,9 +9,9 @@ import { YssiLocation } from '../../../both/models/store.model';
 @Injectable()
 export class AppComponentService {
 
-    private searchValue = new BehaviorSubject("");
+    private searchValue = new BehaviorSubject(null);
     private ownerValue = new BehaviorSubject("");
-    private yssiLocation = new BehaviorSubject<any>(null);
+    private yssiLocation = new BehaviorSubject<YssiLocation>(null);
     private onLocationChange: EventEmitter<YssiLocation> = new EventEmitter<YssiLocation>();
     public onSaveForm: EventEmitter<boolean> = new EventEmitter<boolean>();
     public onEditForm: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -21,8 +21,9 @@ export class AppComponentService {
     }
 
     updateLocation(lng: number, lat: number) {
-        this.yssiLocation.next({'lng': lng, 'lat': lat });
+        this.yssiLocation.next({"name": "", "address": "", "coords": { "type": 'Point', "coordinates": [lng, lat] }});
     }
+
     updateData(data: string) {
         this.searchValue.next(data);
     }
@@ -46,11 +47,31 @@ export class AppComponentService {
         return this.yssiLocation;
     }
 
-    encodeThis(float: number) {
-        return window.btoa(float.toString());
+    encodeThis(value: number) {
+        if(value == null || value === undefined){
+            return "";
+        }
+        return window.btoa(value.toString());
     }
-    decodeThis(encodeString:string){
-       return  parseFloat(window.atob(encodeString));
+    decodeThis(value: string) {
+        if(value == null || value === undefined){
+            return 0;
+        }
+        return parseFloat(window.atob(value));
+    }
+
+    encodeThisString(value:string){
+        if(value == null || value === undefined){
+            return "";
+        }
+         return window.btoa(encodeURI(value));
+    }
+
+    decodeThisString(value:string){
+        if(value == null || value === undefined){
+            return "";
+        }
+         return decodeURI(window.atob(value));
     }
 
 }
