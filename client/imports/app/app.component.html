@@ -12,7 +12,7 @@
     <nav class="white">
         <div class="nav-wrapper">
             <a [ngClass]="{'right': isLoggedIn()}" class="brand-logo  hide-on-med-and-down" [routerLink]="['/']">Brand</a>
-            <span [hidden]="!isLoggedIn()" class="left">
+            <span [hidden]="!isLoggedIn()" class="left icon-menu">
                 <a [hidden]="!isStoreOrHome()" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
                     <i class="material-icons">menu</i>
                 </a>
@@ -27,17 +27,17 @@
                 <li><a materialize="leanModal" class="modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
                 <li><a materialize="leanModal" class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
             </ul>
-            <form id="nav-search">
-                <ul class="inline contain-search">
+            <form id="nav-search" [formGroup]="searchForm">
+                <ul [style.display]="mustHideSearchForm()?'none':'inherit'" class="inline contain-search">
                     <li class="input-field">
-                        <input id="nav-search-location" placeholder="Where..." type="search" required>
+                        <input formControlName="place" id="nav-search-location" placeholder="Where..." type="search" required>
                         <label for="search"><i class="material-icons">location_on</i></label>
-                        <i class="material-icons">close</i>
+                        <i (click)="clearSearchLocation()" class="material-icons">close</i>
                     </li>
                     <li class="input-field">
-                        <input #searchtext (keyup)="updateData($event.target.value)" placeholder="What..." id="search" type="search" required>
+                        <input formControlName="searchText" (keyup)="updateData($event.target.value)" placeholder="What..." id="search" type="search" required>
                         <label for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
+                        <i (click)="clearSearchText()" class="material-icons">close</i>
                     </li>
                 </ul>
             </form>

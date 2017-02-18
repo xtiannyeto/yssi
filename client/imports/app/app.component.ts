@@ -1,15 +1,15 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter, NgZone, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
+import { Subscription } from 'rxjs/Subscription';
 import { Stores } from '../../../both/collections/stores.collection';
 import { Store, YssiLocation } from '../../../both/models/store.model';
 
 import template from './app.component.html';
 import style from './app.component.scss';
 
-import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
@@ -34,17 +34,39 @@ export class AppComponent implements OnInit {
   toastIsLoggedInMessage: string = "You have to be connected to add your store";
   path: string[];
   currentLocation: YssiLocation;
+  searchForm: FormGroup;
+  paramsSub: Subscription;
+  searchLocation: EventEmitter<YssiLocation> = new EventEmitter<YssiLocation>();
 
   constructor(
     private router: Router,
     private componentService: AppComponentService,
     location: Location,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
-    private mapService: StoreMapComponentService
+    private mapService: StoreMapComponentService,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) { this.location = location; }
 
   ngOnInit() {
+
+    this.searchForm = this.formBuilder.group({
+      place: ['', Validators.required],
+      searchText: ['', Validators.required],
+    });
+
+    this.componentService.getData().subscribe(data => {
+      this.componentService.getLocation().subscribe(location => {
+
+        if (location == null || location === undefined) {
+          this.searchForm.patchValue({ place: '', searchText: data });
+          return;
+        }
+        this.mapService.namePlaceByCoords(this.searchLocation, location.coords.coordinates[0], location.coords.coordinates[1]);
+        this.searchLocation.subscribe(data2 => {
+          this.searchForm.patchValue({ place: data2.name, searchText: data });
+        });
+      });
+    });
     this.mapService.setPlaces('nav-search-location', true);
   }
 
@@ -61,8 +83,6 @@ export class AppComponent implements OnInit {
     }
 
   }
-
-
 
   isLoggedIn() {
     if (!Meteor.userId()) {
@@ -128,13 +148,27 @@ export class AppComponent implements OnInit {
 
   hasLocation() {
     this.currentLocation = this.componentService.getLocation().getValue();
+    this.searchValue = this.componentService.getData().getValue();
 
     if (this.currentLocation == null || this.currentLocation === undefined) {
       this.router.navigate(['/']);
       return;
     }
     this.router.navigate(["stores", this.componentService.encodeThis(this.currentLocation.coords.coordinates[0]),
-      this.componentService.encodeThis(this.currentLocation.coords.coordinates[1])
+      this.componentService.encodeThis(this.currentLocation.coords.coordinates[1]),
+      this.componentService.encodeThisString(this.searchValue)
     ]);
+  }
+
+  mustHideSearchForm() {
+    return this.location.path().split("/")[1] === undefined;
+  }
+
+  clearSearchLocation() {
+    this.searchForm.patchValue({ place: '', searchText: this.searchForm.value.searchText });
+  }
+  clearSearchText() {
+    this.searchForm.patchValue({ place: this.searchForm.value.place, searchText: "" });
+    this.componentService.updateData("");
   }
 }
