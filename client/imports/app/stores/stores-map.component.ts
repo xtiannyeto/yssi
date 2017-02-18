@@ -10,6 +10,8 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 
+import { StoreMapComponentService } from '../shared/services/store-map.component.service';
+
 import { Meteor } from 'meteor/meteor';
 
 import 'rxjs/add/operator/combineLatest';
@@ -52,10 +54,11 @@ export class StoresMapComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private mapsAPILoader: MapsAPILoader, 
+    private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    location: Location
-    ) { this.location = location; }
+    location: Location,
+    private mapService: StoreMapComponentService,
+  ) { this.location = location; }
 
   ngOnInit() {
 
@@ -73,6 +76,7 @@ export class StoresMapComponent implements OnInit, OnDestroy {
           }
         });
       });
+
     });
   }
 
@@ -87,36 +91,21 @@ export class StoresMapComponent implements OnInit, OnDestroy {
       return;
     }
     this.mapClickedSetPlace($event.coords.lng, $event.coords.lat);
-
   }
+
+
+  dragEnd($event: MouseEvent) {
+    this.mapClicked($event);
+  }
+
 
   mapClickedSetPlace(lng: number, lat: number) {
 
     this.clickLat = lat;
     this.clickLng = lng;
 
-    let place = { 'location': { lng: this.clickLng, lat: this.clickLat } };
-    this.geocoder.geocode(place, (results, status) => {
+    this.mapService.namePlaceByCoords(this.onSelectLocation, lng, lat);
 
-      let selectLocation: YssiLocation = {
-        name: "", address: "", coords: {
-          type: 'Point',
-          coordinates: [0, 0]
-        }
-      };
-      let adress: any;
-      let name: any;
-
-      this.selectLocation.coords.coordinates[0] = place.location.lng;
-      this.selectLocation.coords.coordinates[1] = place.location.lat;
-
-      if (!(results === undefined) && !(results == null) && results.length > 0) {
-
-        this.selectLocation.address = results[0] === undefined ? "" : results[0].formatted_address;
-        this.selectLocation.name = results[0] === undefined ? "" : results[1].formatted_address;
-        this.onSelectLocation.emit(this.selectLocation);
-      }
-    });
   }
   mapUpdate(lng: number, lat: number) {
     this.zoom = 16;

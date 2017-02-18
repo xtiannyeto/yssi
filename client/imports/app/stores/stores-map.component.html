@@ -10,6 +10,6 @@
         <sebm-google-map-marker *ngIf="store.location" (markerClick)="clickedMarker(store.name, i)" [latitude]="store.location.lat" [longitude]="store.location.lng" [iconUrl]="markerIcon">
         </sebm-google-map-marker>
     </div> -->
-    <sebm-google-map-marker *ngIf="isAddAndHasMarker()" [latitude]="clickLat" [longitude]="clickLng" [markerDraggable]="true">
+    <sebm-google-map-marker *ngIf="isAddAndHasMarker()" [latitude]="clickLat" [longitude]="clickLng" [markerDraggable]="true" (dragEnd)="dragEnd($event)" [iconUrl]="markerIcon">
     </sebm-google-map-marker>
 </sebm-google-map>
