@@ -1,8 +1,17 @@
 <div class="row container">
-    <div class="input-field">
-        <input placeholder="search..." id="home-search-bar" type="search" class="form-control z-depth-5 " style="background-color: #fff !important;
-    border-bottom: none !important;" />
-        <i class="material-icons">search</i>
-    </div>
-    <a button [routerLink]="['/stores']"> Enter</a>
+
+    <ul class="inline">
+        <form id="form-home" [formGroup]="searchForm">
+            <li class="input-field col s5">
+                <input formControlName="place" required placeholder="Where..." id="home-search-bar" type="search" class="search-bar form-control z-depth-5 " />
+            </li>
+            <li class="input-field col s5">
+                <input formControlName="searchText" placeholder="What..." type="search" class="search-bar form-control z-depth-5 " />
+            </li>
+        </form>
+        <li id="home-search-btn" class="input-field col s2">
+            <button class="waves-light btn" (click)="submitSearch()"><i class="material-icons">search</i></button>
+        </li>
+    </ul>
+
 </div>
