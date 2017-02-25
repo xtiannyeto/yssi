@@ -1,5 +1,6 @@
 
 import { Component, OnInit, EventEmitter, Injectable, NgZone } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { Router } from '@angular/router';
 import { AppComponentService } from '../../app.component.service';
@@ -10,6 +11,9 @@ import { YssiLocation } from '../../../../../both/models/store.model';
 @Injectable()
 export class StoreMapComponentService {
 
+    private zoomDirection = new BehaviorSubject(0);
+    private zoom: number = 12;
+
     constructor(
         private router: Router,
         private componentService: AppComponentService,
@@ -17,6 +21,19 @@ export class StoreMapComponentService {
         private ngZone: NgZone
     ) {
 
+    }
+    getZoom() {
+        return this.zoomDirection;
+    }
+
+    updateZoom(zoom: number) {
+        console.log(zoom);
+        console.log(this.zoom);
+        if (zoom == null || zoom === undefined) {
+            return;
+        }
+        this.zoomDirection.next(zoom - this.zoom);
+        this.zoom = zoom;
     }
 
     setPlaces(id: string, isRouteAfter: boolean) {
@@ -74,7 +91,13 @@ export class StoreMapComponentService {
         if (!isRouteAfter) {
             return;
         }
-        this.routeToStores(lng, lat, "");
+        this.routeToStoresNoSearch(lng, lat);
+    }
+
+    routeToStoresNoSearch(lng: number, lat: number) {
+        this.router.navigate(['/stores', this.componentService.encodeThis(lng),
+            this.componentService.encodeThis(lat)
+        ]);
     }
 
     routeToStores(lng: number, lat: number, searchValue: string) {
@@ -86,7 +109,7 @@ export class StoreMapComponentService {
 
     toStores() {
         let location: YssiLocation = this.componentService.getLocation().getValue();
-        if(location==null){
+        if (location == null) {
             return;
         }
         let searchValue: string = this.componentService.getData().getValue();
