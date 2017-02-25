@@ -51,6 +51,8 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
+    this.componentService.setUrl("store");
     this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.paramsSub = this.route.params
       .map(params => params['storeId'])
@@ -113,13 +115,19 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
   mapClicked($event: MouseEvent) {
     this.store.location.coords.coordinates[0] = $event.coords.lng;
     this.store.location.coords.coordinates[1] = $event.coords.lat;
-    
+
   }
 
   ngOnDestroy() {
-    this.paramsSub.unsubscribe();
-    this.storeSub.unsubscribe();
-    this.storeSub.unsubscribe();
-    this.imagesSubs.unsubscribe();
+    if (!(this.paramsSub === undefined)) {
+      this.paramsSub.unsubscribe();
+    }
+    if (!(this.storeSub === undefined)) {
+      this.storeSub.unsubscribe();
+    }
+
+    if (!(this.imagesSubs === undefined)) {
+      this.imagesSubs.unsubscribe();
+    }
   }
 }
