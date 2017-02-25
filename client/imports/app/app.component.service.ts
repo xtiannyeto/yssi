@@ -2,6 +2,7 @@
 import { Component, OnInit, EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
+import { Location } from '@angular/common';
 
 import { User } from '../../../both/models/user.model';
 import { YssiLocation } from '../../../both/models/store.model';
@@ -12,16 +13,25 @@ export class AppComponentService {
     private searchValue = new BehaviorSubject(null);
     private ownerValue = new BehaviorSubject("");
     private yssiLocation = new BehaviorSubject<YssiLocation>(null);
+    private urlLocation = new BehaviorSubject("");
     private onLocationChange: EventEmitter<YssiLocation> = new EventEmitter<YssiLocation>();
     public onSaveForm: EventEmitter<boolean> = new EventEmitter<boolean>();
     public onEditForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    getUrl() {
+        return this.urlLocation;
+    }
+    
+    setUrl(location:string){
+        this.urlLocation.next(location);
+    }
 
     getData() {
         return this.searchValue;
     }
 
     updateLocation(lng: number, lat: number) {
-        this.yssiLocation.next({"name": "", "address": "", "coords": { "type": 'Point', "coordinates": [lng, lat] }});
+        this.yssiLocation.next({ "name": "", "address": "", "coords": { "type": 'Point', "coordinates": [lng, lat] } });
     }
 
     updateData(data: string) {
@@ -48,30 +58,30 @@ export class AppComponentService {
     }
 
     encodeThis(value: number) {
-        if(value == null || value === undefined){
+        if (value == null || value === undefined) {
             return "";
         }
         return window.btoa(value.toString());
     }
     decodeThis(value: string) {
-        if(value == null || value === undefined){
+        if (value == null || value === undefined) {
             return 0;
         }
         return parseFloat(window.atob(value));
     }
 
-    encodeThisString(value:string){
-        if(value == null || value === undefined){
+    encodeThisString(value: string) {
+        if (value == null || value === undefined) {
             return "";
         }
-         return window.btoa(encodeURI(value));
+        return window.btoa(encodeURI(value));
     }
 
-    decodeThisString(value:string){
-        if(value == null || value === undefined){
+    decodeThisString(value: string) {
+        if (value == null || value === undefined) {
             return "";
         }
-         return decodeURI(window.atob(value));
+        return decodeURI(window.atob(value));
     }
 
 }
