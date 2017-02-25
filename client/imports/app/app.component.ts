@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, ViewChild, HostListener, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -32,11 +32,12 @@ export class AppComponent implements OnInit {
   searchValue: string;
   searchdelete: boolean = false;
   toastIsLoggedInMessage: string = "You have to be connected to add your store";
-  path: string[];
+  path: string;
   currentLocation: YssiLocation;
   searchForm: FormGroup;
   paramsSub: Subscription;
   searchLocation: EventEmitter<YssiLocation> = new EventEmitter<YssiLocation>();
+  onScroll: boolean = false;
 
   constructor(
     private router: Router,
@@ -48,6 +49,13 @@ export class AppComponent implements OnInit {
   ) { this.location = location; }
 
   ngOnInit() {
+
+
+    this.componentService.getUrl().subscribe((url) => {
+      this.path = url;
+      console.log(this.path);
+      this.onScroll = !this.mustHideSearchForm();
+    });
 
     this.searchForm = this.formBuilder.group({
       place: ['', Validators.required],
@@ -100,34 +108,25 @@ export class AppComponent implements OnInit {
   }
 
   isStoreOrHome() {
-    return this.location.isCurrentPathEqualTo('/') || this.location.path().split("/")[1] == 'stores';
+    return this.path == "home" || this.path == 'stores';
   }
   saveForm() {
     this.componentService.saveForm();
   }
 
   isOnStore() {
-    return this.location.path().split("/")[1] == 'store' || this.location.path().split("/")[1] == 'stores';
+    return this.path == 'store' || this.path == 'stores';
   }
 
   onStoreAndIsOwner() {
     if (!this.isLoggedIn()) {
       return false;
     }
-    var path = this.location.path().split("/");
-
-    if (path === undefined) {
-      return false;
-    }
-    var root = path[1];
-    if (root === undefined) {
-      return false;
-    }
 
     if (!(this.componentService.getOwner().getValue() == Meteor.userId())) {
       return false;
     }
-    return root == "store";
+    return this.path == "store";
   }
 
   showAddButton() {
@@ -135,7 +134,7 @@ export class AppComponent implements OnInit {
   }
 
   showSaveButton() {
-    return this.location.path().split("/")[1] == 'add' || this.location.path().split("/")[1] == 'update';
+    return this.path == 'add' || this.path == 'update';
   }
 
   showEditButton() {
@@ -161,7 +160,7 @@ export class AppComponent implements OnInit {
   }
 
   mustHideSearchForm() {
-    return this.location.path().split("/")[1] === undefined;
+    return this.path == "home";
   }
 
   clearSearchLocation() {
@@ -170,5 +169,17 @@ export class AppComponent implements OnInit {
   clearSearchText() {
     this.searchForm.patchValue({ place: this.searchForm.value.place, searchText: "" });
     this.componentService.updateData("");
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScrollEvent(event) {
+    if(!this.mustHideSearchForm()){
+      return;
+    }
+    this.onScroll = document.body.scrollTop > 100;
+  }
+
+  ngOnDestroy() {
+    this.paramsSub.unsubscribe();
   }
 }
