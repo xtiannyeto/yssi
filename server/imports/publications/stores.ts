@@ -4,25 +4,32 @@ import { Stores } from '../../../both/collections/stores.collection';
 
 
 interface Options {
-  [key: string]: any;
+  lng:number, 
+  lat:number, 
+  step:number, 
+  distance:number,
+  search:string
 }
 
-Meteor.publish('stores', function (coords: any, options: Options, searchValue?: string) {
+interface OptionsDb {
+  [key: string]: any
+}
 
-  console.log(coords);
 
-  const selector = buildQuery.call(this, null, coords, searchValue);
+Meteor.publish('stores', function (options: Options, optionsDb:OptionsDb) {
+
+  const selector = buildQuery.call(this, null, options);
 
   Counts.publish(this, 'numberOfStores', Stores.collection.find(selector), { noReady: true });
 
-  return Stores.find(selector, options);
+  return Stores.find(selector, optionsDb);
 });
 
 Meteor.publish('store', function (storeId: string) {
-  return Stores.find(buildQuery.call(this, storeId));
+  return Stores.find(buildQuery.call(this, storeId, null));
 });
 
-function buildQuery(storeId?: string, coords?: any, searchValue?: string): Object {
+function buildQuery(storeId?: string, options?: Options): Object {
   const isAvailable = {
   };
 
@@ -36,7 +43,7 @@ function buildQuery(storeId?: string, coords?: any, searchValue?: string): Objec
     };
   }
 
-  const searchRegEx = { '$regex': '.*' + (searchValue || '') + '.*', '$options': 'i' };
+  const searchRegEx = { '$regex': '.*' + (options.search || '') + '.*', '$options': 'i' };
 
   return {
     $and: [
@@ -44,8 +51,8 @@ function buildQuery(storeId?: string, coords?: any, searchValue?: string): Objec
       "location.coords":
        { $near :
           {
-            $geometry: { type: "Point",  coordinates: [ coords.lng, coords.lat ] },
-            $maxDistance: 500000
+            $geometry: { type: "Point",  coordinates: [ options.lng, options.lat ] },
+            $maxDistance: 500000//options.distance+options.step
           }
        }
     },
