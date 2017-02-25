@@ -98,6 +98,7 @@ export class StoresFormComponent implements OnInit {
   }
 
   addStoreInit() {
+    this.componentService.setUrl("add");
     this.componentService.onSaveForm.subscribe(data => {
       if (data) {
         this.addStore();
@@ -106,6 +107,7 @@ export class StoresFormComponent implements OnInit {
   }
 
   updateStoreInit() {
+    this.componentService.setUrl("update");
     this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
     this.paramsSub = this.route.params
       .map(params => params['storeId'])
