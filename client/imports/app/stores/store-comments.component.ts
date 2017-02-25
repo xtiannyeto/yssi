@@ -76,7 +76,7 @@ export class StoreCommentsComponent implements OnInit, OnDestroy {
     }
 
     getNote(note: number) {
-        let grade: string[] =[];
+        let grade: string[] = [];
         for (var i = 0; i < note; i++) {
             grade.push("grade");
         }
@@ -84,6 +84,11 @@ export class StoreCommentsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.commentSub.unsubscribe();
+        if (!(this.commentSub === undefined)) {
+            this.commentSub.unsubscribe();
+        }
+        if (!(this.ownerSub === undefined)) {
+            this.ownerSub.unsubscribe();
+        }
     }
 }
