@@ -6,7 +6,7 @@
     </div>
     <div class="cards-col col s12 m12 l7">
         <div class="row form-filter-list z-depth-1">
-            <form class="row col s12">
+            <form [formGroup]="filterForm" class="row col s12">
                 <ul class="col s4 inline group-filter">
                     <li class="">
                         <input #dateFilter class="with-gap" name="list-filter" type="radio" id="list-date-filter" (change)="changeSort(dateFilter.id)" />
@@ -55,7 +55,7 @@
                             </span>
                         </div>
                         <div class="card-action">
-                            @{{store.location.name | displayLocation}}
+                            <span>@{{store.location.name | displayLocation}}</span>
                         </div>
                     </div>
                 </div>

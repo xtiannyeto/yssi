@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +13,8 @@ import { InfiniteScroll } from 'angular2-infinite-scroll';
 
 import { Meteor } from 'meteor/meteor';
 import { AppComponentService } from '../app.component.service';
+import { StoreMapComponentService } from '../shared/services/store-map.component.service';
+
 import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
 import 'rxjs/add/operator/combineLatest';
@@ -31,10 +33,17 @@ interface Pagination {
   skip: number;
 }
 
-interface Options extends Pagination {
+interface OptionsDb extends Pagination {
   [key: string]: any
 }
 
+interface Options {
+  lng: number,
+  lat: number,
+  step: number,
+  distance: number,
+  search: string
+}
 
 @Component({
   selector: 'store-list',
@@ -54,6 +63,8 @@ export class StoresListComponent implements OnInit, OnDestroy {
   ascOrDesc: BehaviorSubject<string> = new BehaviorSubject<string>("");
   skip: Subject<number> = new Subject<number>();
   limit: Subject<number> = new Subject<number>();
+  step: BehaviorSubject<number> = new BehaviorSubject<number>(100000);
+  distance: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   globalActions = new EventEmitter<string | MaterializeAction>();
   nameOrder: Subject<number> = new Subject<number>();
   optionsSub: Subscription;
@@ -80,12 +91,14 @@ export class StoresListComponent implements OnInit, OnDestroy {
     private paginationService: PaginationService,
     private componentService: AppComponentService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private mapService: StoreMapComponentService) {
 
   }
 
   ngOnInit() {
 
+    this.componentService.setUrl("stores");
     this.filterForm = this.formBuilder.group({
       date: [true, Validators.required],
       location: [false, Validators.required],
@@ -93,39 +106,51 @@ export class StoresListComponent implements OnInit, OnDestroy {
     });
 
     this.paramsSub = this.route.params.subscribe((params: Params) => {
-
-      this.lng = this.componentService.decodeThis(params['lng']);
-      this.lat = this.componentService.decodeThis(params['lat']);
-
       this.getLngLatFromRoute(params);
 
-      if (this.componentService.getData().getValue() == null) {
-        this.componentService.updateData(this.componentService.decodeThisString(params['search']));
+      let s: string = this.componentService.decodeThisString(params['search']);
+      if (this.componentService.getData().getValue() == null && !(s === undefined)) {
+        this.componentService.updateData(s);
       }
 
       this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
-      
-      this.componentService.getData().subscribe(data => {
-        this.search(data);
-      });
+
+      if(this.optionsSub){
+        this.optionsSub.unsubscribe();
+      }
 
       this.optionsSub = Observable.combineLatest(
-        this.limit,
+        this.step,
+        this.distance,
+        this.searchValue,
         this.skip,
-        this.searchValue
-      ).subscribe(([limit, skip, searchValue]) => {
+        this.limit
+      ).subscribe(([step, distance, searchValue, skip, limit]) => {
 
-        const options: Options = {
+        const optionsdb: OptionsDb = {
           limit: limit,
           skip: skip
         };
 
-        this.paginationService.setCurrentPage(this.paginationService.defaultId(), this.curPage.getValue() as number);
+        const options: Options = {
+          lng: this.lng,
+          lat: this.lat,
+          step: step,
+          distance: distance,
+          search: searchValue
+        };
 
         if (this.storesSub) {
+          this.stores = [];
           this.storesSub.unsubscribe();
         }
-        this.storesSub = MeteorObservable.subscribe('stores', { 'lng': this.lng, 'lat': this.lat }, options, searchValue).subscribe(() => {
+
+        if (this.paramsSub) {
+          this.stores = [];
+          this.storesSub.unsubscribe();
+        }
+
+        this.storesSub = MeteorObservable.subscribe('stores', options, optionsdb).subscribe(() => {
           Stores.find({}).subscribe((data) => {
             this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
           });
@@ -142,9 +167,14 @@ export class StoresListComponent implements OnInit, OnDestroy {
       this.pageSize.next(10);
       this.curPage.next(1);
       this.nameOrder.next(1);
+      this.paginationService.setCurrentPage(this.paginationService.defaultId(), this.curPage.getValue() as number);
 
       this.limit.next(this.pageSize.getValue());
       this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
+
+      if (this.autorunSub) {
+        this.autorunSub.unsubscribe();
+      }
 
       this.autorunSub = MeteorObservable.autorun().subscribe(() => {
         this.storesSize = Counts.get('numberOfStores');
@@ -152,17 +182,18 @@ export class StoresListComponent implements OnInit, OnDestroy {
       });
 
     });
+
+    this.componentService.getData().subscribe(data => {
+      this.search(data);
+    });
+
+    this.mapService.getZoom().subscribe(data => {
+      this.changeZoom(data);
+    });
   }
 
-  ngOnChanges(changes) {
-  }
-
-  ngOnDestroy() {
-    this.storesSub.unsubscribe();
-    this.optionsSub.unsubscribe();
-    this.autorunSub.unsubscribe();
-    this.imagesSubs.unsubscribe();
-    this.paramsSub.unsubscribe();
+  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+    //console.log(changes);
   }
 
   isOwner(store: Store) {
@@ -174,6 +205,15 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.curPage.next(1);
     this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
     this.searchValue.next(value);
+  }
+
+  changeZoom(zoom: number) {
+    console.log(zoom);
+    if (zoom > 0) {
+      this.distance.next(this.distance.getValue() - this.step.getValue());
+    } else if (zoom < 0) {
+      this.distance.next(this.distance.getValue() + this.step.getValue());
+    }
   }
 
   onPageChanged(page: number): void {
@@ -201,6 +241,8 @@ export class StoresListComponent implements OnInit, OnDestroy {
     var nextCurPage = this.curPage.getValue() + 1;
     var pageSize = this.pageSize.getValue();
 
+    //console.log(this.storesSize);
+    //console.log(nextCurPage);
     if (nextCurPage <= nbMaxPage) {
       this.curPage.next(nextCurPage);
       this.skip.next((this.curPage.getValue() - 1) * this.pageSize.getValue());
@@ -284,4 +326,24 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.lat = this.currentLocation.lat;
   }
 
+
+  ngOnDestroy() {
+    if (this.storesSub){
+      this.storesSub.unsubscribe();
+    }
+
+    if (this.optionsSub){
+      this.optionsSub.unsubscribe();
+    }
+    if (this.autorunSub){
+      this.autorunSub.unsubscribe();
+    }
+    if (this.imagesSubs){
+      this.imagesSubs.unsubscribe();
+    }
+    if (this.paramsSub){
+      this.paramsSub.unsubscribe();
+    }
+
+  }
 }
