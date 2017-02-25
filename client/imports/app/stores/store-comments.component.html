@@ -15,14 +15,12 @@
         <div class="comment-border">
             <form [formGroup]="addCommentForm" (ngSubmit)="postComment()">
                 <ul class="col s12">
-                    <li class="col s7">
+                    <li class="col s10">
                         <input formControlName="main" type="text" placeholder="Post your comment..." class="validate">
-                    </li>
-                    <li class="col s3">
                         <rating formControlName="note" [max]="5">
                         </rating>
                     </li>
-                    <li class="col s1">
+                    <li class="col s2">
                         <button class="btn waves-effect waves-light" type="submit" name="action">
                         <i class="material-icons right">send</i>
                     </button>
