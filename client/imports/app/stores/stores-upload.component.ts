@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { upload } from '../../../../both/methods/images.methods';
 import { Subject, Subscription, Observable } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
@@ -112,4 +112,9 @@ export class StoresUploadComponent {
     }
   }
 
+  ngOnDestroy() {
+    if (this.thumbsSubscription) {
+      this.thumbsSubscription.unsubscribe();
+    }
+  }
 }
