@@ -1,7 +1,7 @@
 nav a,
 nav,
 nav .input-field label.active i {
-    color: #00695c;
+    color: #43434f;
 }
 
 #nav-search .input-field {
@@ -24,4 +24,17 @@ nav .input-field label.active i {
 
 .icon-menu {
     margin-left: 2% !important;
+}
+
+.logo {
+    height: 80px;
+    margin-top: -5px;
+}
+
+.logo-wrapper {
+    margin-left: 40px
+}
+
+.home-nav-link {
+    font-weight: 400;
 }
