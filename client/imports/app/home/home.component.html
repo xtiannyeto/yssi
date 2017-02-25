@@ -1,17 +1,26 @@
-<div class="row container">
+<section class="home-container">
+    <div id="form-home" class="row container">
+        <ul class="inline">
+            <form [formGroup]="searchForm">
+                <li class="input-field col s5 search-bar ">
+                    <input id="home-search-bar" class="search-home" formControlName="place" required placeholder="Town, places, country.." />
+                    <label class="home-search-label" for="home-search-bar">WHERE</label>
+                </li>
+                <li class="input-field col s5 search-bar-1 ">
+                    <input id='home-search-tag' class="search-home" formControlName="searchText" placeholder='Shop, callBox..' />
+                    <label class="home-search-label" for="home-search-tag">WHAT</label>
+                </li>
+                <li class="input-field col search-bar-2 ">
+                    <button id="home-search-btn" class="waves-light btn-large btn-home" (click)="submitSearch()"><i class="material-icons">search</i></button>
+                </li>
+            </form>
 
-    <ul class="inline">
-        <form id="form-home" [formGroup]="searchForm">
-            <li class="input-field col s5">
-                <input formControlName="place" required placeholder="Where..." id="home-search-bar" type="search" class="search-bar form-control z-depth-5 " />
-            </li>
-            <li class="input-field col s5">
-                <input formControlName="searchText" placeholder="What..." type="search" class="search-bar form-control z-depth-5 " />
-            </li>
-        </form>
-        <li id="home-search-btn" class="input-field col s2">
-            <button class="waves-light btn" (click)="submitSearch()"><i class="material-icons">search</i></button>
-        </li>
-    </ul>
-
+        </ul>
+    </div>
+</section>
+<section>
+</section>
+<section></section>
+<div>
+    <home-footer></home-footer>
 </div>

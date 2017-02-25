@@ -29,6 +29,7 @@ export class HomeComponent {
   ) { }
 
   ngOnInit() {
+    this.componentService.setUrl("home");
     this.searchForm = this.formBuilder.group({
       place: ['', Validators.required],
       searchText: ['', Validators.required],
