@@ -9,9 +9,11 @@
         <li><a materialize="leanModal" [materializeActions]="modalActions" class="modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
         <li><a materialize="leanModal" class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
     </ul>
-    <nav class="white">
+    <nav class="nav-inddy">
         <div class="nav-wrapper">
-            <a [ngClass]="{'right': isLoggedIn()}" class="logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']"><img class="logo" src="images/logo/inddy-logo-black.png"></img>
+            <a [ngClass]="{'right': isLoggedIn()}" class="logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']">
+                <img *ngIf="onScroll" class="logo" src="images/logo/inddy-logo-black-red.png"></img>
+                <img *ngIf="!onScroll" class="logo" src="images/logo/inddy-logo-black.png"></img>
             </a>
             <span [hidden]="!isLoggedIn()" class="left icon-menu">
                 <a [hidden]="!isStoreOrHome()" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">

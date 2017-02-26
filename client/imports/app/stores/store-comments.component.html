@@ -7,7 +7,7 @@
                 <li class="comment-date">{{comment.createdDate | date: 'dd MMM yyyy'}}</li>
                 </span>
                 <p>{{comment.main}}</p>
-                <span class="secondary-content">
+                <span class="comment-note">
                 <i *ngFor="let note of getNote(comment.note)" class="material-icons">{{note}}</i>
             </span>
         </li>
