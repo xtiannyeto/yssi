@@ -9,34 +9,34 @@
             <form [formGroup]="filterForm" class="row col s12">
                 <ul class="col s4 inline group-filter">
                     <li class="">
-                        <input #dateFilter class="with-gap" name="list-filter" type="radio" id="list-date-filter" (change)="changeSort(dateFilter.id)" />
+                        <input #dateFilter class="filter-button" name="list-filter" type="radio" value="DATE" id="list-date-filter" (change)="changeSort(dateFilter.value)" checked/>
                         <label for="list-date-filter">Date</label>
                     </li>
 
-                    <li *ngIf="showFilterOrder('list-date-filter')" class="list-filter-asc-desc">
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    <li *ngIf="showFilterOrder('DATE')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="filter-button material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="filter-button material-icons">arrow_downward</i></a>
                     </li>
 
                 </ul>
                 <ul class="col s4 inline group-filter">
                     <li class="">
-                        <input #locationFilter class="with-gap" name="list-filter" type="radio" id="list-location-filter" (change)="changeSort(locationFilter.id)" />
+                        <input #locationFilter class="filter-button" name="list-filter" type="radio" value="LOCATION" id="list-location-filter" (change)="changeSort(locationFilter.value)" />
                         <label for="list-location-filter">Location</label>
                     </li>
-                    <li *ngIf="showFilterOrder('list-location-filter')" class="list-filter-asc-desc">
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    <li *ngIf="showFilterOrder('LOCATION')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="filter-button material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="filter-button material-icons">arrow_downward</i></a>
                     </li>
                 </ul>
                 <ul class="col s4 inline group-filter">
                     <li class="!">
-                        <input #nameFilter class="with-gap" name="list-filter" type="radio" id="list-name-filter" (change)="changeSort(nameFilter.id)" />
+                        <input #nameFilter class="filter-button" name="list-filter" type="radio" value="NAME" id="list-name-filter" (change)="changeSort(nameFilter.value)" />
                         <label for="list-name-filter">Name</label>
                     </li>
-                    <li *ngIf="showFilterOrder('list-name-filter')" class="list-filter-asc-desc">
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="material-icons">arrow_upward</i></a>
-                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="material-icons">arrow_downward</i></a>
+                    <li *ngIf="showFilterOrder('NAME')" class="list-filter-asc-desc">
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('asc')" (click)="changeOrder('asc')"><i class="filter-button material-icons">arrow_upward</i></a>
+                        <a href="javascript:void(0)" *ngIf="hideAscOrDesc('desc')" (click)="changeOrder('desc')"><i class="filter-button material-icons">arrow_downward</i></a>
                     </li>
                 </ul>
             </form>
@@ -55,7 +55,10 @@
                             </span>
                         </div>
                         <div class="card-action">
-                            <span>@{{store.location.name | displayLocation}}</span>
+                            <ul class="inline">
+                                <li class="left">@{{store.location.name | displayLocation}}</li>
+                                <li class="right">{{store.createDate | date: 'dd MMM yyyy'}}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

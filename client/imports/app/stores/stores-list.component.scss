@@ -101,7 +101,7 @@ store-map {
 }
 
 .form-filter-list {
-    background-color: #fff;
+    background-color: #fffdf7;
     margin-left: -10px;
     margin-right: -10px;
     margin-bottom: 10px;
@@ -125,6 +125,21 @@ store-map {
     color: #009688;
 }
 
-.form-filter-list {
-    background-color: #fff;
+.filter-button {
+    color: #43434f;
+}
+
+[type="radio"].filter-button:checked+label:before {
+    border-radius: 50%;
+    border: 2px solid #43434f;
+}
+
+[type="radio"].filter-button:checked+label:after {
+    border-radius: 50%;
+    border: 2px solid #43434f;
+    background-color: #43434f;
+}
+
+.card .card-action {
+    padding: 10px !important;
 }

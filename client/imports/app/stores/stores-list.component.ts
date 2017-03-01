@@ -79,9 +79,9 @@ export class StoresListComponent implements OnInit, OnDestroy {
   lng: number;
   toastIsLoggedInMessage: string = "You have to be connected to see more";
   imagesSubs: Subscription;
-  dateFilter: string = "list-date-filter";
-  locationFilter: string = "list-location-filter";
-  nameFilter: string = "list-name-filter";
+  dateFilter: string = "DATE";
+  locationFilter: string = "LOCATION";
+  nameFilter: string = "NAME";
   currentLocation: any;
   paramsSub: Subscription;
   filterForm: FormGroup;
@@ -100,9 +100,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
     this.componentService.setUrl("stores");
     this.filterForm = this.formBuilder.group({
-      date: [true, Validators.required],
-      location: [false, Validators.required],
-      name: [false, Validators.required]
+      orderBy: ["", Validators.required]
     });
 
     this.paramsSub = this.route.params.subscribe((params: Params) => {
@@ -154,6 +152,8 @@ export class StoresListComponent implements OnInit, OnDestroy {
           Stores.find({}).subscribe((data) => {
             this.stores = _.uniqBy(_.concat(this.stores, data), "_id");
           });
+
+          this.changeSort("DATE");
         });
       });
 
@@ -220,8 +220,9 @@ export class StoresListComponent implements OnInit, OnDestroy {
     this.curPage.next(page);
   }
 
-  changeSort(idFilter: string): void {
-    this.filter.next(idFilter);
+  changeSort(filter: string): void {
+    console.log(filter);
+    this.filter.next(filter);
     this.ascOrDesc.next("asc");
     this.stores = _.orderBy(this.stores, this.getFilter(this.filter.getValue()), this.ascOrDesc.getValue());
   }
@@ -284,11 +285,11 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
   getFilter(filter: string) {
     switch (filter) {
-      case "list-date-filter":
+      case "DATE":
         return "createDate";
-      case "list-location-filter":
+      case "LOCATION":
         return "location.name";
-      case "list-name-filter":
+      case "NAME":
         return "name";
     }
   }
