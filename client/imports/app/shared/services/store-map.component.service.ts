@@ -27,8 +27,6 @@ export class StoreMapComponentService {
     }
 
     updateZoom(zoom: number) {
-        console.log(zoom);
-        console.log(this.zoom);
         if (zoom == null || zoom === undefined) {
             return;
         }
@@ -101,7 +99,6 @@ export class StoreMapComponentService {
     }
 
     routeToStores(lng: number, lat: number, searchValue: string) {
-        console.log("IN ROUTE");
         this.router.navigate(['/stores', this.componentService.encodeThis(lng),
             this.componentService.encodeThis(lat), this.componentService.encodeThisString(searchValue)
         ]);
