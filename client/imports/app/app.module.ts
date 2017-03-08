@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,7 +13,6 @@ import { StoreMapComponentService } from './shared/services/store-map.component.
 import { FileDropModule } from "angular2-file-drop";
 import { RatingModule } from "ngx-rating";
 
-
 import { AppComponent } from './app.component';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
 import { STORES_DECLARATIONS } from './stores';
@@ -21,10 +21,9 @@ import { AUTH_DECLARATIONS } from "./auth/index";
 import { MENU_DECLARATIONS } from './menu/index';
 import { HOME_DECLARATIONS } from './home/index';
 
-
- 
 @NgModule({
   imports: [
+    HttpModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -33,7 +32,7 @@ import { HOME_DECLARATIONS } from './home/index';
     Ng2PaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDaeL6AHMfBLvCTLvQV-qeaa4YkvAkqBfk',
-      libraries: ['places'] 
+      libraries: ['places']
     }),
     InfiniteScrollModule,
     FileDropModule,
@@ -48,14 +47,14 @@ import { HOME_DECLARATIONS } from './home/index';
     HOME_DECLARATIONS,
     MaterializeDirective
   ],
-  providers : [
+  providers: [
     ROUTES_PROVIDERS,
     AppComponentService,
     StoreMapComponentService
   ],
   bootstrap: [
     AppComponent
-    
+
   ]
 })
-export class AppModule {}
+export class AppModule { }
