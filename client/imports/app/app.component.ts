@@ -28,6 +28,8 @@ import { StoreMapComponentService } from './shared/services/store-map.component.
 export class AppComponent implements OnInit {
   location: Location;
   modalActions = new EventEmitter<string | MaterializeAction>();
+  modalActionsLogin = new EventEmitter<string | MaterializeAction>();
+  modalActionsSign = new EventEmitter<string | MaterializeAction>();
   globalActions = new EventEmitter<string | MaterializeAction>();
   searchValue: string;
   searchdelete: boolean = false;
@@ -45,11 +47,10 @@ export class AppComponent implements OnInit {
     location: Location,
     private mapService: StoreMapComponentService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { this.location = location; }
 
   ngOnInit() {
-
 
     this.componentService.getUrl().subscribe((url) => {
       this.path = url;
@@ -173,12 +174,20 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onScrollEvent(event) {
-    if(!this.mustHideSearchForm()){
+    if (!this.mustHideSearchForm()) {
       return;
     }
     this.onScroll = document.body.scrollTop > 100;
   }
 
+  openModal() {
+    this.modalActions.emit({ action: "modal", params: ['open'] });
+    //this.modalActions.emit("openModal");[materializeParams]="[{dismissible: true, opacity: 0.5}]" 
+    //this.modalActions.emit("closeModal");
+  }
+  closeModal() {
+    //this.modalActions.emit({ action: "modal", params: ['close'] });
+  }
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
   }

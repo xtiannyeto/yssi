@@ -1,18 +1,21 @@
 <!-- Modal Structure -->
-<login [modalActions]="modalActions"></login>
+<login></login>
 <signup></signup>
 
 <recover></recover>
 
 <div class="" [ngClass]="{'navbar-fixed': onScroll}">
     <ul id="dropdown1" class="dropdown-content">
-        <li><a materialize="leanModal" [materializeActions]="modalActions" class="modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
-        <li><a materialize="leanModal" class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
+        <li>
+            <a class="modal-trigger waves-effect waves-light" href="#login-modal">Login
+            </a>
+        </li>
+        <li><a class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
     </ul>
-    <nav class="nav-inddy">
+    <nav class="nav-inddy white">
         <div class="nav-wrapper">
             <a [ngClass]="{'right': isLoggedIn()}" class="logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']">
-                <img *ngIf="onScroll" class="logo" src="images/logo/inddy-logo-black-red.png"></img>
+                <img *ngIf="onScroll" class="logo" src="images/logo/inddy-logo-black-red-alone.png"></img>
                 <img *ngIf="!onScroll" class="logo" src="images/logo/inddy-logo-black.png"></img>
             </a>
             <span [hidden]="!isLoggedIn()" class="left icon-menu">
@@ -27,8 +30,8 @@
                 <i class="material-icons">menu</i>
             </a>
             <ul [hidden]="isLoggedIn()" class=" right hide-on-med-and-down">
-                <li><a materialize="leanModal" class="home-nav-link modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
-                <li><a materialize="leanModal" class="home-nav-link modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
+                <li><a class="home-nav-link modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
+                <li><a class="home-nav-link modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
             </ul>
             <form id="nav-search" [formGroup]="searchForm">
                 <ul [style.display]="mustHideSearchForm()?'none':'inherit'" class="inline contain-search">
@@ -70,5 +73,4 @@
             <i class="large material-icons">edit</i>
         </a>
     </div>
-
 </div>
