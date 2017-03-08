@@ -25,3 +25,5 @@ anti:fake
 tmeasday:publish-counts
 jalik:ufs
 jalik:ufs-gridfs
+service-configuration
+accounts-facebook
