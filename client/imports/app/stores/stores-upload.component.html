@@ -2,7 +2,7 @@
     <div materialize [materializeParams]="['Maximum 3 pictures..',4000]" [materializeActions]="globalActions">
         <div>Click to add Multiple images.. or drop an image to here...</div>
 
-        <div class="card teal">
+        <div class="card upload-square">
             <div class="card-content white-text">
                 <div fileDrop [ngClass]="{'file-is-over': fileIsOver, 'file-uploading': uploading}" (fileOver)="fileOver($event)" (onFileDrop)="onFileDrop($event)">
                     <div class="file-field-yssi">
