@@ -3,7 +3,7 @@
         width: 80%;
         height: 100%;
         .modal-content {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
     }
 }
@@ -13,7 +13,7 @@
         width: 55%;
         height: 100%;
         .modal-content {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
     }
 }
@@ -23,7 +23,30 @@
         width: 35%;
         height: 100%;
         .modal-content {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
     }
+}
+
+.btn-facebook {
+    border-color: #3B5998;
+    background-color: #3B5998;
+    color: #fff;
+}
+
+.btn-large {
+    width: 100%;
+}
+
+.input-field {
+    margin-top: 0px !important;
+}
+
+.modal .modal-content {
+    padding: 15px;
+}
+
+.signup-a {
+    color: #43434f;
+    font-weight: 400;
 }

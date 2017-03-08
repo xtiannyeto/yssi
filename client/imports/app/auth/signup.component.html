@@ -1,46 +1,30 @@
-<!--<div id="signup-modal" class="modal modal-fixed-footer">
+<div id="signup-modal" materialize="modal" [materializeActions]="modalActions" [materializeParams]="[{dismissible: true}]" class=" modal modal-fixed-footer">
     <div class="modal-content">
-        <div [hidden]="error == ''">
-            <div>
-                <p>{{ error }}</p>
-            </div>
-        </div>
-        <h4>Sign up</h4>
-        <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()">
-
-            <input formControlName="email" type="email" placeholder="Email"></input>
-            <input formControlName="password" type="password" placeholder="Password"></input>
-
-            <div>
-                <button class="modal-action modal-close" type="submit">Sign Up</button>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green btn-flat ">Already a user?</a>
-    </div>
-</div> -->
-
-<div id="signup-modal" class=" modal modal-fixed-footer">
-    <div class="modal-content">
-        <h4>Sign up</h4>
-        <div class="divider"></div>
         <div class="container">
             <form class="modal-login-form" [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()">
 
+                <div class="row">
+                    <a class='btn btn-large btn-facebook' (click)="signupFacebook()">
+                        <i class="left fa fa-facebook" aria-hidden="true"></i> Signup facebook
+                    </a>
+                </div>
                 <div class="input-field ">
-                    <input formControlName="email" id="signup_email" type="email"></input>
+                    <input disabled formControlName="email" id="signup_email" type="email"></input>
                     <label for="signup_email">Email</label>
                 </div>
                 <div class="input-field ">
-                    <input formControlName="password" id="signup_password" type="password"></input>
+                    <input disabled formControlName="password" id="signup_password" type="password"></input>
                     <label for="signup_password">Password</label>
                 </div>
-                <div class="row">
-                    <div class="col s6 right-align">
-                        <button type="submit" class="modal-action waves-effect waves-light btn">Sign Up</button>
-                    </div>
+                <div class="input-field ">
+                    <input disabled formControlName="firstName" id="signup_first_name" type="text"></input>
+                    <label for="signup_first_name">First name</label>
                 </div>
+                <div class="input-field ">
+                    <input disabled formControlName="lastName" id="signup_last_name" type="text"></input>
+                    <label for="signup_last_name">Last name</label>
+                </div>
+                <button disabled type="submit" class="modal-action waves-effect waves-light btn btn-large">Sign Up</button>
             </form>
         </div>
     </div>
@@ -50,6 +34,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a materialize="leanModal" href="#login-modal" class="modal-action modal-close waves-effect waves-green right">Already a user?</a>
+        <a materialize="modal" href="#login-modal" class="modal-action modal-close waves-effect waves-green right signup-a">Already a user?</a>
     </div>
 </div>

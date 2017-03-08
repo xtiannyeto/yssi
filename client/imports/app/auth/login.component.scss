@@ -1,5 +1,5 @@
 .modal-login-form {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 @media all and (min-width: 0px) and (max-width: 600px) {
@@ -7,7 +7,7 @@
         width: 80%;
         height: 100%;
         .modal-content {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
     }
 }
@@ -17,7 +17,7 @@
         width: 55%;
         height: 100%;
         .modal-content {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
     }
 }
@@ -30,4 +30,19 @@
             margin-bottom: 50px;
         }
     }
+}
+
+.btn-facebook {
+    border-color: #3B5998;
+    background-color: #3B5998;
+    color: #fff;
+}
+
+.btn-large {
+    width: 100%;
+}
+
+.login-a {
+    color: #43434f;
+    font-weight: 400;
 }

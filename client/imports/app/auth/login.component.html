@@ -1,10 +1,13 @@
-<div id="login-modal" class=" modal modal-fixed-footer">
+<div id="login-modal" materialize="modal" [materializeActions]="modalActions" [materializeParams]="[{dismissible: true}]" class=" modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>Login</h4>
-        <div class="divider"></div>
         <div class="container">
             <form class="modal-login-form" [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()">
 
+                <div class="row">
+                    <a class='btn btn-large btn-facebook' (click)="loginFacebook()">
+                        <i class="left fa fa-facebook" aria-hidden="true"></i> Login facebook
+                    </a>
+                </div>
                 <div class="input-field ">
                     <input formControlName="email" id="login_email" type="email"></input>
                     <label for="login_email">Email</label>
@@ -14,12 +17,10 @@
                     <label for="login_password">Password</label>
                 </div>
                 <div class="row">
-                    <div class="col s6 left-align">
-                        <a materialize="leanModal" class="modal-action modal-close waves-effect waves-green " href="#recover-modal">Forgot password?</a>
-                    </div>
-                    <div class="col s6 right-align">
-                        <button type="submit" class="modal-action waves-effect waves-light btn">Sign In</button>
-                    </div>
+                    <a materialize="modal" class="modal-action modal-close waves-effect waves-green left login-a" href="#recover-modal">Forgot password?</a>
+                </div>
+                <div class="row">
+                    <button type="submit" class="modal-action waves-effect waves-light btn btn-large">Sign In</button>
                 </div>
             </form>
         </div>
@@ -30,43 +31,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a materialize="leanModal" href="#signup-modal" class="modal-action modal-close waves-effect waves-green right">Need an account?</a>
+        <a materialize="modal" href="#signup-modal" class="modal-action modal-close waves-effect waves-green right login-a">Need an account?</a>
     </div>
 </div>
-
-
-<!--
-<div >
-    <div>
-        <div >
-            Sign in
-        </div>
-
-        <div >
-            <div>
-                <p class=""> Sign in with your email</p>
-            </div>
-
-            <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()" >
-
-                <input formControlName="email" type="email" placeholder="Email"></input>
-                <input formControlName="password" type="password" placeholder="Password"></input>
-
-                <div>
-                    <a [routerLink]="['/recover']">Forgot password?</a>
-                    <button type="submit" >Sign In</button>
-                </div>
-            </form>
-
-            <div [hidden]="error == ''">
-                <div>
-                    <p >{{ error }}</p>
-                </div>
-            </div>
-
-            <div >
-                <a[routerLink]="['/signup']">Need an account?</a>
-            </div>
-        </div>
-    </div>
-</div>-->
