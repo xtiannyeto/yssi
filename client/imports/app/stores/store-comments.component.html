@@ -1,7 +1,7 @@
 <div class="contain-avis">
     <ul id="comment-list" class="collection">
         <li *ngFor="let comment of comments" class="collection-item avatar">
-            <img src="images/user.jpg" alt="" class="circle">
+            <img src="{{comment.user | displayUser | displayUserPicture}}" alt="" class="circle">
             <ul class="title">
                 <li class="comment-user">{{comment.user | displayUser | displayName}}</li>
                 <li class="comment-date">{{comment.createdDate | date: 'dd MMM yyyy'}}</li>
