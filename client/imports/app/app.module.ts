@@ -9,7 +9,6 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterializeDirective } from 'angular2-materialize';
 import { AppComponentService } from './app.component.service';
-import { StoreMapComponentService } from './shared/services/store-map.component.service';
 import { FileDropModule } from "angular2-file-drop";
 import { RatingModule } from "ngx-rating";
 
@@ -20,6 +19,7 @@ import { SHARED_DECLARATIONS } from './shared';
 import { AUTH_DECLARATIONS } from "./auth/index";
 import { MENU_DECLARATIONS } from './menu/index';
 import { HOME_DECLARATIONS } from './home/index';
+import { SERVICES_DECLARATIONS } from "./shared/services/index";
 
 @NgModule({
   imports: [
@@ -49,8 +49,8 @@ import { HOME_DECLARATIONS } from './home/index';
   ],
   providers: [
     ROUTES_PROVIDERS,
-    AppComponentService,
-    StoreMapComponentService
+    SERVICES_DECLARATIONS,
+    AppComponentService
   ],
   bootstrap: [
     AppComponent
