@@ -164,7 +164,6 @@ export class StoresFormComponent implements OnInit {
   }
 
   updateStore(): void {
-    console.log(2222);
     if (!this.checkFormValue()) {
       return;
     }
