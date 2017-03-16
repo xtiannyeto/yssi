@@ -18,6 +18,7 @@ import { StoresUploadComponent } from './stores-upload.component';
 import { StoresMapComponent } from './stores-map.component';
 
 import { AppComponentService } from '../app.component.service';
+import { StoreDialogComponentService } from '../shared/services/store-dialog.component.service';
 
 import * as _ from "lodash";
 
@@ -42,7 +43,7 @@ export class StoresFormComponent implements OnInit {
 
   user: Meteor.User;
   addForm: FormGroup;
-  newStorePosition: {lng: number, lat: number };
+  newStorePosition: { lng: number, lat: number };
   stores: Store[] = [];
   store: Store;
   images: string[] = [];
@@ -53,6 +54,7 @@ export class StoresFormComponent implements OnInit {
   imagesSubs: Subscription;
   paramsSub: Subscription;
   activitySub: Subscription;
+  saveFormSub: Subscription;
 
   storeId: string;
   addUrl: string = "add";
@@ -65,10 +67,11 @@ export class StoresFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private componentService: AppComponentService
+    private componentService: AppComponentService,
+    private dialogService: StoreDialogComponentService
   ) {
     this.newStorePosition = componentService.getLocation().getValue();
-   }
+  }
 
   ngOnInit() {
     this.addForm = this.formBuilder.group({
@@ -78,7 +81,7 @@ export class StoresFormComponent implements OnInit {
       activities: []
     });
 
-   this.activitySub = MeteorObservable.subscribe("activities").subscribe(() => {
+    this.activitySub = MeteorObservable.subscribe("activities").subscribe(() => {
       Activities.find({}).subscribe((data) => {
         this.storeActivities = data;
 
@@ -99,7 +102,7 @@ export class StoresFormComponent implements OnInit {
 
   addStoreInit() {
     this.componentService.setUrl("add");
-    this.componentService.onSaveForm.subscribe(data => {
+    this.saveFormSub = this.componentService.onSaveForm.subscribe(data => {
       if (data) {
         this.addStore();
       }
@@ -125,12 +128,12 @@ export class StoresFormComponent implements OnInit {
 
           this.images = this.store.images;
           this.upload.setFileArray(this.images);
-          
-          
+
+
           this.storeLocation = this.store.location;
           this.map.mapUpdate(this.storeLocation.coords.coordinates[0], this.storeLocation.coords.coordinates[1]);
 
-          this.componentService.onSaveForm.subscribe(data => {
+          this.saveFormSub = this.componentService.onSaveForm.subscribe(data => {
             this.updateStore();
           });
 
@@ -140,7 +143,6 @@ export class StoresFormComponent implements OnInit {
 
 
   addStore(): void {
-
     if (!this.checkFormValue()) {
       return;
     }
@@ -153,12 +155,16 @@ export class StoresFormComponent implements OnInit {
       activities: this.addForm.value.activities,
       images: this.images,
       owner: Meteor.userId()
+    }).subscribe((data) => {
+      console.log(data);
+      this.dialogService.toastSuccess("No location Set");
+      this.reset();
+      this.router.navigate(['/store', data]);
     });
-
-    this.reset();
   }
 
   updateStore(): void {
+    console.log(2222);
     if (!this.checkFormValue()) {
       return;
     }
@@ -167,7 +173,7 @@ export class StoresFormComponent implements OnInit {
         name: _.upperFirst(this.addForm.value.name),
         description: this.addForm.value.description,
         location: this.storeLocation,
-        updateDate:new Date(),
+        updateDate: new Date(),
         activities: this.addForm.value.activities,
         images: this.images
       }
@@ -198,7 +204,7 @@ export class StoresFormComponent implements OnInit {
     return this.addForm.value.name;
   }
   onImage(imageId: string) {
-    if(this.location.path().split("/")[1] == this.updateUrl){
+    if (this.location.path().split("/")[1] == this.updateUrl) {
       return;
     }
     this.images.push(imageId);
@@ -208,16 +214,24 @@ export class StoresFormComponent implements OnInit {
   }
 
   checkFormValue() {
+    if (this.storeLocation === undefined) {
+      this.dialogService.toastFailed("Failed : No location Set");
+      return false;
+    }
     if (this.addForm.value === undefined || this.addForm.value == null) {
+      this.dialogService.toastFailed("Some issue on the loading of the page. Sorry!");
       return false;
     }
-    if (this.addForm.value.name === undefined || this.addForm.value.name == null) {
+    if (this.addForm.value.name === undefined || this.addForm.value.name == null || this.addForm.value.name == "") {
+      this.dialogService.toastFailed("Failed : No name");
       return false;
     }
-    if (this.addForm.value.description === undefined || this.addForm.value.description == null) {
+    if (this.addForm.value.description === undefined || this.addForm.value.description == null || this.addForm.value.description == "") {
+      this.dialogService.toastFailed("Failed : No Description");
       return false;
     }
-    if (!this.addForm.valid || this.location === undefined) {
+    if (!this.addForm.valid) {
+      this.dialogService.toastFailed("Failed : No Valid form");
       return false;
     }
     return true;
@@ -238,16 +252,18 @@ export class StoresFormComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (!(this.paramsSub === undefined)) {
+    console.log("DEstroy");
+    if (this.paramsSub) {
       this.paramsSub.unsubscribe();
     }
-    if (!(this.storeSub === undefined)) {
+    if (this.storeSub) {
       this.storeSub.unsubscribe();
     }
-    if (!(this.imagesSubs === undefined)) {
+    if (this.imagesSubs) {
       this.imagesSubs.unsubscribe();
     }
     this.activitySub.unsubscribe();
+    this.saveFormSub.unsubscribe();
   }
   change() {
     console.log(this.addForm.value);
