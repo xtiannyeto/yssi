@@ -14,6 +14,7 @@ import { InfiniteScroll } from 'angular2-infinite-scroll';
 import { Meteor } from 'meteor/meteor';
 import { AppComponentService } from '../app.component.service';
 import { StoreMapComponentService } from '../shared/services/store-map.component.service';
+import { StoreDialogComponentService } from '../shared/services/store-dialog.component.service';
 
 import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
@@ -77,7 +78,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
   actionButton: string = "add";
   lat: number;
   lng: number;
-  toastIsLoggedInMessage: string = "You have to be connected to see more";
+  toastIsLoggedInMessage: string = "Connect you to see more";
   imagesSubs: Subscription;
   dateFilter: string = "DATE";
   locationFilter: string = "LOCATION";
@@ -92,7 +93,8 @@ export class StoresListComponent implements OnInit, OnDestroy {
     private componentService: AppComponentService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private mapService: StoreMapComponentService) {
+    private mapService: StoreMapComponentService,
+    private dialogService: StoreDialogComponentService) {
 
   }
 
@@ -113,7 +115,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
       this.imagesSubs = MeteorObservable.subscribe('images').subscribe();
 
-      if(this.optionsSub){
+      if (this.optionsSub) {
         this.optionsSub.unsubscribe();
       }
 
@@ -259,7 +261,7 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
   toastIsLoggedIn(url: string, parameter: string) {
     if (!this.isLoggedIn()) {
-      this.globalActions.emit('toast');
+      this.dialogService.toast(this.dialogService.MSG_VIEW_STORE, 4000, "rounded");
     }
     this.router.navigate([url, parameter]);
   }
@@ -329,20 +331,20 @@ export class StoresListComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    if (this.storesSub){
+    if (this.storesSub) {
       this.storesSub.unsubscribe();
     }
 
-    if (this.optionsSub){
+    if (this.optionsSub) {
       this.optionsSub.unsubscribe();
     }
-    if (this.autorunSub){
+    if (this.autorunSub) {
       this.autorunSub.unsubscribe();
     }
-    if (this.imagesSubs){
+    if (this.imagesSubs) {
       this.imagesSubs.unsubscribe();
     }
-    if (this.paramsSub){
+    if (this.paramsSub) {
       this.paramsSub.unsubscribe();
     }
 
