@@ -15,6 +15,7 @@ import { MaterializeModule, MaterializeAction } from 'angular2-materialize';
 
 import { AppComponentService } from './app.component.service';
 import { StoreMapComponentService } from './shared/services/store-map.component.service';
+import { StoreDialogComponentService } from './shared/services/store-dialog.component.service';
 
 
 
@@ -30,10 +31,9 @@ export class AppComponent implements OnInit {
   modalActions = new EventEmitter<string | MaterializeAction>();
   modalActionsLogin = new EventEmitter<string | MaterializeAction>();
   modalActionsSign = new EventEmitter<string | MaterializeAction>();
-  globalActions = new EventEmitter<string | MaterializeAction>();
   searchValue: string;
   searchdelete: boolean = false;
-  toastIsLoggedInMessage: string = "You have to be connected to add your store";
+  toastIsLoggedInMessage: string = "Connect you to add your store ";
   path: string;
   currentLocation: YssiLocation;
   searchForm: FormGroup;
@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
     private mapService: StoreMapComponentService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private dialogService: StoreDialogComponentService
   ) { this.location = location; }
 
   ngOnInit() {
@@ -103,7 +104,7 @@ export class AppComponent implements OnInit {
   toastIsLoggedIn(url: string) {
 
     if (!this.isLoggedIn()) {
-      this.globalActions.emit('toast');
+      this.dialogService.toast(this.dialogService.MSG_ERROR_ADD_STORE, 4000, "rounded");
     }
     this.router.navigate([url]);
   }
@@ -112,6 +113,7 @@ export class AppComponent implements OnInit {
     return this.path == "home" || this.path == 'stores';
   }
   saveForm() {
+    console.log("saveForm");
     this.componentService.saveForm();
   }
 
@@ -182,12 +184,18 @@ export class AppComponent implements OnInit {
 
   openModal() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
-    //this.modalActions.emit("openModal");[materializeParams]="[{dismissible: true, opacity: 0.5}]" 
-    //this.modalActions.emit("closeModal");
   }
   closeModal() {
-    //this.modalActions.emit({ action: "modal", params: ['close'] });
+    this.modalActions.emit({ action: "modal", params: ['close'] });
   }
+  standalonLogo() {
+    if (this.path != "home" && !this.isLoggedIn()) {
+      return "images/logo/inddy-logo-black-red-alone.png";
+    } else {
+      return "images/logo/inddy-logo-black-red.png";
+    }
+  }
+
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
   }

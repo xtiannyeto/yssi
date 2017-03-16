@@ -15,7 +15,7 @@
     <nav class="nav-inddy white">
         <div class="nav-wrapper">
             <a [ngClass]="{'right': isLoggedIn()}" class="logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']">
-                <img *ngIf="onScroll" class="logo" src="images/logo/inddy-logo-black-red-alone.png"></img>
+                <img *ngIf="onScroll" class="logo" src="{{standalonLogo()}}"></img>
                 <img *ngIf="!onScroll" class="logo" src="images/logo/inddy-logo-black.png"></img>
             </a>
             <span [hidden]="!isLoggedIn()" class="left icon-menu">
@@ -59,7 +59,7 @@
 
 <div class="fixed-action-btn">
     <div *ngIf="showAddButton()">
-        <a (click)="toastIsLoggedIn('/add')" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions" class="btn-floating btn-large waves-effect waves-light red">
+        <a (click)="toastIsLoggedIn('/add')" class="btn-floating btn-large waves-effect waves-light red">
             <i class="large material-icons">add</i>
         </a>
     </div>
