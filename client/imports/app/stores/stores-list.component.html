@@ -9,7 +9,7 @@
             <form [formGroup]="filterForm" class="row col s12">
                 <ul class="col s4 inline group-filter">
                     <li class="">
-                        <input #dateFilter class="filter-button" name="list-filter" type="radio" value="DATE" id="list-date-filter" (change)="changeSort(dateFilter.value)" checked/>
+                        <input #dateFilter class="filter-button with-gap" name="list-filter" type="radio" value="DATE" id="list-date-filter" (change)="changeSort(dateFilter.value)" checked/>
                         <label for="list-date-filter">Date</label>
                     </li>
 
@@ -21,7 +21,7 @@
                 </ul>
                 <ul class="col s4 inline group-filter">
                     <li class="">
-                        <input #locationFilter class="filter-button" name="list-filter" type="radio" value="LOCATION" id="list-location-filter" (change)="changeSort(locationFilter.value)" />
+                        <input #locationFilter class="filter-button with-gap" name="list-filter" type="radio" value="LOCATION" id="list-location-filter" (change)="changeSort(locationFilter.value)" />
                         <label for="list-location-filter">Location</label>
                     </li>
                     <li *ngIf="showFilterOrder('LOCATION')" class="list-filter-asc-desc">
@@ -31,7 +31,7 @@
                 </ul>
                 <ul class="col s4 inline group-filter">
                     <li class="!">
-                        <input #nameFilter class="filter-button" name="list-filter" type="radio" value="NAME" id="list-name-filter" (change)="changeSort(nameFilter.value)" />
+                        <input #nameFilter class="filter-button with-gap" name="list-filter" type="radio" value="NAME" id="list-name-filter" (change)="changeSort(nameFilter.value)" />
                         <label for="list-name-filter">Name</label>
                     </li>
                     <li *ngIf="showFilterOrder('NAME')" class="list-filter-asc-desc">
@@ -42,7 +42,7 @@
             </form>
         </div>
         <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
-            <div class="col s12 cards-container" materialize [materializeParams]="[toastIsLoggedInMessage,4000]" [materializeActions]="globalActions">
+            <div class="col s12 cards-container">
                 <div class="col s12 m6 l6 " *ngFor="let store of stores ">
                     <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
                         <div class="card-image">
