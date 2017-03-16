@@ -12,6 +12,7 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Comments } from '../../../../both/collections/comments.collection';
 import { Comment } from '../../../../both/models/comment.model';
 
+import * as _ from "lodash";
 
 import template from './store-comments.component.html';
 import style from './store-comments.component.scss';
@@ -51,7 +52,7 @@ export class StoreCommentsComponent implements OnInit, OnDestroy {
 
         this.commentSub = MeteorObservable.subscribe('comments', this.storeId).subscribe(() => {
             Comments.find({ store: this.storeId }).subscribe((data) => {
-                this.comments = data;
+                this.comments = _.orderBy(data, "createdDate", "desc");
             });
         });
     }
