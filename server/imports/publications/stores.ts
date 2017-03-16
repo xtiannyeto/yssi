@@ -4,11 +4,11 @@ import { Stores } from '../../../both/collections/stores.collection';
 
 
 interface Options {
-  lng:number, 
-  lat:number, 
-  step:number, 
-  distance:number,
-  search:string
+  lng: number,
+  lat: number,
+  step: number,
+  distance: number,
+  search: string
 }
 
 interface OptionsDb {
@@ -16,7 +16,7 @@ interface OptionsDb {
 }
 
 
-Meteor.publish('stores', function (options: Options, optionsDb:OptionsDb) {
+Meteor.publish('stores', function (options: Options, optionsDb: OptionsDb) {
 
   const selector = buildQuery.call(this, null, options);
 
@@ -48,14 +48,15 @@ function buildQuery(storeId?: string, options?: Options): Object {
   return {
     $and: [
       {
-      "location.coords":
-       { $near :
+        "location.coords":
+        {
+          $near:
           {
-            $geometry: { type: "Point",  coordinates: [ options.lng, options.lat ] },
-            $maxDistance: 500000//options.distance+options.step
+            $geometry: { type: "Point", coordinates: [options.lng, options.lat] },
+            $maxDistance: 10000//options.distance+options.step
           }
-       }
-    },
+        }
+      },
       { $or: [{ 'name': searchRegEx }, { 'activities': searchRegEx }, { 'location.name': searchRegEx }] },
       isAvailable
     ]
