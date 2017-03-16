@@ -12,7 +12,7 @@ export class DisplayUserPipe implements PipeTransform {
     }
 
     let user: User = Users.findOne(userId);
-    console.log(user);
+
     if (user) {
       return user;
     }
