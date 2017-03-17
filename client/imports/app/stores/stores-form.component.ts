@@ -214,7 +214,7 @@ export class StoresFormComponent implements OnInit {
 
   checkFormValue() {
     if (this.storeLocation === undefined) {
-      this.dialogService.toastFailed("Failed : No location Set");
+      this.dialogService.toastFailed("Failed : No location Set ");
       return false;
     }
     if (this.addForm.value === undefined || this.addForm.value == null) {
