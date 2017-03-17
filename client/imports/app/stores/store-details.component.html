@@ -7,7 +7,6 @@
             <h4>{{ store.name | uppercase}}</h4>
             <div class="row">
                 <div class="col s12">
-                    <!-- Change in ngFor on a array of pictures from the Store-->
                     <div *ngIf="store.images && store.images.length > 0" materialize="carousel" [materializeParams]="[{full_width: true}]" class="carousel carousel-slider center img-container" data-indicators="true">
                         <a *ngFor="let img of store.images" class="carousel-item"><img [src]="img | displayImage">{{img}}</a>
                     </div>
