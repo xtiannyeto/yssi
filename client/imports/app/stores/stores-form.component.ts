@@ -193,7 +193,7 @@ export class StoresFormComponent implements OnInit {
 
   yourTitle() {
 
-    let title = "YOUR STORE....";
+    let title = "YOUR STORE...";
     if (this.addForm.value.name === undefined || this.addForm.value.name == null) {
       return title;
     }
