@@ -24,7 +24,7 @@ export class StoresUploadComponent {
   maxInputFiles: number = 3;
   filesArray: string[] = [];
   files: Subject<string[]> = new Subject<string[]>();
-  thumbs: Observable<Thumb[]>;
+  thumbs: Thumb[];
   thumbsSubscription: Subscription;
   globalActions = new EventEmitter<string | MaterializeAction>();
   @Output() onFile: EventEmitter<string> = new EventEmitter<string>();
@@ -40,12 +40,14 @@ export class StoresUploadComponent {
         }
 
         this.thumbsSubscription = MeteorObservable.subscribe("thumbs", filesArray).subscribe(() => {
-          this.thumbs = Thumbs.find({
+          Thumbs.find({
             originalStore: 'images',
             originalId: {
               $in: filesArray
             }
-          }).zone();
+          }).subscribe((data) => {
+            this.thumbs = data;
+          });
         });
       });
     });

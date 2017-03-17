@@ -13,7 +13,7 @@
         </div>
 
         <div *ngIf="thumbs" class="thumbs">
-            <div *ngFor="let thumb of thumbs | async" class="thumb">
+            <div *ngFor="let thumb of thumbs" class="thumb">
                 <img [src]="thumb.url" />
                 <i (click)="removeThumb(thumb)" class="close material-icons">close</i>
             </div>
