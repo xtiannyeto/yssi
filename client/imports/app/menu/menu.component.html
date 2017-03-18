@@ -1,13 +1,13 @@
 <div id="slide-out" class="side-nav right">
     <ul>
-        <li>
+        <li [ngClass]="{'inddy-user': isLoggedIn()}">
             <div class="userView">
                 <div class="background">
-                    <!--<img src="images/user-background.jpg"> -->
+                    <!-- <img src="images/user-background.jpg"> -->
                 </div>
                 <a href="#!user"><img class="circle" src="{{user | displayUserPicture}}"></a>
-                <a *ngIf="isLoggedIn()"><span class="black-text name">{{user | displayName}}</span></a>
-                <a *ngIf="isLoggedIn()"><span class="black-text email">{{user | displayEmail}}</span></a>
+                <a *ngIf="isLoggedIn()"><span class=" white-text name">{{user | displayName}}</span></a>
+                <a *ngIf="isLoggedIn()"><span class="white-text email">{{user | displayEmail}}</span></a>
             </div>
         </li>
         <li>
@@ -22,7 +22,7 @@
                     <div class="divider"></div>
                 </li>
                 <li>
-                    <a class="waves-effect" (click)="logout()"><i class="material-icons">input</i>Logout</a>
+                    <a class="menu-link waves-effect" (click)="logout()"><i class="material-icons menu-link">input</i>Logout</a>
                 </li>
                 <span class="fill-remaining-space"></span>
             </ul>

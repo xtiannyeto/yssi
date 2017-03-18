@@ -1,7 +1,7 @@
 nav a,
 nav,
 nav .input-field label.active i {
-    color: #43434f;
+    color: #006064;
 }
 
 #nav-search .input-field {
@@ -14,21 +14,16 @@ nav .input-field label.active i {
 }
 
 #search {
-    border-left: 1px solid #dce0e0;
-    border-right: 1px solid #dce0e0;
+    //border-left: 1px solid #dce0e0;
+    // border-right: 1px solid #dce0e0;
 }
 
 #nav-search-location {
-    border-left: 1px solid #dce0e0;
+    //border-left: 1px solid #dce0e0;
 }
 
 .icon-menu {
     margin-left: 2% !important;
-}
-
-.logo {
-    height: 80px;
-    margin-top: -5px;
 }
 
 .logo-wrapper {
@@ -39,6 +34,23 @@ nav .input-field label.active i {
     font-weight: 400;
 }
 
-.nav-inddy {
-    background-color: #fff; // background-color: #fffdf7;
+@media all and (min-width: 0px) and (max-width: 600px) {
+    .logo {
+        height: 50px;
+        margin-top: -1px;
+    }
+}
+
+@media all and (min-width: 600px) and (max-width: 992px) {
+    .logo {
+        height: 60px;
+        margin-top: -2px;
+    }
+}
+
+@media (min-width: 992px) {
+    .logo {
+        height: 80px;
+        margin-top: -5px;
+    }
 }

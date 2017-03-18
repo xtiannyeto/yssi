@@ -1,26 +1,22 @@
 <section class="home-container">
     <div id="form-home" class="row container">
-        <ul class="inline">
-            <form [formGroup]="searchForm">
-                <li class="input-field col s5 search-bar ">
+        <form [formGroup]="searchForm">
+            <ul>
+                <li class="input-field col s12 m5 l5 search-bar ">
                     <input id="home-search-bar" class="search-home" formControlName="place" required placeholder="Town, places, country.." />
-                    <label class="home-search-label" for="home-search-bar">WHERE</label>
+                    <label class="home-search-label label-home-input" for="home-search-bar">WHERE</label>
                 </li>
-                <li class="input-field col s5 search-bar-1 ">
+                <li class="input-field col s12 m5 l5 search-bar-1 ">
                     <input id='home-search-tag' class="search-home" formControlName="searchText" placeholder='Shop, callBox..' />
-                    <label class="home-search-label" for="home-search-tag">WHAT</label>
+                    <label class="home-search-label label-home-input" for="home-search-tag">WHAT</label>
                 </li>
-                <li class="input-field col search-bar-2 ">
+                <li class="input-field col s12 m2 l2 search-bar-2 ">
                     <button id="home-search-btn" class="waves-light btn-large btn-home" (click)="submitSearch()"><i class="material-icons">search</i></button>
                 </li>
-            </form>
-
-        </ul>
+            </ul>
+        </form>
     </div>
 </section>
-<section>
-</section>
-<section></section>
 <div class="home-footer">
     <home-footer></home-footer>
 </div>

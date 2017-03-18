@@ -4,8 +4,12 @@
     <div class="map-col col s0 m0 l5">
         <store-map *ngIf='lat' [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
-    <div class="cards-col col s12 m12 l7">
-        <div class="row form-filter-list z-depth-1 white">
+    <div class="fixed-action-btn toolbar">
+        <a class="btn-floating red">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+    </div>
+    <!-- <div class="row form-filter-list z-depth-1 white">
             <form [formGroup]="filterForm" class="row col s12">
                 <ul class="col s4 inline group-filter">
                     <li class="">
@@ -40,29 +44,29 @@
                     </li>
                 </ul>
             </form>
-        </div>
-        <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
-            <div class="col s12 cards-container">
-                <div class="col s12 m6 l6 " *ngFor="let store of stores ">
-                    <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
-                        <div class="card-image">
-                            <img *ngIf="isImages(store)" [src]="store | displayMainImage">
-                            <img *ngIf="!isImages(store)" src="images/side_bar.jpg"><img>
-                        </div>
-                        <div class="card-content white ">
-                            <span class="card-title">
+        </div> -->
+    <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
+        <div class="col s12 cards-container">
+            <div class="col s12 m6 l6 " *ngFor="let store of stores ">
+                <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
+                    <div class="card-image">
+                        <img *ngIf="isImages(store)" [src]="store | displayMainImage">
+                        <img *ngIf="!isImages(store)" src="images/side_bar.jpg"><img>
+                    </div>
+                    <div class="card-content white ">
+                        <span class="card-title">
                                 <p>{{store.name}}</p>
                             </span>
-                        </div>
-                        <div class="card-action">
-                            <ul class="inline">
-                                <li class="left">@{{store.location.name | displayLocation}}</li>
-                                <li class="right">{{store.createDate | date: 'dd MMM yyyy'}}</li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div class="card-action">
+                        <ul class="inline">
+                            <li class="left">@{{store.location.name | displayLocation}}</li>
+                            <li class="right">{{store.createDate | date: 'dd MMM yyyy'}}</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

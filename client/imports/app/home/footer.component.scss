@@ -1,7 +1,39 @@
-.footer-logo {
-    height: 130px;
+footer.page-footer {
+    background-color: #009688;
 }
 
-footer.page-footer {
-    background-color: #43434f !important;
+@media all and (min-width: 0px) and (max-width: 600px) {
+    .footer-logo {
+        height: 70px;
+    }
+}
+
+@media all and (min-width: 600px) and (max-width: 992px) {
+    .footer-logo {
+        height: 100px;
+    }
+}
+
+@media (min-width: 992px) {
+    .footer-logo {
+        height: 130px;
+    }
+}
+
+.footer-link {
+    font-weight: 700 !important;
+    color: white !important;
+}
+
+.footer-link-sub {
+    font-weight: 200;
+    color: white !important;
+}
+
+.footer-link-light {
+    color: white !important;
+}
+
+.footer-copyright {
+    //background-color: white !important;
 }
