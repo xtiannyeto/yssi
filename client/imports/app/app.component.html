@@ -5,20 +5,16 @@
 <recover></recover>
 
 <div class="" [ngClass]="{'navbar-fixed': onScroll}">
-    <ul id="dropdown1" class="dropdown-content">
-        <li>
-            <a class="modal-trigger waves-effect waves-light" href="#login-modal">Login
-            </a>
-        </li>
-        <li><a class="modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
-    </ul>
     <nav class="nav-inddy white">
         <div class="nav-wrapper">
-            <a [ngClass]="{'right': isLoggedIn()}" class="logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']">
+            <a class="right logo-wrapper brand-logo  hide-on-med-and-down" [routerLink]="['/']">
                 <img *ngIf="onScroll" class="logo" src="{{standalonLogo()}}"></img>
                 <img *ngIf="!onScroll" class="logo" src="images/logo/inddy-logo-black.png"></img>
             </a>
-            <span [hidden]="!isLoggedIn()" class="left icon-menu">
+            <a class="right logo-wrapper brand-logo  hide-on-large-only" [routerLink]="['/']">
+                <img class="logo" src="images/logo/inddy-logo-black-red-alone.png"></img>
+            </a>
+            <span class="left icon-menu">
                 <a [hidden]="!isStoreOrHome()" href="#" materialize="sideNav" [materializeParams]="[{edge: 'left', closeOnClick: true, draggable: true}]" data-activates="slide-out">
                     <i class="material-icons">menu</i>
                 </a>
@@ -26,13 +22,6 @@
                      <i class="material-icons">arrow_back</i>
                 </a>
             </span>
-            <a [hidden]="isLoggedIn()" class="button-collapse dropdown-button" href="#!" data-activates="dropdown1">
-                <i class="material-icons">menu</i>
-            </a>
-            <ul [hidden]="isLoggedIn()" class=" right hide-on-med-and-down">
-                <li><a class="home-nav-link modal-trigger waves-effect waves-light" href="#login-modal">Login</a></li>
-                <li><a class="home-nav-link modal-trigger waves-effect waves-light" href="#signup-modal">Sign up</a></li>
-            </ul>
             <form id="nav-search" [formGroup]="searchForm">
                 <ul [style.display]="mustHideSearchForm()?'none':'inherit'" class="inline contain-search">
                     <li class="input-field">

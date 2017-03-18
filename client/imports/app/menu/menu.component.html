@@ -1,22 +1,39 @@
-<ul id="slide-out" class="side-nav right">
-    <li>
-        <div class="userView">
-            <div class="background">
-                <img src="images/user-background.jpg">
+<div id="slide-out" class="side-nav right">
+    <ul>
+        <li>
+            <div class="userView">
+                <div class="background">
+                    <!--<img src="images/user-background.jpg"> -->
+                </div>
+                <a href="#!user"><img class="circle" src="{{user | displayUserPicture}}"></a>
+                <a *ngIf="isLoggedIn()"><span class="black-text name">{{user | displayName}}</span></a>
+                <a *ngIf="isLoggedIn()"><span class="black-text email">{{user | displayEmail}}</span></a>
             </div>
-            <a href="#!user"><img class="circle" src="{{user | displayUserPicture}}"></a>
-            <a><span class="white-text name">{{user | displayName}}</span></a>
-            <a><span class="white-text name">{{user | displayEmail}}</span></a>
-        </div>
-    </li>
-    <li>
-        <a button [routerLink]="['/recover']" class="toolbar-title"> <i class="material-icons">lock_outline</i>Password forgot</a>
-    </li>
-    <li>
-        <div class="divider"></div>
-    </li>
-    <li>
-        <a class="waves-effect" (click)="logout()"><i class="material-icons">input</i>Logout</a>
-    </li>
-    <span class="fill-remaining-space"></span>
-</ul>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li *ngIf="isLoggedIn()">
+            <ul>
+                <li>
+                    <a disabled button [routerLink]="['/recover']" class="subheader"> <i class="material-icons">lock_outline</i>Password forgot</a>
+                </li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li>
+                    <a class="waves-effect" (click)="logout()"><i class="material-icons">input</i>Logout</a>
+                </li>
+                <span class="fill-remaining-space"></span>
+            </ul>
+        </li>
+        <li *ngIf="!isLoggedIn()">
+            <ul>
+                <li><a class="modal-trigger waves-effect waves-light btn menu-button-inddy" href="#login-modal">Login</a></li>
+                <li><a class="modal-trigger waves-effect waves-light btn menu-button-inddy" href="#signup-modal">Sign up</a></li>
+            </ul>
+        </li>
+
+    </ul>
+
+</div>
