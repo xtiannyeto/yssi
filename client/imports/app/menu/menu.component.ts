@@ -41,4 +41,11 @@ export class MenuComponent implements OnInit {
   logout() {
     Meteor.logout();
   }
+
+  isLoggedIn() {
+    if (!Meteor.userId()) {
+      return false;
+    }
+    return true;
+  }
 }
