@@ -43,7 +43,7 @@
 }
 
 #form-home {
-    padding-top: 30%;
+    padding-top: 10%;
     padding-bottom: 10%;
 }
 
@@ -58,11 +58,24 @@
     margin-top: -80px;
 }
 
+.home-graph {
+    display: inline-block;
+    min-height: 200px;
+    min-height: 200px;
+    background-image: url(images/home-graph.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+}
+
 .home-search-label {
     font-weight: 600;
 }
 
 @media all and (min-width: 0px) and (max-width: 600px) {
+    .home-graph {
+        width: 100%;
+    }
     .search-bar {
         border-radius: 5px;
         border: 1px solid #dce0e0;
@@ -96,6 +109,10 @@
 }
 
 @media all and (min-width: 600px) and (max-width: 992px) {
+    .home-graph {
+        width: 90%;
+        margin-left: 10%
+    }
     .search-bar {
         border-radius: 5px 0px 0px 5px;
         border: 1px solid #dce0e0;
@@ -118,6 +135,10 @@
 }
 
 @media (min-width: 992px) {
+    .home-graph {
+        width: 80%;
+        margin-left: 5%
+    }
     .search-bar {
         border-radius: 5px 0px 0px 5px;
         border: 1px solid #dce0e0;
