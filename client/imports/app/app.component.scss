@@ -1,16 +1,16 @@
 nav a,
 nav,
 nav .input-field label.active i {
-    color: #006064;
+    color: #43434f;
 }
 
-#nav-search .input-field {
+#nav-search .input-field.hide-on-med-and-down {
     width: 35%;
 }
 
 .contain-search {
     height: 100%;
-    margin-left: 8% !important;
+    margin-left: 20% !important;
 }
 
 #search {
@@ -53,4 +53,19 @@ nav .input-field label.active i {
         height: 80px;
         margin-top: -5px;
     }
+}
+
+.collapsible-header {
+    border: none !important;
+}
+
+.collapsible {
+    border: none;
+    margin: 0% 0% 0% 10%;
+}
+
+.collapsible-body {
+    background-color: white;
+    min-width: 200px;
+    width: 350px;
 }

@@ -4,13 +4,9 @@
     <div class="map-col col s0 m0 l5">
         <store-map *ngIf='lat' [stores]='stores' [zoom]=12 [lat]="lat" [lng]="lng" [withSearch]="false"></store-map>
     </div>
-    <div class="fixed-action-btn toolbar">
-        <a class="btn-floating red">
-            <i class="large material-icons">mode_edit</i>
-        </a>
-    </div>
-    <!-- <div class="row form-filter-list z-depth-1 white">
-            <form [formGroup]="filterForm" class="row col s12">
+    <!--   <div class="row form-filter-list z-depth-1 white">
+        
+        <form [formGroup]="filterForm" class="row col s12">
                 <ul class="col s4 inline group-filter">
                     <li class="">
                         <input #dateFilter class="filter-button with-gap" name="list-filter" type="radio" value="DATE" id="list-date-filter" (change)="changeSort(dateFilter.value)" checked/>
@@ -44,7 +40,7 @@
                     </li>
                 </ul>
             </form>
-        </div> -->
+    </div>-->
     <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
         <div class="col s12 cards-container">
             <div class="col s12 m6 l6 " *ngFor="let store of stores ">

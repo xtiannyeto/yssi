@@ -8,6 +8,7 @@
                 <a href="#!user"><img class="circle" src="{{user | displayUserPicture}}"></a>
                 <a *ngIf="isLoggedIn()"><span class=" white-text name">{{user | displayName}}</span></a>
                 <a *ngIf="isLoggedIn()"><span class="white-text email">{{user | displayEmail}}</span></a>
+                <a *ngIf="!isLoggedIn()"><span class="menu-link name">Connectez-vous</span></a>
             </div>
         </li>
         <li>
@@ -29,8 +30,8 @@
         </li>
         <li *ngIf="!isLoggedIn()">
             <ul>
-                <li><a class="modal-trigger waves-effect waves-light btn menu-button-inddy" href="#login-modal">Login</a></li>
-                <li><a class="modal-trigger waves-effect waves-light btn menu-button-inddy" href="#signup-modal">Sign up</a></li>
+                <li><a class="modal-trigger  waves-effect btn-large  btn menu-button-inddy" href="#login-modal">Login</a></li>
+                <li><a class="modal-trigger waves-effect btn-large  btn menu-button-inddy" href="#signup-modal">Sign up</a></li>
             </ul>
         </li>
 

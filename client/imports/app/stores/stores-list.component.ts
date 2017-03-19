@@ -263,6 +263,10 @@ export class StoresListComponent implements OnInit, OnDestroy {
     if (!this.isLoggedIn()) {
       this.dialogService.toast(this.dialogService.MSG_VIEW_STORE, 4000, "rounded");
     }
+    if (parameter == "") {
+      this.router.navigate([url]);
+      return;
+    }
     this.router.navigate([url, parameter]);
   }
 

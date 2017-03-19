@@ -77,6 +77,7 @@ export class AppComponent implements OnInit {
         });
       });
     });
+    this.mapService.setPlaces('nav-search-location-cordova', true);
     this.mapService.setPlaces('nav-search-location', true);
   }
 

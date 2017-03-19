@@ -2,15 +2,15 @@
     <div id="form-home" class="row container">
         <form [formGroup]="searchForm">
             <ul>
-                <li class="input-field col s12 m5 l5 search-bar ">
+                <li class="input-field col s10 m5 l5 search-bar offset-s1">
                     <input id="home-search-bar" class="search-home" formControlName="place" required placeholder="Town, places, country.." />
                     <label class="home-search-label label-home-input" for="home-search-bar">WHERE</label>
                 </li>
-                <li class="input-field col s12 m5 l5 search-bar-1 ">
+                <li class="input-field col s10 m5 l5 search-bar-1 offset-s1">
                     <input id='home-search-tag' class="search-home" formControlName="searchText" placeholder='Shop, callBox..' />
                     <label class="home-search-label label-home-input" for="home-search-tag">WHAT</label>
                 </li>
-                <li class="input-field col s12 m2 l2 search-bar-2 ">
+                <li class="input-field col s10 m2 l2 search-bar-2 offset-s1">
                     <button id="home-search-btn" class="waves-light btn-large btn-home" (click)="submitSearch()"><i class="material-icons">search</i></button>
                 </li>
             </ul>

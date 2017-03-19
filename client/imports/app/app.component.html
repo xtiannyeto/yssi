@@ -23,15 +23,35 @@
                 </a>
             </span>
             <form id="nav-search" [formGroup]="searchForm">
+                <ul class="collapsible hide-on-large-only" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header"> <i class="material-icons">search</i></div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">location_on</i>
+                                    <input id="nav-search-location-cordova" type="text" placeholder="Where..." class="validate">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">store</i>
+                                    <input (keyup)="updateData($event.target.value)" type="text" placeholder="What..." class="validate">
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
                 <ul [style.display]="mustHideSearchForm()?'none':'inherit'" class="inline contain-search">
-                    <li class="input-field">
+                    <li class="input-field hide-on-med-and-down">
                         <input formControlName="place" id="nav-search-location" placeholder="Where..." type="search" required>
-                        <label for="search"><i class="material-icons">location_on</i></label>
+                        <label for="nav-search-location"><i class="material-icons prefix">location_on</i></label>
                         <i (click)="clearSearchLocation()" class="material-icons">close</i>
                     </li>
-                    <li class="input-field">
-                        <input formControlName="searchText" (keyup)="updateData($event.target.value)" placeholder="What..." id="search" type="search" required>
-                        <label for="search"><i class="material-icons">search</i></label>
+                    <li class="input-field hide-on-med-and-down">
+                        <input formControlName="searchText" (keyup)="updateData($event.target.value)" placeholder="What..." id="nav-search-filter" type="search" required>
+                        <label for="nav-search-filter"><i class="material-icons prefix">store</i></label>
                         <i (click)="clearSearchText()" class="material-icons">close</i>
                     </li>
                 </ul>
@@ -39,7 +59,11 @@
         </div>
     </nav>
 </div>
-
+<div id='dropdown1' class='dropdown-content'>
+    <input placeholder="Where..." type="search" required>
+    <label for="nav-search-location"><i class="material-icons prefix">location_on</i></label>
+    <i (click)="clearSearchLocation()" class="material-icons">close</i>
+</div>
 <menu></menu>
 <div id="main-content">
     <router-outlet></router-outlet>
