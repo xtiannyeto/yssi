@@ -22,7 +22,7 @@
                      <i class="material-icons">arrow_back</i>
                 </a>
             </span>
-            <form id="nav-search" [formGroup]="searchForm">
+            <form [style.display]="mustHideSearchForm()?'none':'inherit'" id="nav-search" [formGroup]="searchForm">
                 <ul class="collapsible hide-on-large-only" data-collapsible="accordion">
                     <li>
                         <div class="collapsible-header"> <i class="material-icons">search</i></div>
@@ -43,7 +43,7 @@
                         </div>
                     </li>
                 </ul>
-                <ul [style.display]="mustHideSearchForm()?'none':'inherit'" class="inline contain-search">
+                <ul class="inline contain-search">
                     <li class="input-field hide-on-med-and-down">
                         <input formControlName="place" id="nav-search-location" placeholder="Where..." type="search" required>
                         <label for="nav-search-location"><i class="material-icons prefix">location_on</i></label>
