@@ -71,12 +71,12 @@ export class DisplayUserPicturePipe implements PipeTransform {
   transform(user: User) {
 
     if (user == null || user === undefined) {
-      return 'images/user2.jpg';
+      return 'images/user.png';
     }
 
     if (user.profile != null && !(user.profile === undefined) && user.profile.picture != "") {
       return user.profile.picture;
     }
-    return 'images/user2.jpg';
+    return 'images/user.png';
   }
 }

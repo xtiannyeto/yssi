@@ -43,7 +43,7 @@
     </div>-->
     <div class='row scroll-result' infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" [scrollWindow]="false" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
         <div class="col s12 cards-container">
-            <div class="col s12 m6 l6 " *ngFor="let store of stores ">
+            <div class="card-inline col s12 m6 l6 " *ngFor="let store of stores ">
                 <div (click)="toastIsLoggedIn('/store',store._id )" class="card hoverable small">
                     <div class="card-image">
                         <img *ngIf="isImages(store)" [src]="store | displayMainImage">

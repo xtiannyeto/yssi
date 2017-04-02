@@ -4,9 +4,10 @@ import 'angular2-meteor-polyfills';
 import "angular2-materialize";
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
- 
+
 import { AppModule } from './imports/app/app.module';
 
-
-const platform = platformBrowserDynamic();
-platform.bootstrapModule(AppModule);
+Meteor.startup(() => {
+    const platform = platformBrowserDynamic();
+    platform.bootstrapModule(AppModule);
+});

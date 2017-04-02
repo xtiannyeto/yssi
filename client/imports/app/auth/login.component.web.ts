@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { MaterializeAction } from 'angular2-materialize';
 import { StoreDialogComponentService } from '../shared/services/store-dialog.component.service';
 
-import template from './login.component.html';
+import template from './login.component.web.html';
 import style from "./login.component.scss";
 
 @Component({
@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
         this.zone.run(() => {
           if (err) {
             this.error = err;
+            console.log(err);
             this.dialogService.toastFailed(this.dialogService.MSG_ERROR_LOGIN);
           } else {
             this.ngOnInit();
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
   loginFacebook() {
     Meteor.loginWithFacebook((err) => {
       if (err) {
+        console.log(err);
         this.dialogService.toastFailed(this.dialogService.MSG_ERROR_LOGIN);
       } else {
         this.modalActions.emit({ action: "modal", params: ['close'] });
