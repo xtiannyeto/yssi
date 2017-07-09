@@ -31,5 +31,6 @@ script:
   #- echo "build OK"
 
  after_success:
-
-  - curl -s https://codecov.io/bash | bash
+ 
+  - exit 0
+  #- bash <(curl -s https://codecov.io/bash)
