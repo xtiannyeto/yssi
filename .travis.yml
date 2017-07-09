@@ -12,6 +12,7 @@ cache:
 
 before_cache:
   - rm -f $HOME/.meteor/log/*.log
+  - rm -rf node_modules
 
 before_install:
   # Download Meteor - Keep in mind that you need
@@ -21,8 +22,10 @@ before_install:
 
 install:
   # Install dependencies
+  - git clean -fXd
   - npm install -g phantomjs-prebuilt rollup@^0.37.0 tslint@^4.0.0 typescript@^2.0.10
-  - meteor npm install
+  - npm install
+  - meteor npm rebuild
 
 #script:
  # - meteor npm test
