@@ -1,16 +1,30 @@
-sudo: required
 language: node_js
+
 node_js:
-  - "6"
-services:
-  - mongodb
+  - 4.4.7
+
+cache:
+  directories:
+    - $HOME/.meteor
+    - $HOME/.npm
+
+before_cache:
+  - rm -f $HOME/.meteor/log/*.log
+
 before_install:
-  - curl https://install.meteor.com | /bin/sh
-  - rm -rf node_modules
-install:
-  - git clean -fXd
-  - npm install -g phantomjs-prebuilt rollup@^0.37.0 tslint@^4.0.0 typescript@^2.0.10
-  - npm install
-  - meteor npm rebuild
+  # Download Meteor - Keep in mind that you need
+  # to remove your travis cache to get meteor updates
+  - PATH=$PATH:$HOME/.meteor
+  - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+
+  # Install dependencies
+  - npm install -g eslint coveralls codecov.io codacy-coverage
+  - meteor npm install
+
 script:
-  - npm run test
+  - mkdir .coverage
+  - meteor npm test
+  - cat .coverage/lcov.info | coveralls || cat .coverage/lcov.info || true # ignore coveralls error
+  - cat .coverage/lcov.info | codecov || cat .coverage/lcov.info || true # ignore codecov error
+  - cat .coverage/lcov.info | codacy-coverage || true # ignore codacy error
+  - meteor npm run lint || true # ignore eslint error
