@@ -25,8 +25,9 @@ install:
   - git clean -fXd
   - npm install -g phantomjs-prebuilt rollup@^0.37.0 tslint@^4.0.0 typescript@^2.0.10
   - meteor npm install
-  #- meteor npm rebuild
 
 script:
  #- meteor npm test
- #- echo "BUILD OK"
+ - echo "BUILD OK"
+ after_success:
+  - bash <(curl -s https://codecov.io/bash)
