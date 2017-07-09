@@ -1,7 +1,9 @@
 language: node_js
 
 node_js:
-  - 4.4.7
+   - "6"
+services:
+  - mongodb
 
 cache:
   directories:
@@ -17,14 +19,11 @@ before_install:
   - PATH=$PATH:$HOME/.meteor
   - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
 
+install:
   # Install dependencies
-  - npm install -g eslint coveralls codecov.io codacy-coverage
+  - npm install -g phantomjs-prebuilt rollup@^0.37.0 tslint@^4.0.0 typescript@^2.0.10
   - meteor npm install
 
 script:
-  - mkdir .coverage
   - meteor npm test
-  - cat .coverage/lcov.info | coveralls || cat .coverage/lcov.info || true # ignore coveralls error
-  - cat .coverage/lcov.info | codecov || cat .coverage/lcov.info || true # ignore codecov error
-  - cat .coverage/lcov.info | codacy-coverage || true # ignore codacy error
   - meteor npm run lint || true # ignore eslint error
