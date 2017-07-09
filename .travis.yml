@@ -28,7 +28,7 @@ install:
 
 script:
  #- meteor npm test
-  - echo "build OK"
+  #- echo "build OK"
 
  after_success:
   - bash <(curl -s https://codecov.io/bash)
