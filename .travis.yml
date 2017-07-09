@@ -32,5 +32,4 @@ script:
 
  after_success:
  
-  - exit 0
-  #- bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash);
