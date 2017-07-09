@@ -32,4 +32,4 @@ script:
  - echo "BUILD OK"
 
  after_success:
-  - bash <(curl -s https://codecov.io/bash) -t repo-uuid-token 17511bd6-17e8-4b73-b51f-c486b18897ac
+  - bash <(curl -s https://codecov.io/bash)
