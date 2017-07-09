@@ -26,4 +26,3 @@ install:
 
 script:
   - meteor npm test
-  - meteor npm run lint || true # ignore eslint error
