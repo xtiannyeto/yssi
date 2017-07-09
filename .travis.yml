@@ -24,5 +24,5 @@ install:
   - npm install -g phantomjs-prebuilt rollup@^0.37.0 tslint@^4.0.0 typescript@^2.0.10
   - meteor npm install
 
-script:
-  - meteor npm test
+#script:
+ # - meteor npm test
