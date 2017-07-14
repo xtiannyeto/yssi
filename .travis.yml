@@ -28,7 +28,7 @@ install:
   - meteor npm rebuild
 
 script:
-  - npm run test
+  #- npm run test
 
 notifications:
   slack: otoktons:a5eW914L1Zzfkfu7hiEWoiZ1
